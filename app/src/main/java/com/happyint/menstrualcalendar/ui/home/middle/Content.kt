@@ -3,6 +3,7 @@
 package com.happyint.menstrualcalendar.ui.home.middle
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,12 +21,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.happyint.menstrualcalendar.ui.home.modal.DatePicker
+import com.maxkeppeker.sheets.core.models.base.UseCaseState
 
 
 @Composable
 fun MiddleContent(tabIndex: MutableState<Int>) {
+    val calendarState = UseCaseState()
+    DatePicker(calendarState)
     Card(
-        onClick = {},
+        onClick = {
+            calendarState.show()
+        },
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)

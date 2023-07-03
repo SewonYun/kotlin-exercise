@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import com.airbnb.lottie.compose.LottieConstants
 import com.happyint.menstrualcalendar.ui.home.LoadMainHome
 import com.happyint.menstrualcalendar.ui.home.Opening
+import com.happyint.menstrualcalendar.ui.home.modal.DatePicker
 import kotlinx.coroutines.delay
 
 @Composable
@@ -42,6 +43,8 @@ fun MenstrualAppOf(
             delay(5000)
             currentScreen.value = 2
         }
+
+//        DatePicker("asdsda", "ddddd")
     } else {
         OfflineDialog { appState.refreshOnline() }
     }
