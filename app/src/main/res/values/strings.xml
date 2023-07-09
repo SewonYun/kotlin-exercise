@@ -1,6 +1,18 @@
 <resources>
+
     <string name="app_name">MenstrualCalendar</string>
     <string name="connection_error_title">Caution</string>
     <string name="connection_error_message">Your network is not work</string>
     <string name="retry_label">Retry to connection</string>
+
+
+    <string name="user_name">name</string>
+    <string name="age">age</string>
+    <string name="begin_date">first day of menstruation</string>
+    <string name="avg_cycle">average menstrual cycle</string>
+    <string name="ovulation_day">ovulation day</string>
+    <string name="setting">setting</string>
+    <string name="favorite">favorite</string>
+
+
 </resources>

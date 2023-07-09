@@ -1,37 +1,41 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.happyint.menstrualcalendar.ui.common
+package com.happyint.menstrualcalendar.ui.setting
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.happyint.menstrualcalendar.R
 import kotlinx.coroutines.launch
+
 
 @Preview
 @Composable
 fun PreviewTopBar() {
-    val a = rememberDrawerState(initialValue = DrawerValue.Closed)
-    TopBar(a)
+    val currentScreen = remember { mutableStateOf(3) }
+    TopBar(currentScreen)
 }
 
 @Composable
-fun TopBar(drawerState: DrawerState) {
+fun TopBar(currentScreen: MutableState<Int>) {
     val scope = rememberCoroutineScope()
     TopAppBar(
         title = {
             Text(
-                "Large TopAppBar",
+                stringResource(id = R.string.setting),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -39,13 +43,12 @@ fun TopBar(drawerState: DrawerState) {
         navigationIcon = {
             IconButton(onClick = {
                 scope.launch {
-                    if (drawerState.isOpen) drawerState.close()
-                    else drawerState.open()
+                    currentScreen.value = 2
                 }
             }) {
                 Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Localized description"
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "go back home"
                 )
             }
         }

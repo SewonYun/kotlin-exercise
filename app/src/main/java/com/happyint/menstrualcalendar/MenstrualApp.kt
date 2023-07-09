@@ -16,12 +16,11 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.happyint.menstrualcalendar.ui.common.LeftDrawerLayout
 import com.happyint.menstrualcalendar.ui.home.LoadMainHome
 import com.happyint.menstrualcalendar.ui.home.Opening
+import com.happyint.menstrualcalendar.ui.setting.LoadSettingMain
 import kotlinx.coroutines.delay
 
 @Composable
-fun rememberAppState(
-    context: Context = LocalContext.current
-) = remember(context) {
+fun rememberAppState(context: Context = LocalContext.current) = remember(context) {
     AppState(context)
 }
 
@@ -39,7 +38,8 @@ fun MenstrualAppOf(
         // 현재 화면 상태에 따라 적절한 화면을 표시합니다.
         when (currentScreen.value) {
             1 -> Opening(LottieConstants.IterateForever)
-            2 -> LeftDrawerLayout(drawerState) { LoadMainHome(drawerState) }
+            2 -> LeftDrawerLayout(drawerState, currentScreen) { LoadMainHome(drawerState) }
+            3 -> LoadSettingMain(currentScreen)
         }
 
         LaunchedEffect(Unit) {
@@ -48,7 +48,6 @@ fun MenstrualAppOf(
             currentScreen.value = 2
         }
 
-//        DatePicker("asdsda", "ddddd")
     } else {
         OfflineDialog { appState.refreshOnline() }
     }
