@@ -17,5 +17,6 @@
 
     <string name="setting">설정</string>
     <string name="favorite">즐겨찾기</string>
+    <string name="help">도움말</string>
 
 </resources>

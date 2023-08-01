@@ -1,8 +1,10 @@
 package com.happyint.menstrualcalendar.ui.setting
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -18,12 +20,16 @@ fun LoadSettingMain(currentScreen: MutableState<Int>) {
     Column {
         TopBar(currentScreen = currentScreen)
 
-        ProfileImageBox(imagePath = R.drawable.card_sample1)
-        Spacer(modifier = Modifier.height(30.dp))
+        Column(
+            modifier = Modifier.verticalScroll(ScrollState(0))
+        ) {
+            ProfileImageBox(imagePath = R.drawable.card_sample1)
+            Spacer(modifier = Modifier.height(30.dp))
 
-        UserInfo()
+            UserInfo()
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+        }
 
     }
 }
