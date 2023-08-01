@@ -25,7 +25,7 @@ fun ProfileImageBox(imagePath: Int) {
             contentDescription = "avatar",
             contentScale = ContentScale.Crop,            // crop the image if it's not a square
             modifier = Modifier
-                .size(64.dp)
+                .size(164.dp)
                 .clip(CircleShape)                       // clip to the circle shape
                 .border(2.dp, Color.Gray, CircleShape)   // add a border (optional)
         )

@@ -7,10 +7,14 @@
 
 
     <string name="user_name">name</string>
+    <string name="birth_date">birth date</string>
     <string name="age">age</string>
     <string name="begin_date">first day of menstruation</string>
     <string name="avg_cycle">average menstrual cycle</string>
+    <string name="reminder">reminder</string>
     <string name="ovulation_day">ovulation day</string>
+    <string name="contact_us">contact us</string>
+
     <string name="setting">setting</string>
     <string name="favorite">favorite</string>
 

@@ -43,7 +43,7 @@ fun MenstrualAppOf(
         }
 
         LaunchedEffect(Unit) {
-            // todo: When the data loading is complete, the lottie animation must be stopped.
+            // todo: When the data loaded, it's lottie animation must stop.
             delay(5000)
             currentScreen.value = 2
         }

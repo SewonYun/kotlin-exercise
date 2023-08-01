@@ -30,6 +30,6 @@ fun MiddleTab(tabIndex: MutableState<Int>) {
 
 @Preview
 @Composable
-fun previewMiddleTab() {
+fun PreviewMiddleTab() {
     MiddleTab(remember { mutableStateOf(0) })
 }

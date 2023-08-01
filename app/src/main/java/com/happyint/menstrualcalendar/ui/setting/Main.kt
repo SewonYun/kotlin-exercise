@@ -19,7 +19,7 @@ fun LoadSettingMain(currentScreen: MutableState<Int>) {
         TopBar(currentScreen = currentScreen)
 
         ProfileImageBox(imagePath = R.drawable.card_sample1)
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         UserInfo()
 
