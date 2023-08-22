@@ -17,12 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.R
-import kotlinx.coroutines.launch
 
 @Composable
 fun LeftDrawerLayout(
@@ -30,7 +28,6 @@ fun LeftDrawerLayout(
     currentScreen: MutableState<Int>,
     content: @Composable () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
     // icons to mimic drawer destinations
     val items: List<NavMenuProperties> = listOf(
         NavMenuProperties(
@@ -56,7 +53,6 @@ fun LeftDrawerLayout(
                         label = { Text(item.name) },
                         selected = item == selectedItem.value,
                         onClick = {
-                            scope.launch { drawerState.close() }
                             selectedItem.value = item
                             item.cb()
                         },
