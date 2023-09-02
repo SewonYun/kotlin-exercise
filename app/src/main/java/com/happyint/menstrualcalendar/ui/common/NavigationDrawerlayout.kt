@@ -21,11 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.R
+import com.happyint.menstrualcalendar.constants.UserPage
 
 @Composable
 fun LeftDrawerLayout(
     drawerState: DrawerState,
-    currentScreen: MutableState<Int>,
+    currentScreen: MutableState<UserPage>,
     content: @Composable () -> Unit
 ) {
     // icons to mimic drawer destinations
@@ -33,11 +34,11 @@ fun LeftDrawerLayout(
         NavMenuProperties(
             name = stringResource(id = R.string.favorite),
             icon = Icons.Default.Favorite,
-            cb = { currentScreen.value = 1 }),
+            cb = { currentScreen.value = UserPage.OPENING }),
         NavMenuProperties(
             name = stringResource(id = R.string.setting),
             icon = Icons.Default.Settings,
-            cb = { currentScreen.value = 3 })
+            cb = { currentScreen.value = UserPage.SETTING })
     )
 
     val selectedItem = remember { mutableStateOf(items[0]) }

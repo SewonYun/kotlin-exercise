@@ -13,9 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.R
+import com.happyint.menstrualcalendar.constants.UserPage
 
 @Composable
-fun LoadSettingMain(currentScreen: MutableState<Int>) {
+fun LoadSettingMain(currentScreen: MutableState<UserPage>) {
 
     Column {
         TopBar(currentScreen = currentScreen)
@@ -37,6 +38,6 @@ fun LoadSettingMain(currentScreen: MutableState<Int>) {
 @Preview
 @Composable
 fun PreviewLoadSettingMain() {
-    val currentScreen = remember { mutableStateOf(1) }
+    val currentScreen = remember { mutableStateOf(UserPage.OPENING) }
     LoadSettingMain(currentScreen)
 }

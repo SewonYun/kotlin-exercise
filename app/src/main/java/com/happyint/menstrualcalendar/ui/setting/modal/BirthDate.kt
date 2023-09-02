@@ -68,12 +68,14 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
 
             LazyColumn {
 
-                items(50) { it ->
+                items(100) { it ->
+                    var ageNumber: Int = it + 1
                     ListItem(
+                        modifier = Modifier.clickable {
+                            age = ageNumber.toString()
+                        },
                         headlineContent = {
-                            Text("Item $it", modifier = Modifier.clickable {
-                                age = it.toString()
-                            })
+                            Text("$ageNumber")
                         },
                         leadingContent = {
                             Icon(

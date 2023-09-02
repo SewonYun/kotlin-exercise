@@ -15,6 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.airbnb.lottie.compose.LottieConstants
+import com.happyint.menstrualcalendar.constants.UserPage
 import com.happyint.menstrualcalendar.ui.common.LeftDrawerLayout
 import com.happyint.menstrualcalendar.ui.home.LoadMainHome
 import com.happyint.menstrualcalendar.ui.home.Opening
@@ -36,7 +37,7 @@ fun MenstrualAppOf(
     if (appState.isOnline) {
 
         // 현재 화면 상태를 가지는 State 변수를 정의합니다.
-        val currentScreen = remember { mutableStateOf(1) }
+        val currentScreen = remember { mutableStateOf(UserPage.OPENING) }
 
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -44,15 +45,19 @@ fun MenstrualAppOf(
         scope.launch { drawerState.close() }
         // 현재 화면 상태에 따라 적절한 화면을 표시합니다.
         when (currentScreen.value) {
-            1 -> Opening(LottieConstants.IterateForever)
-            2 -> LeftDrawerLayout(drawerState, currentScreen) { LoadMainHome(drawerState) }
-            3 -> LoadSettingMain(currentScreen)
+            UserPage.OPENING -> Opening(LottieConstants.IterateForever)
+            UserPage.MAIN -> LeftDrawerLayout(
+                drawerState,
+                currentScreen
+            ) { LoadMainHome(drawerState) }
+
+            UserPage.SETTING -> LoadSettingMain(currentScreen)
         }
 
         LaunchedEffect(Unit) {
             // todo: When the data loaded, it's lottie animation must stop.
             delay(1000)
-            currentScreen.value = 2
+            currentScreen.value = UserPage.MAIN
         }
 
     } else {

@@ -4,7 +4,6 @@ package com.happyint.menstrualcalendar.ui.setting
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,18 +18,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.happyint.menstrualcalendar.R
+import com.happyint.menstrualcalendar.constants.UserPage
 import kotlinx.coroutines.launch
 
 
 @Preview
 @Composable
 fun PreviewTopBar() {
-    val currentScreen = remember { mutableStateOf(3) }
+    val currentScreen = remember { mutableStateOf(UserPage.SETTING) }
     TopBar(currentScreen)
 }
 
 @Composable
-fun TopBar(currentScreen: MutableState<Int>) {
+fun TopBar(currentScreen: MutableState<UserPage>) {
     val scope = rememberCoroutineScope()
     TopAppBar(
         title = {
@@ -43,7 +43,7 @@ fun TopBar(currentScreen: MutableState<Int>) {
         navigationIcon = {
             IconButton(onClick = {
                 scope.launch {
-                    currentScreen.value = 2
+                    currentScreen.value = UserPage.MAIN
                 }
             }) {
                 Icon(
