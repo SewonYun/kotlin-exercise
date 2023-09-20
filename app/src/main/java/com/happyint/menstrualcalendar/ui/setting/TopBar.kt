@@ -34,8 +34,15 @@ fun TopBar(currentScreen: MutableState<UserPage>) {
     val scope = rememberCoroutineScope()
     TopAppBar(
         title = {
+
+            val titleName: Int = when(currentScreen.value) {
+                UserPage.SETTING -> R.string.setting
+                UserPage.NOTICE -> R.string.notice_history
+                else -> R.string.blank
+            }
+
             Text(
-                stringResource(id = R.string.setting),
+                stringResource(id = titleName),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

@@ -18,6 +18,9 @@
     <string name="setting">setting</string>
     <string name="favorite">favorite</string>
     <string name="help">help</string>
+    <string name="backup">backup</string>
+    <string name="notice_history">notice_history</string>
+    <string name="blank"> </string>
 
     <string name="close">close</string>
 

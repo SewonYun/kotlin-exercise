@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
@@ -38,7 +39,11 @@ fun LeftDrawerLayout(
         NavMenuProperties(
             name = stringResource(id = R.string.setting),
             icon = Icons.Default.Settings,
-            cb = { currentScreen.value = UserPage.SETTING })
+            cb = { currentScreen.value = UserPage.SETTING }),
+        NavMenuProperties(
+            name = stringResource(id = R.string.notice_history),
+            icon = Icons.Default.Notifications,
+            cb = { currentScreen.value = UserPage.NOTICE })
     )
 
     val selectedItem = remember { mutableStateOf(items[0]) }

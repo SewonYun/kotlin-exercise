@@ -75,6 +75,15 @@ fun UserInfo() {
             borderBottom = true
         )
 
+        Spacer(modifier = Modifier.height(20.dp))
+
+        LineBox(
+            stringResource(R.string.backup),
+            ImageVectorContainer(Icons.Default.AddCircle),
+            borderTop = true,
+            borderBottom = true
+        )
+
         Spacer(modifier = Modifier.height(80.dp))
 
         Divider(

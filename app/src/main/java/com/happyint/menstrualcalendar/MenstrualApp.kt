@@ -19,6 +19,7 @@ import com.happyint.menstrualcalendar.constants.UserPage
 import com.happyint.menstrualcalendar.ui.common.LeftDrawerLayout
 import com.happyint.menstrualcalendar.ui.home.LoadMainHome
 import com.happyint.menstrualcalendar.ui.home.Opening
+import com.happyint.menstrualcalendar.ui.notice.LoadNotice
 import com.happyint.menstrualcalendar.ui.setting.LoadSettingMain
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -50,8 +51,8 @@ fun MenstrualAppOf(
                 drawerState,
                 currentScreen
             ) { LoadMainHome(drawerState) }
-
             UserPage.SETTING -> LoadSettingMain(currentScreen)
+            UserPage.NOTICE -> LoadNotice(currentScreen, listOf("test1", "test2"))
         }
 
         LaunchedEffect(Unit) {
