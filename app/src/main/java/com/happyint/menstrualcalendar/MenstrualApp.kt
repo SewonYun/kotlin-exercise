@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.room.Room
 import com.airbnb.lottie.compose.LottieConstants
 import com.happyint.menstrualcalendar.constants.UserPage
 import com.happyint.menstrualcalendar.ui.common.LeftDrawerLayout
