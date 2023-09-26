@@ -7,8 +7,8 @@ import com.happyint.menstrualcalendar.entities.user.Information
 
 @Dao
 interface UserDao {
-@Query("SELECT * FROM information ORDER BY id DESC LIMIT 0, 1")
-    fun getInformation(): Information
+    @Query("SELECT * FROM information ORDER BY id DESC LIMIT 0, 1")
+    fun getInformation(): Information?
 
     @Insert
     fun editInformation(information: Information)
