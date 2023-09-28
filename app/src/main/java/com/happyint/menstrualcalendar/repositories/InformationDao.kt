@@ -6,9 +6,12 @@ import androidx.room.Query
 import com.happyint.menstrualcalendar.entities.user.Information
 
 @Dao
-interface UserDao {
+interface InformationDao {
+    @Query("SELECT * FROM information")
+    fun select(): Information?
+
     @Query("SELECT * FROM information ORDER BY id DESC LIMIT 0, 1")
-    fun getInformation(): Information?
+    fun getInformation(): Information
 
     @Insert
     fun editInformation(information: Information)

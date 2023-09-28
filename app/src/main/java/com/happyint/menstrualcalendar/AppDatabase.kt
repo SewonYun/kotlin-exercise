@@ -5,11 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.happyint.menstrualcalendar.entities.user.Information
-import com.happyint.menstrualcalendar.repositories.UserDao
+import com.happyint.menstrualcalendar.repositories.InformationDao
 
 @Database(entities = [Information::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun userDao(): UserDao
+    abstract fun userDao(): InformationDao
 
     companion object {
         @Volatile
