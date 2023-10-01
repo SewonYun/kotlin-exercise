@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -28,15 +29,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.MyApplication
-import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.entities.user.Information
 import com.happyint.menstrualcalendar.viewModelFactories.UserInfoViewModelFactory
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
 import kotlinx.coroutines.launch
+import java.time.Year
 
+@ExperimentalMaterial3Api
 @Composable
 
 fun BirthDateModal(showIt: MutableState<Boolean>) {
@@ -52,6 +53,13 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
             onDismissRequest = { showIt.value = false },
             sheetState = bottomSheetState
         ) {
+
+            val factory = UserInfoViewModelFactory(MyApplication.instance.repositories.userRepository)
+            val userInfoViewModel: UserInfoViewModel = factory.create(UserInfoViewModel::class.java)
+
+            val userInfo = userInfoViewModel.userInfo.collectAsState().value
+            var age by remember { mutableStateOf(userInfo.birth.toString()) }
+
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Button(
                     onClick = {
@@ -62,17 +70,16 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
                         }
                     }
                 ) {
-                    Text(stringResource(id = R.string.close))
+//                    Text(stringResource(id = R.string.close))
+                    Text(age)
                 }
             }
 
-            val factory = UserInfoViewModelFactory(MyApplication.instance.repositories.userRepository)
-            val userInfoViewModel: UserInfoViewModel = factory.create(UserInfoViewModel::class.java)
+            Spacer(modifier = Modifier.height(20.dp))
 
-            val userInfo = userInfoViewModel.userInfo.collectAsState().value
-            var age by remember { mutableStateOf(userInfo.birth.toString()) }
-
-            Row {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(10.dp)
+            ) {
                 Text(text = age, modifier = Modifier.size(30.dp))
             }
 
@@ -80,18 +87,19 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
 
             LazyColumn {
 
-                var ageNumber = 1900
-                items(100) {
-                    ageNumber += 1
+                val year = Year.now()
+                val ageStartYear = year.value - 70
+                val ageLastYear = year.value - 10
+                items(ageLastYear - ageStartYear) {it
+                    val ageInModal = (ageLastYear - it).toString()
                     ListItem(
                         modifier = Modifier.clickable {
-                            age = ageNumber.toString()
                             userInfoViewModel.updateUserInfo(
-                                userInformation = Information(id = 0, birth = age, name = userInfo.name)
+                                userInformation = Information(id = 0, birth = ageInModal, name = userInfo.name)
                             )
                         },
                         headlineContent = {
-                            Text("$ageNumber")
+                            Text("$ageInModal")
                         },
                         leadingContent = {
                             Icon(
