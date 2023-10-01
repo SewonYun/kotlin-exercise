@@ -27,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.MyApplication
@@ -39,7 +38,6 @@ import java.time.Year
 
 @ExperimentalMaterial3Api
 @Composable
-
 fun BirthDateModal(showIt: MutableState<Boolean>) {
 
     val skipPartiallyExpanded by remember { mutableStateOf(false) }
@@ -57,8 +55,7 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
             val factory = UserInfoViewModelFactory(MyApplication.instance.repositories.userRepository)
             val userInfoViewModel: UserInfoViewModel = factory.create(UserInfoViewModel::class.java)
 
-            val userInfo = userInfoViewModel.userInfo.collectAsState().value
-            var age by remember { mutableStateOf(userInfo.birth.toString()) }
+            val age by userInfoViewModel.birth.collectAsState("1940")
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Button(
@@ -95,7 +92,7 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
                     ListItem(
                         modifier = Modifier.clickable {
                             userInfoViewModel.updateUserInfo(
-                                userInformation = Information(id = 0, birth = ageInModal, name = userInfo.name)
+                                userInformation = Information(id = 0, birth = ageInModal, name = userInfoViewModel.name.value)
                             )
                         },
                         headlineContent = {

@@ -11,17 +11,26 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class UserInfoViewModel(private val userRepository: UserRepository): ViewModel() {
-    private val _userInfo = MutableStateFlow(Information(id = 0, name = "", birth = ""))
+    private var _name = MutableStateFlow("")
+    val name = _name.asStateFlow()
 
-    val userInfo: StateFlow<Information> = _userInfo.asStateFlow()
+    private var _birth = MutableStateFlow("")
+    val birth = _birth.asStateFlow()
+
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            _userInfo.value = userRepository.userInformation()
-        }
+        fetchData()
     }
 
+    private fun fetchData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val information = userRepository.userInformation()
+            _name.value = information.name ?: ""
+            _birth.value = information.birth ?: "1940"
+        }
+    }
     fun updateUserInfo(userInformation: Information) = viewModelScope.launch(Dispatchers.IO) {
         userRepository.edit(userInformation)
+        fetchData()
     }
 }
