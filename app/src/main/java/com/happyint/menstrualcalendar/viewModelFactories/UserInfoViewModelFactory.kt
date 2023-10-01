@@ -2,7 +2,6 @@ package com.happyint.menstrualcalendar.viewModelFactories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.happyint.menstrualcalendar.repositories.InformationDao
 import com.happyint.menstrualcalendar.repositories.UserRepository
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
 
