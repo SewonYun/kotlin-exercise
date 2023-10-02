@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -15,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.constants.UserPage
 
+@ExperimentalMaterial3Api
 @Composable
 fun LoadSettingMain(currentScreen: MutableState<UserPage>) {
 
@@ -35,6 +37,7 @@ fun LoadSettingMain(currentScreen: MutableState<UserPage>) {
     }
 }
 
+@ExperimentalMaterial3Api
 @Preview
 @Composable
 fun PreviewLoadSettingMain() {

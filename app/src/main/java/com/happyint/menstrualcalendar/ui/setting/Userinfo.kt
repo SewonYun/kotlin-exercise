@@ -2,10 +2,7 @@
 
 package com.happyint.menstrualcalendar.ui.setting
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.happyint.menstrualcalendar.R
@@ -37,16 +33,19 @@ import com.happyint.menstrualcalendar.ui.setting.modal.BirthDateModal
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
 
+@Composable
 fun nameField(userInfoViewModel: UserInfoViewModel): String {
-    return if (userInfoViewModel.name.value == "") "who" else userInfoViewModel.name.value
+    return if (userInfoViewModel.name.collectAsState().value == "") stringResource(id = R.string.default_user_nickname) else userInfoViewModel.name.collectAsState().value
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun UserInfo() {
     val showBirthModal = remember { mutableStateOf(false) }
     BirthDateModal(showBirthModal)
 
     val userInfoViewModel: UserInfoViewModel = ViewModelProvider.getUserInfoViewModel()
+    val obAge by userInfoViewModel.birth.collectAsState()
 
     Column(
         modifier = Modifier.padding(10.dp)
@@ -59,11 +58,12 @@ fun UserInfo() {
                 .background(color = MaterialTheme.colorScheme.background)
         ) {
 
-            Column (
+            Column(
                 modifier = Modifier
                     .width(200.dp)
-                    .padding(10.dp)
-            ) {
+                    .padding(10.dp),
+
+                ) {
                 Text(text = nameField(userInfoViewModel), style = TextStyle(fontSize = 20.sp))
             }
 
@@ -72,7 +72,6 @@ fun UserInfo() {
                     .width(200.dp)
                     .padding(10.dp)
             ) {
-                val obAge by userInfoViewModel.birth.collectAsState()
                 Text(text = "$obAge 년생", style = TextStyle(fontSize = 20.sp))
             }
 
@@ -80,24 +79,12 @@ fun UserInfo() {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .background(color = MaterialTheme.colorScheme.background)
-        ) {
-            Text(stringResource(R.string.setting), style = TextStyle(fontSize = 16.sp))
-        }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
         LineBox(
             stringResource(R.string.birth_date),
-            ImageVectorContainer(Icons.Default.Done),
+            ImageVectorContainer(if (obAge.isNullOrEmpty()) Icons.Default.AddCircle else Icons.Default.Done),
             borderTop = true,
             borderBottom = true
         ) { showBirthModal.value = true }
-
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -170,53 +157,4 @@ fun UserInfo() {
 
         Spacer(modifier = Modifier.height(75.dp))
     }
-}
-
-@Composable
-fun LineBox(
-    text: String,
-    emoji: ImageVectorContainer,
-    borderTop: Boolean = false,
-    borderBottom: Boolean = false,
-    cb: () -> Unit = {},
-) {
-
-    if (borderTop) {
-        Divider(
-            color = MaterialTheme.colorScheme.outline,
-            modifier = Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-        )
-    }
-
-    Row(
-        modifier = Modifier
-            .background(color = MaterialTheme.colorScheme.primaryContainer)
-            .padding(8.dp)
-            .fillMaxWidth()
-            .clickable { cb() },
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(text, style = TextStyle(fontSize = 16.sp))
-
-        if (emoji.emoji.isPresent) {
-            Image(imageVector = emoji.emoji.get(), contentDescription = text)
-        }
-    }
-
-    if (borderBottom) {
-        Divider(
-            color = MaterialTheme.colorScheme.outline,
-            modifier = Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-        )
-    }
-}
-
-@Preview
-@Composable
-fun PreviewUserInfo() {
-    UserInfo()
 }

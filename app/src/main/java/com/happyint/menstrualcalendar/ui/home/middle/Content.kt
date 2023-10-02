@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.ui.home.modal.DatePicker
 import com.maxkeppeker.sheets.core.models.base.UseCaseState
 
-
 @Composable
 fun MiddleContent(tabIndex: MutableState<Int>) {
     val calendarState = UseCaseState()

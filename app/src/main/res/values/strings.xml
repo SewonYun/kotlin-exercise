@@ -24,5 +24,7 @@
 
     <string name="close">close</string>
 
+    <string name="default_user_nickname">Default name</string>
+
 
 </resources>
