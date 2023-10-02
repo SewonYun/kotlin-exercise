@@ -29,13 +29,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.happyint.menstrualcalendar.MyApplication
 import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.entities.user.Information
-import com.happyint.menstrualcalendar.viewModelFactories.UserInfoViewModelFactory
+import com.happyint.menstrualcalendar.util.ViewModelProvider
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
 import kotlinx.coroutines.launch
 import java.time.Year
@@ -56,8 +54,7 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
             sheetState = bottomSheetState
         ) {
 
-            val factory = UserInfoViewModelFactory(MyApplication.instance.repositories.userRepository)
-            val userInfoViewModel: UserInfoViewModel = factory.create(UserInfoViewModel::class.java)
+            val userInfoViewModel: UserInfoViewModel = ViewModelProvider.getUserInfoViewModel()
 
             val age by userInfoViewModel.birth.collectAsState("1940")
 
