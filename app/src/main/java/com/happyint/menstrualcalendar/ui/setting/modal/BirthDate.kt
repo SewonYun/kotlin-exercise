@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -17,6 +15,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemColors
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -28,8 +29,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.MyApplication
+import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.entities.user.Information
 import com.happyint.menstrualcalendar.viewModelFactories.UserInfoViewModelFactory
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
@@ -67,17 +71,8 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
                         }
                     }
                 ) {
-//                    Text(stringResource(id = R.string.close))
-                    Text(age)
+                    Text(stringResource(id = R.string.close))
                 }
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(10.dp)
-            ) {
-                Text(text = age, modifier = Modifier.size(30.dp))
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -88,15 +83,27 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
                 val ageStartYear = year.value - 70
                 val ageLastYear = year.value - 10
                 items(ageLastYear - ageStartYear) {it
-                    val ageInModal = (ageLastYear - it).toString()
+                    val ageInModal = ageLastYear - it
+                    val bgColor: ListItemColors = if(age.toInt() == ageInModal) {
+                        ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                    } else {
+                        ListItemDefaults.colors()
+                    }
                     ListItem(
-                        modifier = Modifier.clickable {
-                            userInfoViewModel.updateUserInfo(
-                                userInformation = Information(id = 0, birth = ageInModal, name = userInfoViewModel.name.value)
-                            )
-                        },
+                        colors = bgColor,
+                        modifier = Modifier
+                            .clickable {
+                                userInfoViewModel.updateUserInfo(
+                                    userInformation = Information(
+                                        id = 0,
+                                        birth = ageInModal.toString(),
+                                        name = userInfoViewModel.name.value
+                                    )
+                                )
+                            }
+                        ,
                         headlineContent = {
-                            Text("$ageInModal")
+                            Text(ageInModal.toString())
                         },
                         leadingContent = {
                             Icon(
