@@ -35,7 +35,11 @@ import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
 
 @Composable
 fun nameField(userInfoViewModel: UserInfoViewModel): String {
-    return if (userInfoViewModel.name.collectAsState().value == "") stringResource(id = R.string.default_user_nickname) else userInfoViewModel.name.collectAsState().value
+    return if (userInfoViewModel.name.collectAsState().value == "") {
+        stringResource(id = R.string.default_user_nickname)
+    } else {
+        userInfoViewModel.name.collectAsState().value
+    }
 }
 
 @ExperimentalMaterial3Api
@@ -81,7 +85,13 @@ fun UserInfo() {
 
         LineBox(
             stringResource(R.string.birth_date),
-            ImageVectorContainer(if (obAge.isNullOrEmpty()) Icons.Default.AddCircle else Icons.Default.Done),
+            ImageVectorContainer(
+                if (obAge.isNullOrEmpty()) {
+                    Icons.Default.AddCircle
+                } else {
+                    Icons.Default.Done
+                }
+            ),
             borderTop = true,
             borderBottom = true
         ) { showBirthModal.value = true }
