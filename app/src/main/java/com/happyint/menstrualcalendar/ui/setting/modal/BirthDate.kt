@@ -56,7 +56,7 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
 
             val userInfoViewModel: UserInfoViewModel = ViewModelProvider.getUserInfoViewModel()
 
-            val age by userInfoViewModel.birth.collectAsState("1940")
+            val age by userInfoViewModel.birth.collectAsState("")
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Button(

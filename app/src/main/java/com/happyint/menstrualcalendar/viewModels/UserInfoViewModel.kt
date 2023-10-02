@@ -6,7 +6,6 @@ import com.happyint.menstrualcalendar.entities.user.Information
 import com.happyint.menstrualcalendar.repositories.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -26,7 +25,7 @@ class UserInfoViewModel(private val userRepository: UserRepository): ViewModel()
         viewModelScope.launch(Dispatchers.IO) {
             val information = userRepository.userInformation()
             _name.value = information.name ?: ""
-            _birth.value = information.birth ?: "1940"
+            _birth.value = information.birth ?: ""
         }
     }
     fun updateUserInfo(userInformation: Information) = viewModelScope.launch(Dispatchers.IO) {
