@@ -25,6 +25,7 @@
     <string name="close">close</string>
 
     <string name="default_user_nickname">Default name</string>
+    <string name="did_not_save">Didn\'t save</string>
 
 
 </resources>

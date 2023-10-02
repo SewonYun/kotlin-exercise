@@ -3,9 +3,11 @@
 package com.happyint.menstrualcalendar.ui.setting
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,21 +24,26 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.happyint.menstrualcalendar.MyApplication
 import com.happyint.menstrualcalendar.R
+import com.happyint.menstrualcalendar.customApi.testBorder
 import com.happyint.menstrualcalendar.ui.setting.modal.BirthDateModal
+import com.happyint.menstrualcalendar.ui.setting.modal.NameDialog
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
 
 @Composable
 fun nameField(userInfoViewModel: UserInfoViewModel): String {
     return if (userInfoViewModel.name.collectAsState().value == "") {
-        stringResource(id = R.string.default_user_nickname)
+        MyApplication.instance.getString(R.string.default_user_nickname)
     } else {
         userInfoViewModel.name.collectAsState().value
     }
@@ -60,23 +67,52 @@ fun UserInfo() {
                 .fillMaxWidth()
                 .padding(10.dp)
                 .background(color = MaterialTheme.colorScheme.background)
+                .testBorder()
         ) {
+
+            var showDialog by remember { mutableStateOf(false) }
 
             Column(
                 modifier = Modifier
+                    .clickable {
+
+                    }
                     .width(200.dp)
-                    .padding(10.dp),
+                    .padding(10.dp)
+                    .testBorder(),
 
                 ) {
-                Text(text = nameField(userInfoViewModel), style = TextStyle(fontSize = 20.sp))
+
+                if (showDialog) {
+                    NameDialog {
+                        showDialog = false
+                    }
+                }
+
+                Text(
+                    modifier = Modifier
+                        .testBorder()
+                        .fillMaxWidth()
+                        .height(35.dp)
+                        .clickable { showDialog = true },
+                    text = nameField(userInfoViewModel)
+                )
+
+
             }
+
 
             Column (
                 modifier = Modifier
                     .width(200.dp)
+                    .fillMaxHeight()
                     .padding(10.dp)
+                    .testBorder()
             ) {
-                Text(text = "$obAge 년생", style = TextStyle(fontSize = 20.sp))
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = "$obAge 년생", style = TextStyle(fontSize = 20.sp)
+                )
             }
 
         }
