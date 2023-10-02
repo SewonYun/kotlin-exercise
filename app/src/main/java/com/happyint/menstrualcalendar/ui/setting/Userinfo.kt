@@ -4,6 +4,7 @@ package com.happyint.menstrualcalendar.ui.setting
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -25,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -109,28 +108,18 @@ fun UserInfo() {
                     .padding(10.dp)
                     .testBorder()
             ) {
-                Text(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    text = "$obAge 년생", style = TextStyle(fontSize = 20.sp)
-                )
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .testBorder()
+                    .clickable { showBirthModal.value = true }
+                ) {
+                    Text(text = "$obAge 년생", style = TextStyle(fontSize = 20.sp))
+                }
+
             }
 
         }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        LineBox(
-            stringResource(R.string.birth_date),
-            ImageVectorContainer(
-                if (obAge.isNullOrEmpty()) {
-                    Icons.Default.AddCircle
-                } else {
-                    Icons.Default.Done
-                }
-            ),
-            borderTop = true,
-            borderBottom = true
-        ) { showBirthModal.value = true }
 
         Spacer(modifier = Modifier.height(20.dp))
 

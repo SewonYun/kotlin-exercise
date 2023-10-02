@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.MyApplication
 import com.happyint.menstrualcalendar.R
+import com.happyint.menstrualcalendar.constants.Numbers
 import com.happyint.menstrualcalendar.entities.user.Information
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 
@@ -41,8 +42,7 @@ fun NameDialog(disappearCallback: () -> Unit) {
                 MyApplication.instance,
                 MyApplication.instance.getString(R.string.did_not_save),
                 Toast.LENGTH_SHORT
-            )
-                .show()
+            ).show()
 
             disappearCallback()
         }
@@ -54,10 +54,25 @@ fun NameDialog(disappearCallback: () -> Unit) {
             shape = MaterialTheme.shapes.large,
             tonalElevation = AlertDialogDefaults.TonalElevation
         ) {
+            var isError = remember { mutableStateOf(false) }
             Column(modifier = Modifier.padding(16.dp)) {
                 OutlinedTextField(
                     value = localScopeName,
-                    onValueChange = { localScopeName = it },
+                    onValueChange = {
+
+                        localScopeName = it.take(Numbers.MAX_NICKNAME_LENGTH.value)
+                        isError.value = it.length > Numbers.MAX_NICKNAME_LENGTH.value
+
+                        if (isError.value) {
+                            Toast.makeText(
+                                MyApplication.instance,
+                                MyApplication.instance.getString(R.string.nick_max_length_alert),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                    },
+                    isError = isError.value,
                     singleLine = true,
                     label = { Text(text = "Nick name") }
                 )

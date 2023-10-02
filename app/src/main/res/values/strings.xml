@@ -25,7 +25,8 @@
     <string name="close">close</string>
 
     <string name="default_user_nickname">Default name</string>
-    <string name="did_not_save">Didn\'t save</string>
 
+    <string name="did_not_save">Didn\'t save</string>
+    <string name="nick_max_length_alert">Name length is limited to 20 characters.</string>
 
 </resources>
