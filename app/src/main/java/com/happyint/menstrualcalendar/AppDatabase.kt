@@ -7,7 +7,10 @@ import androidx.room.RoomDatabase
 import com.happyint.menstrualcalendar.entities.user.Information
 import com.happyint.menstrualcalendar.repositories.InformationDao
 
-@Database(entities = [Information::class], version = 1)
+@Database(
+    version = 2,
+    entities = [Information::class]
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): InformationDao
 
@@ -16,16 +19,12 @@ abstract class AppDatabase : RoomDatabase() {
         private var INSTANCE: AppDatabase? = null
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
-                var instance = Room.databaseBuilder(
-                    context,
-                    AppDatabase::class.java,
-                    "app_database")
-
-                if ( BuildConfig.DEBUG ) {
-                    instance = instance.fallbackToDestructiveMigration()
-                }
-
-                instance.build()
+                return Room.databaseBuilder(
+                    context, AppDatabase::class.java,
+                    "app_database"
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
             }
         }
     }
