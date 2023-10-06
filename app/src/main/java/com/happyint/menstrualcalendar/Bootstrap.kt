@@ -13,7 +13,10 @@ class Bootstrap {
             val db = MyApplication.instance.database
             val informationOption: Information? = (db.userDao()).select()
             if (informationOption == null) {
-                val informationStub = Information(id = 0, name = "", birth = "")
+                val informationStub = Information(
+                    id = 0, name = "", birth = "",
+                    averageMenstrualCycle = 0
+                )
                 (db.userDao()).editInformation(informationStub)
             }
         }

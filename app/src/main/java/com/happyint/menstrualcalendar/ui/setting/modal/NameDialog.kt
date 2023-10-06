@@ -83,7 +83,8 @@ fun NameDialog(disappearCallback: () -> Unit) {
                             Information(
                                 id = 0,
                                 name = localScopeName,
-                                userInfoViewModel.birth.value
+                                userInfoViewModel.birth.value,
+                                averageMenstrualCycle = 0
                             )
                         )
                         disappearCallback()

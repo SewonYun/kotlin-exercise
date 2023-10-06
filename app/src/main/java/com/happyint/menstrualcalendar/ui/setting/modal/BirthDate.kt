@@ -81,11 +81,7 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
                 val ageLastYear = year.value - 10
                 items(ageLastYear - ageStartYear) {it
                     val ageInModal = ageLastYear - it
-                    val bgColor: ListItemColors = if(age.toInt() == ageInModal) {
-                        ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-                    } else {
-                        ListItemDefaults.colors()
-                    }
+                    val bgColor: ListItemColors = birthRowBgColor(age, ageInModal)
                     ListItem(
                         colors = bgColor,
                         modifier = Modifier
@@ -94,7 +90,8 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
                                     userInformation = Information(
                                         id = 0,
                                         birth = ageInModal.toString(),
-                                        name = userInfoViewModel.name.value
+                                        name = userInfoViewModel.name.value,
+                                        averageMenstrualCycle = 0
                                     )
                                 )
                             }
@@ -114,5 +111,19 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
             }
 
         }
+    }
+
+}
+
+
+@Composable
+fun birthRowBgColor(age: String?, ageInModal: Int): ListItemColors {
+
+    val compare = if (age.isNullOrEmpty()) 0 else age.toInt()
+
+    return if (compare == ageInModal) {
+        ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    } else {
+        ListItemDefaults.colors()
     }
 }
