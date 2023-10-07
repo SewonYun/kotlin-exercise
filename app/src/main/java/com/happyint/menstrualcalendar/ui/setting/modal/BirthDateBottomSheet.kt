@@ -16,8 +16,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemColors
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -40,7 +38,7 @@ import java.time.Year
 
 @ExperimentalMaterial3Api
 @Composable
-fun BirthDateModal(showIt: MutableState<Boolean>) {
+fun BirthDateBottomSheet(showIt: MutableState<Boolean>) {
 
     val skipPartiallyExpanded by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -79,7 +77,8 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
                 val year = Year.now()
                 val ageStartYear = year.value - 70
                 val ageLastYear = year.value - 10
-                items(ageLastYear - ageStartYear) {it
+                items(ageLastYear - ageStartYear) {
+                    it
                     val ageInModal = ageLastYear - it
                     val bgColor: ListItemColors = birthRowBgColor(age, ageInModal)
                     ListItem(
@@ -94,8 +93,7 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
                                         averageMenstrualCycle = 0
                                     )
                                 )
-                            }
-                        ,
+                            },
                         headlineContent = {
                             Text(ageInModal.toString())
                         },
@@ -113,17 +111,4 @@ fun BirthDateModal(showIt: MutableState<Boolean>) {
         }
     }
 
-}
-
-
-@Composable
-fun birthRowBgColor(age: String?, ageInModal: Int): ListItemColors {
-
-    val compare = if (age.isNullOrEmpty()) 0 else age.toInt()
-
-    return if (compare == ageInModal) {
-        ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-    } else {
-        ListItemDefaults.colors()
-    }
 }

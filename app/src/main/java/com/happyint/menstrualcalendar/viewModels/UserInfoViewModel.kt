@@ -16,6 +16,9 @@ class UserInfoViewModel(private val userRepository: UserRepository): ViewModel()
     private var _birth = MutableStateFlow("")
     val birth = _birth.asStateFlow()
 
+    private var _average_cycle = MutableStateFlow(0)
+    val averageCycle = _average_cycle.asStateFlow()
+
 
     init {
         fetchData()
@@ -26,6 +29,7 @@ class UserInfoViewModel(private val userRepository: UserRepository): ViewModel()
             val information = userRepository.userInformation()
             _name.value = information.name ?: ""
             _birth.value = information.birth ?: ""
+            _average_cycle.value = information.averageMenstrualCycle
         }
     }
     fun updateUserInfo(userInformation: Information) = viewModelScope.launch(Dispatchers.IO) {

@@ -38,6 +38,7 @@ fun TopBar(currentScreen: MutableState<UserPage>) {
             val titleName: Int = when(currentScreen.value) {
                 UserPage.SETTING -> R.string.setting
                 UserPage.NOTICE -> R.string.notice_history
+                UserPage.CALENDAR -> R.string.calendar
                 else -> R.string.blank
             }
 

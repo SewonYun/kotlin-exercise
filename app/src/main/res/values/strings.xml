@@ -29,4 +29,8 @@
     <string name="did_not_save">Didn\'t save</string>
     <string name="nick_max_length_alert">Name length is limited to 20 characters.</string>
 
+    <string name="day">%1$d day</string>
+    <string name="age_expression">Born in %1$d</string>
+    <string name="calendar">Calendar</string>
+
 </resources>

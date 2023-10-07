@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -14,12 +15,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.happyint.menstrualcalendar.ui.common.TopBar
 import com.happyint.menstrualcalendar.ui.home.middle.MiddleContent
 import com.happyint.menstrualcalendar.ui.home.middle.MiddleTab
-import com.happyint.menstrualcalendar.ui.common.TopBar
 import com.happyint.menstrualcalendar.ui.home.top.TopSwipeContent
 
 
+@ExperimentalMaterial3Api
 @Preview
 @Composable
 fun PreviewLoadMainHome() {
@@ -27,6 +29,7 @@ fun PreviewLoadMainHome() {
     LoadMainHome(drawerState = a)
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun LoadMainHome(drawerState: DrawerState) {
 

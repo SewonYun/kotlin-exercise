@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.airbnb.lottie.compose.LottieConstants
 import com.happyint.menstrualcalendar.constants.UserPage
+import com.happyint.menstrualcalendar.ui.calendar.LoadCalendar
 import com.happyint.menstrualcalendar.ui.common.LeftDrawerLayout
 import com.happyint.menstrualcalendar.ui.home.LoadMainHome
 import com.happyint.menstrualcalendar.ui.home.Opening
@@ -59,6 +60,7 @@ fun MenstrualAppOf(
 
             UserPage.SETTING -> LoadSettingMain(currentScreen)
             UserPage.NOTICE -> LoadNotice(currentScreen, listOf("test1", "test2"))
+            UserPage.CALENDAR -> LoadCalendar(currentScreen)
         }
 
         LaunchedEffect(Unit) {

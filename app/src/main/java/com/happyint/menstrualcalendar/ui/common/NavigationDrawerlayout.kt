@@ -35,7 +35,7 @@ fun LeftDrawerLayout(
         NavMenuProperties(
             name = stringResource(id = R.string.favorite),
             icon = Icons.Default.Favorite,
-            cb = { currentScreen.value = UserPage.OPENING }),
+            cb = { currentScreen.value = UserPage.CALENDAR }),
         NavMenuProperties(
             name = stringResource(id = R.string.setting),
             icon = Icons.Default.Settings,

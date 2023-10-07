@@ -34,7 +34,8 @@ import androidx.compose.ui.unit.sp
 import com.happyint.menstrualcalendar.MyApplication
 import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.customApi.testBorder
-import com.happyint.menstrualcalendar.ui.setting.modal.BirthDateModal
+import com.happyint.menstrualcalendar.ui.setting.modal.AverageCycleBottomSheet
+import com.happyint.menstrualcalendar.ui.setting.modal.BirthDateBottomSheet
 import com.happyint.menstrualcalendar.ui.setting.modal.NameDialog
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
@@ -52,7 +53,10 @@ fun nameField(userInfoViewModel: UserInfoViewModel): String {
 @Composable
 fun UserInfo() {
     val showBirthModal = remember { mutableStateOf(false) }
-    BirthDateModal(showBirthModal)
+    BirthDateBottomSheet(showBirthModal)
+
+    val showAverageCycleBottomSheet = remember { mutableStateOf(false) }
+    AverageCycleBottomSheet(showAverageCycleBottomSheet)
 
     val userInfoViewModel: UserInfoViewModel = ViewModelProvider.getUserInfoViewModel()
     val obAge by userInfoViewModel.birth.collectAsState()
@@ -97,9 +101,7 @@ fun UserInfo() {
                     text = nameField(userInfoViewModel)
                 )
 
-
             }
-
 
             Column (
                 modifier = Modifier
@@ -114,7 +116,10 @@ fun UserInfo() {
                     .testBorder()
                     .clickable { showBirthModal.value = true }
                 ) {
-                    Text(text = "$obAge 년생", style = TextStyle(fontSize = 20.sp))
+                    Text(
+                        text = stringResource(id = R.string.age_expression, obAge.toInt()), style =
+                        TextStyle(fontSize = 20.sp)
+                    )
                 }
 
             }
@@ -128,7 +133,9 @@ fun UserInfo() {
             ImageVectorContainer(Icons.Default.AddCircle),
             borderTop = true,
             borderBottom = true
-        )
+        ) {
+            showAverageCycleBottomSheet.value = true
+        }
 
         Spacer(modifier = Modifier.height(20.dp))
 
