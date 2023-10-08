@@ -15,6 +15,7 @@ import com.happyint.menstrualcalendar.ui.setting.TopBar
 
 @Composable
 fun LoadCalendar(currentScreen: MutableState<UserPage>) {
+
     Column {
         TopBar(currentScreen = currentScreen)
 

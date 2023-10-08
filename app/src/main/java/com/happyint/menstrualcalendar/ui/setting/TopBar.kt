@@ -2,6 +2,7 @@
 
 package com.happyint.menstrualcalendar.ui.setting
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,13 +30,19 @@ fun PreviewTopBar() {
     TopBar(currentScreen)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(currentScreen: MutableState<UserPage>) {
+
+    BackHandler {
+        currentScreen.value = UserPage.MAIN
+    }
+
     val scope = rememberCoroutineScope()
     TopAppBar(
         title = {
 
-            val titleName: Int = when(currentScreen.value) {
+            val titleName: Int = when (currentScreen.value) {
                 UserPage.SETTING -> R.string.setting
                 UserPage.NOTICE -> R.string.notice_history
                 UserPage.CALENDAR -> R.string.calendar

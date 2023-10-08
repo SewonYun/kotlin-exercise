@@ -20,13 +20,14 @@ import com.happyint.menstrualcalendar.constants.UserPage
 @Composable
 fun LoadSettingMain(currentScreen: MutableState<UserPage>) {
 
+
     Column {
         TopBar(currentScreen = currentScreen)
 
         Column(
             modifier = Modifier.verticalScroll(ScrollState(0))
         ) {
-            ProfileImageBox(imagePath = R.drawable.card_sample1)
+            ProfileImageBox(imagePath = R.drawable.rabbit_stamp)
             Spacer(modifier = Modifier.height(30.dp))
 
             UserInfo()
