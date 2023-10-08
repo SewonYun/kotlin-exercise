@@ -116,8 +116,11 @@ fun UserInfo() {
                     .testBorder()
                     .clickable { showBirthModal.value = true }
                 ) {
+
+                    val txt = if (obAge.isNullOrEmpty()) "" else
+                        stringResource(id = R.string.age_expression, obAge.toInt())
                     Text(
-                        text = stringResource(id = R.string.age_expression, obAge.toInt()), style =
+                        text = txt, style =
                         TextStyle(fontSize = 20.sp)
                     )
                 }
