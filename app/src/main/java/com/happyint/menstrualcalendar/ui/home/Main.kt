@@ -1,5 +1,6 @@
 package com.happyint.menstrualcalendar.ui.home
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -47,5 +48,13 @@ fun LoadMainHome(drawerState: DrawerState) {
         Spacer(modifier = Modifier.height(10.dp))
         MiddleContent(state)
     }
+
+    val openDialog = remember { mutableStateOf(false) }
+
+    BackHandler {
+        openDialog.value = true
+    }
+
+    ConfirmExitDialog(openDialog)
 
 }

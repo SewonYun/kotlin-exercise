@@ -33,4 +33,11 @@
     <string name="age_expression">Born in %1$d</string>
     <string name="calendar">Calendar</string>
 
+
+    <string name="app_exit_dialog_asking">Do you want to exit the app?</string>
+    <string name="app_exit_button_explain">If you press the confirm button, the app will exit.</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+
+
 </resources>
