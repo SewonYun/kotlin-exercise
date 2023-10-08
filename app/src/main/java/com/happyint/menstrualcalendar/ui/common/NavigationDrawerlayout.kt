@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DrawerState
@@ -33,8 +33,8 @@ fun LeftDrawerLayout(
     // icons to mimic drawer destinations
     val items: List<NavMenuProperties> = listOf(
         NavMenuProperties(
-            name = stringResource(id = R.string.favorite),
-            icon = Icons.Default.Favorite,
+            name = stringResource(id = R.string.calendar),
+            icon = Icons.Default.DateRange,
             cb = { currentScreen.value = UserPage.CALENDAR }),
         NavMenuProperties(
             name = stringResource(id = R.string.setting),

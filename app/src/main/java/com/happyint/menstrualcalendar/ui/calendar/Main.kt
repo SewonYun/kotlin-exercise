@@ -24,11 +24,15 @@ fun LoadCalendar(currentScreen: MutableState<UserPage>) {
         ) {
 
             Spacer(modifier = Modifier.height(16.dp))
+
+            OutSurface {
+                Column {
+                    CalendarHeader()
+                    CalendarBody()
+                }
+            }
         }
 
     }
 
-    Column {
-        RabbitStamp()
-    }
 }
