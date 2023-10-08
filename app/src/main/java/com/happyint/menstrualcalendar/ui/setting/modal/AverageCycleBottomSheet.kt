@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -34,6 +35,7 @@ import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.entities.user.Information
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
@@ -59,11 +61,7 @@ fun AverageCycleBottomSheet(showIt: MutableState<Boolean>) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Button(
                     onClick = {
-                        scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
-                            if (!bottomSheetState.isVisible) {
-                                showIt.value = false
-                            }
-                        }
+                        hideAverageCycleBottomSheet(showIt, bottomSheetState, scope)
                     }
                 ) {
                     Text(stringResource(id = R.string.close))
@@ -89,6 +87,8 @@ fun AverageCycleBottomSheet(showIt: MutableState<Boolean>) {
                                         averageMenstrualCycle = it
                                     )
                                 )
+
+                                hideAverageCycleBottomSheet(showIt, bottomSheetState, scope)
                             }
                         ,
                         headlineContent = {
@@ -108,4 +108,17 @@ fun AverageCycleBottomSheet(showIt: MutableState<Boolean>) {
         }
     }
 
+}
+
+
+@ExperimentalMaterial3Api
+fun hideAverageCycleBottomSheet(
+    showIt: MutableState<Boolean>, bottomSheetState: SheetState, scope:
+    CoroutineScope
+) {
+    scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
+        if (!bottomSheetState.isVisible) {
+            showIt.value = false
+        }
+    }
 }

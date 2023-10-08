@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -33,6 +34,7 @@ import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.entities.user.Information
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.Year
 
@@ -58,13 +60,7 @@ fun BirthDateBottomSheet(showIt: MutableState<Boolean>) {
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Button(
-                    onClick = {
-                        scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
-                            if (!bottomSheetState.isVisible) {
-                                showIt.value = false
-                            }
-                        }
-                    }
+                    onClick = { hideBirthDateBottomSheet(showIt, bottomSheetState, scope) }
                 ) {
                     Text(stringResource(id = R.string.close))
                 }
@@ -93,6 +89,8 @@ fun BirthDateBottomSheet(showIt: MutableState<Boolean>) {
                                         averageMenstrualCycle = 0
                                     )
                                 )
+
+                                hideBirthDateBottomSheet(showIt, bottomSheetState, scope)
                             },
                         headlineContent = {
                             Text(ageInModal.toString())
@@ -111,4 +109,16 @@ fun BirthDateBottomSheet(showIt: MutableState<Boolean>) {
         }
     }
 
+}
+
+@ExperimentalMaterial3Api
+fun hideBirthDateBottomSheet(
+    showIt: MutableState<Boolean>, bottomSheetState: SheetState, scope:
+    CoroutineScope
+) {
+    scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
+        if (!bottomSheetState.isVisible) {
+            showIt.value = false
+        }
+    }
 }
