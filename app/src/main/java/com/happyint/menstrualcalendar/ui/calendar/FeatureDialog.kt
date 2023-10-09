@@ -9,12 +9,18 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.res.stringResource
+import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 
 @ExperimentalMaterial3Api
 @Composable
 fun FeatureDialog(openDialog: MutableState<Boolean>) {
-    val features = listOf("기능 1", "기능 2", "기능 3", "기능 4")
+    val features = listOf(
+        stringResource(id = R.string.menu_start_date),
+        stringResource(id = R.string.menu_note),
+        stringResource(id = R.string.menu_end_date)
+    )
     val calendarViewModel = ViewModelProvider.getCalendarViewModel()
 
     if (openDialog.value) {
@@ -22,7 +28,7 @@ fun FeatureDialog(openDialog: MutableState<Boolean>) {
         val dayInfo = uiState.value.selectedDate.toString()
         AlertDialog(
             onDismissRequest = { openDialog.value = false },
-            title = { Text(text = "$dayInfo 기능을 선택하세요") },
+            title = { Text(text = dayInfo) },
             text = {
                 Column {
                     features.forEach { feature ->
@@ -34,7 +40,7 @@ fun FeatureDialog(openDialog: MutableState<Boolean>) {
             },
             confirmButton = {
                 Button(onClick = { openDialog.value = false }) {
-                    Text("닫기")
+                    Text(stringResource(id = R.string.close))
                 }
             }
         )

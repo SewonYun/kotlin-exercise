@@ -1,6 +1,6 @@
 package com.happyint.menstrualcalendar
 
-import com.happyint.menstrualcalendar.entities.user.Information
+import com.happyint.menstrualcalendar.entities.user.data.Information
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

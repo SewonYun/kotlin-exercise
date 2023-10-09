@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.happyint.menstrualcalendar.entities.user.Information
+import com.happyint.menstrualcalendar.entities.user.data.Information
 import com.happyint.menstrualcalendar.repositories.InformationDao
 
 @Database(

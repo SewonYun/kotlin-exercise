@@ -32,7 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.R
-import com.happyint.menstrualcalendar.entities.user.Information
+import com.happyint.menstrualcalendar.entities.user.data.Information
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
 import kotlinx.coroutines.CoroutineScope

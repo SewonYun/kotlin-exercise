@@ -1,9 +1,7 @@
 package com.happyint.menstrualcalendar.repositories
 
 import androidx.annotation.WorkerThread
-import com.happyint.menstrualcalendar.entities.user.Information
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.happyint.menstrualcalendar.entities.user.data.Information
 
 class UserRepository(private val informationDao: InformationDao) {
 

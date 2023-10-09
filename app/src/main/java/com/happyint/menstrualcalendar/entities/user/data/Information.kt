@@ -1,4 +1,4 @@
-package com.happyint.menstrualcalendar.entities.user
+package com.happyint.menstrualcalendar.entities.user.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

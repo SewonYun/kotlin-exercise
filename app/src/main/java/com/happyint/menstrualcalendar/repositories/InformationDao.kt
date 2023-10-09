@@ -3,7 +3,7 @@ package com.happyint.menstrualcalendar.repositories
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.happyint.menstrualcalendar.entities.user.Information
+import com.happyint.menstrualcalendar.entities.user.data.Information
 
 @Dao
 interface InformationDao {

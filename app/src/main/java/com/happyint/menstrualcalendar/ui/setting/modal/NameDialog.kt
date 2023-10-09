@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.MyApplication
 import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.constants.Numbers
-import com.happyint.menstrualcalendar.entities.user.Information
+import com.happyint.menstrualcalendar.entities.user.data.Information
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 
 

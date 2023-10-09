@@ -1,4 +1,4 @@
-package com.happyint.menstrualcalendar.entities.calendar
+package com.happyint.menstrualcalendar.entities.calendar.data
 
 import java.time.LocalDate
 

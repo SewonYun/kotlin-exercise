@@ -1,7 +1,7 @@
 package com.happyint.menstrualcalendar.viewModels
 
 import androidx.lifecycle.ViewModel
-import com.happyint.menstrualcalendar.entities.calendar.UIState
+import com.happyint.menstrualcalendar.entities.calendar.data.UIState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

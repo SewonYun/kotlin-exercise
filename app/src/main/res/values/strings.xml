@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">MenstrualCalendar</string>
+    <string name="app_name">Period Tracker</string>
     <string name="connection_error_title">Caution</string>
     <string name="connection_error_message">Your network is not work</string>
     <string name="retry_label">Retry to connection</string>
@@ -9,8 +9,7 @@
     <string name="user_name">name</string>
     <string name="birth_date">birth date</string>
     <string name="age">age</string>
-    <string name="begin_date">first day of menstruation</string>
-    <string name="avg_cycle">average menstrual cycle</string>
+    <string name="avg_cycle">Average Period Cycle</string>
     <string name="reminder">reminder</string>
     <string name="ovulation_day">ovulation day</string>
     <string name="contact_us">contact us</string>
@@ -38,6 +37,11 @@
     <string name="app_exit_button_explain">If you press the confirm button, the app will exit.</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="logging">logging</string>
+
+    <string name="menu_start_date">Period start date</string>
+    <string name="menu_end_date">Period End Date</string>
+    <string name="menu_note">Today’s Little Note</string>
 
     <string name="sun">Sun</string>
     <string name="mon">Mon</string>
