@@ -10,8 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.customApi.testBorder
+import java.time.DayOfWeek
 import java.time.YearMonth
 
 @Composable
@@ -33,13 +35,18 @@ fun DisplayDaysOfMonth(month: YearMonth) {
                                 .weight(1f)
                                 .height(50.dp))
                         } else if (startDay <= daysInMonth) {
+                            val color = when (month.atDay(startDay).dayOfWeek) {
+                                DayOfWeek.SUNDAY -> Color.Red
+                                DayOfWeek.SATURDAY -> Color.Blue
+                                else -> Color.Black
+                            }
                             Box(
                                 modifier = Modifier
                                     .weight(1f)
                                     .height(50.dp),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(text = startDay.toString())
+                                Text(text = startDay.toString(), color = color)
                             }
                             startDay++
                         } else {
