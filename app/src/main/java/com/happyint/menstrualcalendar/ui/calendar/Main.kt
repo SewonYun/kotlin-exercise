@@ -48,7 +48,12 @@ fun LoadCalendar(currentScreen: MutableState<UserPage>) {
                 }
 
                 LazyColumn(state = lazyListState) {
-                    items(months) { month ->
+                    items(
+                        months,
+                        key = {
+                            it.month.ordinal
+                        }
+                    ) { month ->
                         Column {
                             CalendarHeader(month)
                             CalendarBody(month)
