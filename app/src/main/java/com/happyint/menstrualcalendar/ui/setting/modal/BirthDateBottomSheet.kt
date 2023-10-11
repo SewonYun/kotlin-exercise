@@ -74,7 +74,6 @@ fun BirthDateBottomSheet(showIt: MutableState<Boolean>) {
                 val ageStartYear = year.value - 70
                 val ageLastYear = year.value - 10
                 items(ageLastYear - ageStartYear) {
-                    it
                     val ageInModal = ageLastYear - it
                     val bgColor: ListItemColors = birthRowBgColor(age, ageInModal)
                     ListItem(

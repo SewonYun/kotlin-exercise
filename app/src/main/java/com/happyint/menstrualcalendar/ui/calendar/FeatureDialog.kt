@@ -11,16 +11,13 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.stringResource
 import com.happyint.menstrualcalendar.R
+import com.happyint.menstrualcalendar.entities.calendar.enums.DialogMenu
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 
 @ExperimentalMaterial3Api
 @Composable
 fun FeatureDialog(openDialog: MutableState<Boolean>) {
-    val features = listOf(
-        stringResource(id = R.string.menu_start_date),
-        stringResource(id = R.string.menu_note),
-        stringResource(id = R.string.menu_end_date)
-    )
+
     val calendarViewModel = ViewModelProvider.getCalendarViewModel()
 
     if (openDialog.value) {
@@ -31,9 +28,9 @@ fun FeatureDialog(openDialog: MutableState<Boolean>) {
             title = { Text(text = dayInfo) },
             text = {
                 Column {
-                    features.forEach { feature ->
-                        TextButton(onClick = { /* 기능에 대한 동작을 여기에 추가하세요 */ }) {
-                            Text(text = feature)
+                    DialogMenu.values().forEach { feature ->
+                        TextButton(onClick = { feature.nextPhase() }) {
+                            Text(text = feature.toString())
                         }
                     }
                 }

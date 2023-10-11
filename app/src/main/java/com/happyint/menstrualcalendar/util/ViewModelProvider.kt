@@ -22,7 +22,8 @@ object ViewModelProvider {
 
     fun getCalendarViewModel(): CalendarViewModel {
         if (_calendarViewModel == null) {
-            _calendarViewModel = CalendarViewModel()
+            _calendarViewModel =
+                CalendarViewModel(MyApplication.instance.repositories.dayDataRepository)
         }
 
         return _calendarViewModel!!

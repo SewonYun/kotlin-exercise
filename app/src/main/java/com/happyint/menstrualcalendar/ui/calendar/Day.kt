@@ -20,7 +20,7 @@ fun Day(month: YearMonth, dayNumber: Int, color: Color, cb: () -> Unit) {
             .fillMaxSize()
             .clickable {
                 cb()
-                calendarViewModel.updateDate(LocalDate.of(month.year, month.month, dayNumber))
+                calendarViewModel.updateUIDate(LocalDate.of(month.year, month.month, dayNumber))
             },
         contentAlignment = Alignment.Center
     ) {
