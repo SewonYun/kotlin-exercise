@@ -7,10 +7,8 @@ import com.happyint.menstrualcalendar.entities.calendar.data.DayData
 
 @Dao
 interface DayDataDao {
-    @Query("SELECT * FROM day_data")
-    fun select(): DayData?
 
-    @Query("SELECT * FROM day_data ORDER BY id DESC LIMIT 0, 1")
+    @Query("SELECT * FROM day_data")
     fun getDayDataList(): List<DayData>
 
     @Upsert

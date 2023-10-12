@@ -43,6 +43,7 @@ fun LoadCalendar(currentScreen: MutableState<UserPage>) {
                 val lazyListState = rememberLazyListState()
                 val targetMonth = YearMonth.now()
                 val targetIndex = months.indexOf(targetMonth)
+
                 LaunchedEffect(Unit) {
                     lazyListState.animateScrollToItem(targetIndex)
                 }

@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.happyint.menstrualcalendar.ui.calendar.dialogMenu.ClickStartDate
 import java.time.YearMonth
 
 @ExperimentalMaterial3Api
@@ -25,8 +26,19 @@ fun CalendarBody(month: YearMonth) {
         contentColor = Color.Black,
         shadowElevation = 8.dp
     ) {
+        var openCancelDialog = remember { mutableStateOf(false) }
+        val close = { openCancelDialog.value = false }
+        val show = { openCancelDialog.value = true }
+        val clickStartDate = ClickStartDate(show, close)
+
         val openDialog = remember { mutableStateOf(false) }
-        FeatureDialog(openDialog)
+        FeatureDialog(openDialog, clickStartDate)
+
+
+        if (openCancelDialog.value) {
+            clickStartDate.CancelStartDateConfirmDialog()
+        }
+
 
         Box(
             modifier = Modifier

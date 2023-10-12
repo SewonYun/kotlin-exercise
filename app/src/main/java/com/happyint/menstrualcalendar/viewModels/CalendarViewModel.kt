@@ -3,8 +3,8 @@ package com.happyint.menstrualcalendar.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.happyint.menstrualcalendar.entities.calendar.data.DayData
-import com.happyint.menstrualcalendar.entities.calendar.data.UIState
 import com.happyint.menstrualcalendar.repositories.DayDataRepository
+import com.happyint.menstrualcalendar.ui.calendar.UIState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,14 +16,7 @@ class CalendarViewModel(private val dayDataRepository: DayDataRepository) : View
     private val _uiState = MutableStateFlow(UIState())
     val uiState: StateFlow<UIState> get() = _uiState.asStateFlow()
 
-    private var _totalPeriodData = MutableStateFlow(
-        listOf(
-            DayData(
-                0, isStartDayData = false, isEndDayData = false, hasLittleNote = false,
-                date = LocalDate.now()
-            )
-        )
-    )
+    private var _totalPeriodData: MutableStateFlow<List<DayData>> = MutableStateFlow(listOf())
     val totalPeriodData: StateFlow<List<DayData>> get() = _totalPeriodData.asStateFlow()
 
     init {
@@ -39,9 +32,13 @@ class CalendarViewModel(private val dayDataRepository: DayDataRepository) : View
         fetchTotalPeriodData()
     }
 
-    fun updateUIDate(newDate: LocalDate) {
-        _uiState.value = _uiState.value.copy(selectedDate = newDate)
-
+    fun updateUIState(selectedDate: LocalDate) {
+        val selectedDayData = _totalPeriodData.value.filter { it.startDate == selectedDate }
+            .firstOrNull()
+        _uiState.value = _uiState.value.copy(
+            selectedDate = selectedDate,
+            selectedDayData = selectedDayData
+        )
     }
 
     fun setLoading(isLoading: Boolean) {

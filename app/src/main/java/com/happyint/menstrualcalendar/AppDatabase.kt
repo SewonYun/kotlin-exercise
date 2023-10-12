@@ -12,7 +12,7 @@ import com.happyint.menstrualcalendar.repositories.InformationDao
 import com.happyint.menstrualcalendar.util.LocalDateConverter
 
 @Database(
-    version = 3,
+    version = 5,
     entities = [Information::class, DayData::class]
 )
 @TypeConverters(LocalDateConverter::class)

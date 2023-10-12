@@ -1,5 +1,6 @@
-package com.happyint.menstrualcalendar.entities.calendar.data
+package com.happyint.menstrualcalendar.ui.calendar
 
+import com.happyint.menstrualcalendar.entities.calendar.data.DayData
 import java.time.LocalDate
 
 data class UIState(
