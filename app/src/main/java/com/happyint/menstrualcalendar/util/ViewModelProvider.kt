@@ -1,6 +1,6 @@
 package com.happyint.menstrualcalendar.util
 
-import com.happyint.menstrualcalendar.MyApplication
+import com.happyint.menstrualcalendar.PeriodApplication
 import com.happyint.menstrualcalendar.viewModelFactories.UserInfoViewModelFactory
 import com.happyint.menstrualcalendar.viewModels.CalendarViewModel
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
@@ -13,7 +13,7 @@ object ViewModelProvider {
 
         if (_userInfoViewModel == null) {
             val factory =
-                UserInfoViewModelFactory(MyApplication.instance.repositories.userRepository)
+                UserInfoViewModelFactory(PeriodApplication.instance.repositories.userRepository)
             _userInfoViewModel = factory.create(UserInfoViewModel::class.java)
         }
 
@@ -23,7 +23,7 @@ object ViewModelProvider {
     fun getCalendarViewModel(): CalendarViewModel {
         if (_calendarViewModel == null) {
             _calendarViewModel =
-                CalendarViewModel(MyApplication.instance.repositories.dayDataRepository)
+                CalendarViewModel(PeriodApplication.instance.repositories.dayDataRepository)
         }
 
         return _calendarViewModel!!

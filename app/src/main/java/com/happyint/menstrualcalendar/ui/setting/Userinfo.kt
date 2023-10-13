@@ -31,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.happyint.menstrualcalendar.MyApplication
+import com.happyint.menstrualcalendar.PeriodApplication
 import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.customApi.testBorder
 import com.happyint.menstrualcalendar.ui.setting.modal.AverageCycleBottomSheet
@@ -43,7 +43,7 @@ import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
 @Composable
 fun nameField(userInfoViewModel: UserInfoViewModel): String {
     return if (userInfoViewModel.name.collectAsState().value == "") {
-        MyApplication.instance.getString(R.string.default_user_nickname)
+        PeriodApplication.instance.getString(R.string.default_user_nickname)
     } else {
         userInfoViewModel.name.collectAsState().value
     }

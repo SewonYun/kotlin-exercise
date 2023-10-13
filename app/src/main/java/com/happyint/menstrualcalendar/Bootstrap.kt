@@ -10,14 +10,14 @@ class Bootstrap {
     fun on() {
 
         CoroutineScope(Dispatchers.IO).launch {
-            val db = MyApplication.instance.database
+            val db = PeriodApplication.instance.database
             val informationOption: Information? = (db.userDao()).select()
             if (informationOption == null) {
                 val informationStub = Information(
                     id = 0, name = "", birth = "",
                     averageMenstrualCycle = 0
                 )
-                (db.userDao()).editInformation(informationStub)
+                (db.userDao()).insertInformation(informationStub)
             }
         }
 

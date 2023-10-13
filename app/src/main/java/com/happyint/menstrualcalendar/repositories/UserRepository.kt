@@ -12,6 +12,6 @@ class UserRepository(private val informationDao: InformationDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun edit(userInformation: Information) {
-        informationDao.editInformation(userInformation)
+        informationDao.insertInformation(userInformation)
     }
 }

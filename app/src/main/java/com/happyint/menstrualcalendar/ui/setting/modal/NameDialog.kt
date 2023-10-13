@@ -23,7 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.happyint.menstrualcalendar.MyApplication
+import com.happyint.menstrualcalendar.PeriodApplication
 import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.constants.Numbers
 import com.happyint.menstrualcalendar.entities.user.data.Information
@@ -39,8 +39,8 @@ fun NameDialog(disappearCallback: () -> Unit) {
     AlertDialog(
         onDismissRequest = {
             Toast.makeText(
-                MyApplication.instance,
-                MyApplication.instance.getString(R.string.did_not_save),
+                PeriodApplication.instance,
+                PeriodApplication.instance.getString(R.string.did_not_save),
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -65,8 +65,8 @@ fun NameDialog(disappearCallback: () -> Unit) {
 
                         if (isError.value) {
                             Toast.makeText(
-                                MyApplication.instance,
-                                MyApplication.instance.getString(R.string.nick_max_length_alert),
+                                PeriodApplication.instance,
+                                PeriodApplication.instance.getString(R.string.nick_max_length_alert),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
