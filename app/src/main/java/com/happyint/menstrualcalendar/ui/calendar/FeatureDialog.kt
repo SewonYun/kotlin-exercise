@@ -10,13 +10,16 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.stringResource
 import com.happyint.menstrualcalendar.R
-import com.happyint.menstrualcalendar.ui.calendar.dialogMenu.ClickStartDate
+import com.happyint.menstrualcalendar.ui.calendar.dialogMenu.ClickStartDateInteraction
 import com.happyint.menstrualcalendar.ui.calendar.dialogMenu.DynamicElement
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 
 @ExperimentalMaterial3Api
 @Composable
-fun FeatureDialog(openDialog: MutableState<Boolean>, clickStartDate: ClickStartDate) {
+fun FeatureDialog(
+    openDialog: MutableState<Boolean>,
+    clickStartDateInteraction: ClickStartDateInteraction
+) {
 
     val calendarViewModel = ViewModelProvider.getCalendarViewModel()
 
@@ -29,7 +32,7 @@ fun FeatureDialog(openDialog: MutableState<Boolean>, clickStartDate: ClickStartD
             title = { Text(text = selectedDate.toString()) },
             text = {
                 Column {
-                    DynamicElement(clickStartDate) {
+                    DynamicElement(clickStartDateInteraction) {
                         openDialog.value = false
                     }
                 }

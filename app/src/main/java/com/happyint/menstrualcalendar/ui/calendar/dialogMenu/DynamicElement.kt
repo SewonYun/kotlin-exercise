@@ -10,12 +10,12 @@ import com.happyint.menstrualcalendar.R
 @ExperimentalMaterial3Api
 @Composable
 fun DynamicElement(
-    clickStartDate: ClickStartDate,
+    clickStartDateInteraction: ClickStartDateInteraction,
     closeCallback: () -> Unit
 ) {
 
     TextButton(onClick = {
-        clickStartDate.insertOrRemove()
+        clickStartDateInteraction.insertOrRemove()
         closeCallback()
     }) {
         Text(text = stringResource(id = R.string.menu_start_date))
