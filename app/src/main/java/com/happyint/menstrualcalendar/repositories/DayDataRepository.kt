@@ -1,6 +1,5 @@
 package com.happyint.menstrualcalendar.repositories
 
-import androidx.annotation.WorkerThread
 import com.happyint.menstrualcalendar.entities.calendar.data.DayData
 
 class DayDataRepository(private val dayDataDao: DayDataDao) {
@@ -9,9 +8,7 @@ class DayDataRepository(private val dayDataDao: DayDataDao) {
         return dayDataDao.getDayDataList()
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun upsert(dayData: DayData) {
+    fun upsert(dayData: DayData) {
         dayDataDao.upsert(dayData)
     }
 }

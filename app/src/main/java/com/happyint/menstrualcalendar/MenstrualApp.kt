@@ -38,9 +38,6 @@ fun MenstrualAppOf(
     appState: AppState = rememberAppState()
 ) {
 
-    //page 전환때 계속 호출 되므로 상위 밖으로 뽑아 내야 할 듯
-    (Bootstrap()).on()
-
     if (appState.isOnline) {
 
         // 현재 화면 상태를 가지는 State 변수를 정의합니다.

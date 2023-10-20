@@ -60,22 +60,18 @@ dependencies {
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation 'androidx.compose.material3:material3:1.0.1'
     implementation 'androidx.compose.material3:material3-window-size-class:1.0.1'
-    implementation 'androidx.test.ext:junit-ktx:1.1.5'
 
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test:runner:1.1.2-alpha02'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
     implementation 'com.maxkeppeler.sheets-compose-dialogs:core:1.2.0'
     implementation 'com.maxkeppeler.sheets-compose-dialogs:calendar:1.2.0'
-    testImplementation "org.mockito.kotlin:mockito-kotlin:5.1.0"
-
 
     def lottieVersion = '6.0.0'
     implementation "com.airbnb.android:lottie-compose:$lottieVersion"
@@ -88,4 +84,20 @@ dependencies {
 
     // To use Kotlin Symbol Processing (KSP)
     ksp "androidx.room:room-compiler:$room_version"
+
+    /** Testing **/
+    def mockitoVersion = "4.0.0"
+    implementation 'androidx.test:core-ktx:1.5.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.9'
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+    testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:5.1.0"
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
+
+
+    androidTestImplementation "androidx.test:runner:1.5.2"
+    androidTestImplementation "androidx.room:room-testing:${room_version}"
+    androidTestImplementation "org.assertj:assertj-core:3.23.1"
 }
