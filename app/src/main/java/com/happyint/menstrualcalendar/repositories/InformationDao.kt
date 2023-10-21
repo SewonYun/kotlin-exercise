@@ -17,5 +17,5 @@ interface InformationDao {
     fun getInformationById(id: Int): Information
 
     @Insert
-    fun insertInformation(information: Information)
+    fun insertInformation(information: Information): Long
 }

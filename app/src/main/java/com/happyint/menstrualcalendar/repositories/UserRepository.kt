@@ -8,7 +8,11 @@ class UserRepository(private val informationDao: InformationDao) {
         return informationDao.getInformation()
     }
 
-    fun edit(userInformation: Information) {
+    fun insert(userInformation: Information) {
         informationDao.insertInformation(userInformation)
+    }
+
+    fun getByUserId(id: Int): Information {
+        return informationDao.getInformationById(id)
     }
 }

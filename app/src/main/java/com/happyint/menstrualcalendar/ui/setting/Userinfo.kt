@@ -42,11 +42,12 @@ import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
 
 @Composable
 fun nameField(userInfoViewModel: UserInfoViewModel): String {
-    return if (userInfoViewModel.name.collectAsState().value == "") {
+    val information = userInfoViewModel.information
+    return if (information.collectAsState().value.name.isNullOrEmpty()) {
         PeriodApplication.instance.getString(R.string.default_user_nickname)
-    } else {
-        userInfoViewModel.name.collectAsState().value
-    }
+    } else (
+            return userInfoViewModel.information.collectAsState().value.name!!
+            )
 }
 
 @ExperimentalMaterial3Api
@@ -59,7 +60,7 @@ fun UserInfo() {
     AverageCycleBottomSheet(showAverageCycleBottomSheet)
 
     val userInfoViewModel: UserInfoViewModel = ViewModelProvider.getUserInfoViewModel()
-    val obAge by userInfoViewModel.birth.collectAsState()
+    val obAge = userInfoViewModel.information.collectAsState().value.birth
 
     Column(
         modifier = Modifier.padding(10.dp)

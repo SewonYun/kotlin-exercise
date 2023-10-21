@@ -56,7 +56,8 @@ fun AverageCycleBottomSheet(showIt: MutableState<Boolean>) {
 
             val userInfoViewModel: UserInfoViewModel = ViewModelProvider.getUserInfoViewModel()
 
-            val averegeCycle by userInfoViewModel.averageCycle.collectAsState(0)
+            val average = userInfoViewModel.information.collectAsState().value
+                .averageMenstrualCycle
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Button(
@@ -74,16 +75,18 @@ fun AverageCycleBottomSheet(showIt: MutableState<Boolean>) {
 
                 items((1..31).toList()) { it ->
 
-                    val bgColor: ListItemColors = AverageCycleRowBgColor(averegeCycle, it)
+                    val bgColor: ListItemColors = AverageCycleRowBgColor(average, it)
                     ListItem(
                         colors = bgColor,
                         modifier = Modifier
                             .clickable {
+                                val information = userInfoViewModel.information
+
                                 userInfoViewModel.updateUserInfo(
                                     userInformation = Information(
                                         id = 0,
-                                        birth = userInfoViewModel.birth.value,
-                                        name = userInfoViewModel.name.value,
+                                        birth = information.value.birth,
+                                        name = information.value.name,
                                         averageMenstrualCycle = it
                                     )
                                 )

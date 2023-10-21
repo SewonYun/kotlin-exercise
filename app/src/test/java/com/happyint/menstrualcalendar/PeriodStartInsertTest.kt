@@ -4,15 +4,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.happyint.menstrualcalendar.entities.calendar.data.DayData
-import com.happyint.menstrualcalendar.entities.user.data.Information
 import com.happyint.menstrualcalendar.repositories.DayDataDao
 import com.happyint.menstrualcalendar.repositories.DayDataRepository
 import com.happyint.menstrualcalendar.repositories.InformationDao
-import com.happyint.menstrualcalendar.repositories.UserRepository
 import com.happyint.menstrualcalendar.viewModelFactories.CalendarViewModelFactory
-import com.happyint.menstrualcalendar.viewModelFactories.UserInfoViewModelFactory
 import com.happyint.menstrualcalendar.viewModels.CalendarViewModel
-import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -40,7 +36,6 @@ class PeriodStartInsertTest {
     private lateinit var mockDatabase: AppDatabase
     private lateinit var mockInformationDao: InformationDao
     private lateinit var mockDayDataDao: DayDataDao
-    private lateinit var userInfoViewModel: UserInfoViewModel
     private lateinit var calendarViewModel: CalendarViewModel
 
     @Before
@@ -52,17 +47,13 @@ class PeriodStartInsertTest {
         mockInformationDao = mockDatabase.userDao()
         mockDayDataDao = mockDatabase.dayDataDao()
 
-        userInfoViewModel =
-            UserInfoViewModelFactory(UserRepository(mockInformationDao)).create(UserInfoViewModel::class.java)
-        userInfoViewModel.updateUserInfo(Information(0, "test", "", 0))
-
         calendarViewModel =
             CalendarViewModelFactory(DayDataRepository(mockDayDataDao)).create(CalendarViewModel::class.java)
 
     }
 
     @Test
-    fun testInsertStartDate(): Unit = runBlocking {
+    fun testStartDateInsertWithGet(): Unit = runBlocking {
         // 테스트 데이터 설정
         val selectedDayData = DayData(0, localDate, endDate = localDate, false)
         val selectedDate: LocalDate = localDate

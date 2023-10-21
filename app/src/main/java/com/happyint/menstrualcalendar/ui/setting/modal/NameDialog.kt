@@ -16,10 +16,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -34,7 +33,9 @@ import com.happyint.menstrualcalendar.util.ViewModelProvider
 @Composable
 fun NameDialog(disappearCallback: () -> Unit) {
     val userInfoViewModel = ViewModelProvider.getUserInfoViewModel()
-    var localScopeName: String by remember { mutableStateOf(userInfoViewModel.name.value) }
+    var localScopeName = userInfoViewModel.information.collectAsState()
+        .value
+        .name!!
 
     AlertDialog(
         onDismissRequest = {
@@ -83,7 +84,7 @@ fun NameDialog(disappearCallback: () -> Unit) {
                             Information(
                                 id = 0,
                                 name = localScopeName,
-                                userInfoViewModel.birth.value,
+                                birth = userInfoViewModel.information.value.birth,
                                 averageMenstrualCycle = 0
                             )
                         )

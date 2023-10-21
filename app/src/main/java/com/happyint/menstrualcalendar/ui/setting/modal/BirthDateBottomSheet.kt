@@ -56,7 +56,7 @@ fun BirthDateBottomSheet(showIt: MutableState<Boolean>) {
 
             val userInfoViewModel: UserInfoViewModel = ViewModelProvider.getUserInfoViewModel()
 
-            val age by userInfoViewModel.birth.collectAsState("0")
+            val age = userInfoViewModel.information.collectAsState().value.birth
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Button(
@@ -84,7 +84,7 @@ fun BirthDateBottomSheet(showIt: MutableState<Boolean>) {
                                     userInformation = Information(
                                         id = 0,
                                         birth = ageInModal.toString(),
-                                        name = userInfoViewModel.name.value,
+                                        name = userInfoViewModel.information.value.name,
                                         averageMenstrualCycle = 0
                                     )
                                 )
