@@ -24,7 +24,7 @@ class CalendarViewModel(private val dayDataRepository: DayDataRepository) : View
     }
 
     private fun fetchTotalPeriodData() = viewModelScope.launch(Dispatchers.IO) {
-        _totalPeriodData = MutableStateFlow(dayDataRepository.dayData())
+        _totalPeriodData.value = dayDataRepository.dayData()
     }
 
     fun upsertDayData(dayData: DayData) = viewModelScope.launch(Dispatchers.IO) {
@@ -40,7 +40,4 @@ class CalendarViewModel(private val dayDataRepository: DayDataRepository) : View
         )
     }
 
-    fun setLoading(isLoading: Boolean) {
-        _uiState.value = _uiState.value.copy(isLoading = isLoading)
-    }
 }

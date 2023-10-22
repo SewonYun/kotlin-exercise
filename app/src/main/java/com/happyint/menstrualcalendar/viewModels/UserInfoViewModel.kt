@@ -1,6 +1,5 @@
 package com.happyint.menstrualcalendar.viewModels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.happyint.menstrualcalendar.entities.user.data.Information
@@ -23,8 +22,7 @@ class UserInfoViewModel(private val userRepository: UserRepository): ViewModel()
     }
 
     private fun fetchData() = viewModelScope.launch(Dispatchers.IO) {
-        _information = MutableStateFlow(userRepository.userInformation())
-        Log.d(information.toString(), "")
+        _information.value = userRepository.userInformation()
     }
 
     fun updateUserInfo(userInformation: Information) = viewModelScope.launch(Dispatchers.IO) {

@@ -17,8 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -33,9 +35,11 @@ import com.happyint.menstrualcalendar.util.ViewModelProvider
 @Composable
 fun NameDialog(disappearCallback: () -> Unit) {
     val userInfoViewModel = ViewModelProvider.getUserInfoViewModel()
-    var localScopeName = userInfoViewModel.information.collectAsState()
+    val localScopeName = userInfoViewModel.information.collectAsState()
         .value
         .name!!
+
+    var rememberdName: String by remember { mutableStateOf(localScopeName) }
 
     AlertDialog(
         onDismissRequest = {
@@ -55,13 +59,13 @@ fun NameDialog(disappearCallback: () -> Unit) {
             shape = MaterialTheme.shapes.large,
             tonalElevation = AlertDialogDefaults.TonalElevation
         ) {
-            var isError = remember { mutableStateOf(false) }
+            val isError = remember { mutableStateOf(false) }
             Column(modifier = Modifier.padding(16.dp)) {
                 OutlinedTextField(
-                    value = localScopeName,
+                    value = rememberdName,
                     onValueChange = {
 
-                        localScopeName = it.take(Numbers.MAX_NICKNAME_LENGTH.value)
+                        rememberdName = it.take(Numbers.MAX_NICKNAME_LENGTH.value)
                         isError.value = it.length > Numbers.MAX_NICKNAME_LENGTH.value
 
                         if (isError.value) {
@@ -83,7 +87,7 @@ fun NameDialog(disappearCallback: () -> Unit) {
                         userInfoViewModel.updateUserInfo(
                             Information(
                                 id = 0,
-                                name = localScopeName,
+                                name = rememberdName,
                                 birth = userInfoViewModel.information.value.birth,
                                 averageMenstrualCycle = 0
                             )

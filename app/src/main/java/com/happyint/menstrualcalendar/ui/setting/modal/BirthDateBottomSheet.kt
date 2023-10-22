@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.happyint.menstrualcalendar.R
-import com.happyint.menstrualcalendar.entities.user.data.Information
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 import com.happyint.menstrualcalendar.viewModels.UserInfoViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -55,8 +54,9 @@ fun BirthDateBottomSheet(showIt: MutableState<Boolean>) {
         ) {
 
             val userInfoViewModel: UserInfoViewModel = ViewModelProvider.getUserInfoViewModel()
+            val informationState = userInfoViewModel.information.collectAsState()
 
-            val age = userInfoViewModel.information.collectAsState().value.birth
+            val age = informationState.value.birth
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Button(
@@ -81,11 +81,9 @@ fun BirthDateBottomSheet(showIt: MutableState<Boolean>) {
                         modifier = Modifier
                             .clickable {
                                 userInfoViewModel.updateUserInfo(
-                                    userInformation = Information(
+                                    userInformation = informationState.value.copy(
                                         id = 0,
-                                        birth = ageInModal.toString(),
-                                        name = userInfoViewModel.information.value.name,
-                                        averageMenstrualCycle = 0
+                                        birth = ageInModal.toString()
                                     )
                                 )
 

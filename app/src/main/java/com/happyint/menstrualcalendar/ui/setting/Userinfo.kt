@@ -45,9 +45,9 @@ fun nameField(userInfoViewModel: UserInfoViewModel): String {
     val information = userInfoViewModel.information
     return if (information.collectAsState().value.name.isNullOrEmpty()) {
         PeriodApplication.instance.getString(R.string.default_user_nickname)
-    } else (
-            return userInfoViewModel.information.collectAsState().value.name!!
-            )
+    } else {
+        return userInfoViewModel.information.collectAsState().value.name!!
+    }
 }
 
 @ExperimentalMaterial3Api
