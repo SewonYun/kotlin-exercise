@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.happyint.menstrualcalendar.entities.user.data.Information
 import com.happyint.menstrualcalendar.entities.user.data.InformationBuilder
 import com.happyint.menstrualcalendar.repositories.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,12 +22,12 @@ class UserInfoViewModel(private val userRepository: UserRepository): ViewModel()
         fetchData()
     }
 
-    private fun fetchData() = viewModelScope.launch {
+    private fun fetchData() = viewModelScope.launch(Dispatchers.IO) {
         _information = MutableStateFlow(userRepository.userInformation())
         Log.d(information.toString(), "")
     }
 
-    fun updateUserInfo(userInformation: Information) = viewModelScope.launch {
+    fun updateUserInfo(userInformation: Information) = viewModelScope.launch(Dispatchers.IO) {
         userRepository.insert(userInformation)
         fetchData().join()
     }

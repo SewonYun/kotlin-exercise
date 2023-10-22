@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.happyint.menstrualcalendar.entities.calendar.data.DayData
 import com.happyint.menstrualcalendar.repositories.DayDataRepository
 import com.happyint.menstrualcalendar.ui.calendar.UIState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,11 +23,11 @@ class CalendarViewModel(private val dayDataRepository: DayDataRepository) : View
         fetchTotalPeriodData()
     }
 
-    private fun fetchTotalPeriodData() = viewModelScope.launch {
+    private fun fetchTotalPeriodData() = viewModelScope.launch(Dispatchers.IO) {
         _totalPeriodData = MutableStateFlow(dayDataRepository.dayData())
     }
 
-    fun upsertDayData(dayData: DayData) = viewModelScope.launch {
+    fun upsertDayData(dayData: DayData) = viewModelScope.launch(Dispatchers.IO) {
         dayDataRepository.upsert(dayData)
         fetchTotalPeriodData().join()
     }
