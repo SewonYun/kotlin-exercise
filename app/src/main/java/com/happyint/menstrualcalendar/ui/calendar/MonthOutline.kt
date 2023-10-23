@@ -15,7 +15,7 @@ fun OutSurface(content: @Composable @UiComposable () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(650.dp)
+            .height(450.dp)
             .padding(10.dp)
             .testBorder()
 
