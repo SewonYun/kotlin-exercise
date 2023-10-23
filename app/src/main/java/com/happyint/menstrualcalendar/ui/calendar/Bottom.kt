@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 fun CalendarBottomView() {
     Box(
         modifier = Modifier
-            .height(200.dp)
+            .height(100.dp)
             .fillMaxWidth()
             .background(Color.Black)
     )

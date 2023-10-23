@@ -31,7 +31,8 @@ fun LoadCalendar(currentScreen: MutableState<UserPage>) {
             modifier = Modifier
                 .weight(1f)
                 .testBorder(),
-            pageCount = months.size
+            pageCount = months.size,
+            beyondBoundsPageCount = 3
         ) { page ->
             val month = months[page]
 
