@@ -37,8 +37,6 @@ fun LoadCalendar(currentScreen: MutableState<UserPage>) {
         }
         val pagerState = rememberPagerState(initialPage = 2)
 
-        // todo: 자꾸 이전 달 로 돌릴때 간헐적 으로 두번 튕김
-
         LaunchedEffect(pagerState.currentPage) {
             snapshotFlow { pagerState.isScrollInProgress }.filter { it == false }.collect {
 

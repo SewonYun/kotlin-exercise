@@ -1,5 +1,6 @@
 package com.happyint.menstrualcalendar.ui.home
 
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
@@ -16,10 +17,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.happyint.menstrualcalendar.PeriodApplication
+import com.happyint.menstrualcalendar.R
 import com.happyint.menstrualcalendar.ui.common.TopBar
 import com.happyint.menstrualcalendar.ui.home.middle.MiddleContent
 import com.happyint.menstrualcalendar.ui.home.middle.MiddleTab
 import com.happyint.menstrualcalendar.ui.home.top.TopSwipeContent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 
 @ExperimentalMaterial3Api
@@ -52,9 +60,24 @@ fun LoadMainHome(drawerState: DrawerState) {
     val openDialog = remember { mutableStateOf(false) }
 
     BackHandler {
-        openDialog.value = true
-    }
 
-    ConfirmExitDialog(openDialog)
+        if (openDialog.value) {
+            exitProcess(0)
+        }
+
+        openDialog.value = true
+
+        Toast.makeText(
+            PeriodApplication.instance,
+            R.string.app_exit_dialog_asking,
+            Toast.LENGTH_SHORT
+        ).show()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(3000)
+            openDialog.value = false
+        }
+
+    }
 
 }
