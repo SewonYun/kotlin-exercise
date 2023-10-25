@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import com.happyint.menstrualcalendar.constants.UserPage
 import com.happyint.menstrualcalendar.customApi.testBorder
 import com.happyint.menstrualcalendar.ui.setting.TopBar
+import com.happyint.menstrualcalendar.util.ViewModelProvider
 import kotlinx.coroutines.flow.filter
 import java.time.YearMonth
 
@@ -37,7 +38,10 @@ fun LoadCalendar(currentScreen: MutableState<UserPage>) {
         }
         val pagerState = rememberPagerState(initialPage = 2)
 
+        val calendarViewModel = ViewModelProvider.getCalendarViewModel()
+
         LaunchedEffect(pagerState.currentPage) {
+            calendarViewModel.fetchMonthPeriodData(months[pagerState.currentPage]).join()
             snapshotFlow { pagerState.isScrollInProgress }.filter { it == false }.collect {
 
                 if (pagerState.currentPage <= 1) {  // 첫 번째 페이지에 도달했을 때
@@ -50,14 +54,14 @@ fun LoadCalendar(currentScreen: MutableState<UserPage>) {
         }
 
         VerticalPager(
-                state = pagerState,
-                modifier = Modifier
-                        .weight(1f)
-                        .testBorder(),
-                pageCount = months.size,
-                beyondBoundsPageCount = 3,
+            state = pagerState,
+            modifier = Modifier
+                .weight(1f)
+                .testBorder(),
+            pageCount = months.size,
+            beyondBoundsPageCount = 3,
 
-                ) { page ->
+            ) { page ->
 
             val month = months[page]
 

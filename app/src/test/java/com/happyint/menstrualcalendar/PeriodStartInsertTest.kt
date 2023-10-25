@@ -61,7 +61,7 @@ class PeriodStartInsertTest {
         calendarViewModel.upsertDayData(selectedDayData).join()
 
 
-        val getDayData: DayData? = calendarViewModel.totalPeriodData.value.let { it ->
+        val getDayData: DayData? = calendarViewModel.monthPeriodData.value.let { it ->
             it.lastOrNull {
                 it.startDate == localDate
             }

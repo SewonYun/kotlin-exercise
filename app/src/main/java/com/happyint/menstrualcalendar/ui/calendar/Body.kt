@@ -27,7 +27,7 @@ fun CalendarBody(month: YearMonth) {
         contentColor = Color.Black,
         shadowElevation = 8.dp
     ) {
-        var openCancelDialog = remember { mutableStateOf(false) }
+        val openCancelDialog = remember { mutableStateOf(false) }
         val close = { openCancelDialog.value = false }
         val show = { openCancelDialog.value = true }
         val clickStartDateInteraction = ClickStartDateInteraction(show, close)
@@ -35,11 +35,9 @@ fun CalendarBody(month: YearMonth) {
         val openDialog = remember { mutableStateOf(false) }
         FeatureDialog(openDialog, clickStartDateInteraction)
 
-
         if (openCancelDialog.value) {
             CancelStartDateConfirmDialog(clickStartDateInteraction)
         }
-
 
         Box(
             modifier = Modifier

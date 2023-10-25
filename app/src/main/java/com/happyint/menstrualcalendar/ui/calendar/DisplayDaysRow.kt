@@ -25,8 +25,8 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
     val firstDayOfWeek = month.atDay(1).dayOfWeek.value % 7 // 일요일이 0이 되도록 조정
     val calendarViewModel = ViewModelProvider.getCalendarViewModel()
 
-    val totalPeriodData = calendarViewModel.totalPeriodData.collectAsState(initial = (listOf()))
-    val periodDataMap = totalPeriodData.value.associateBy { it.startDate.toString() }
+    val monthPeriodData = calendarViewModel.monthPeriodData.collectAsState(initial = (listOf()))
+    val periodDataMap = monthPeriodData.value.associateBy { it.startDate.toString() }
 
     Surface(
         modifier = Modifier
@@ -76,9 +76,11 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
 
                         } else {
                             // 날짜가 없는 경우 빈 박스를 표시합니다.
-                            Box(modifier = Modifier
-                                .weight(1f)
-                                .height(50.dp))
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(50.dp)
+                            )
                         }
                     }
                 }

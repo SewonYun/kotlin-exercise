@@ -11,10 +11,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.YearMonth
 
 class CalendarViewModel(private val dayDataRepository: DayDataRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(UIState())
     val uiState: StateFlow<UIState> get() = _uiState.asStateFlow()
+
+    private var _monthPeriodData: MutableStateFlow<List<DayData>> = MutableStateFlow(listOf())
+    val monthPeriodData: StateFlow<List<DayData>> get() = _monthPeriodData.asStateFlow()
 
     private var _totalPeriodData: MutableStateFlow<List<DayData>> = MutableStateFlow(listOf())
     val totalPeriodData: StateFlow<List<DayData>> get() = _totalPeriodData.asStateFlow()
@@ -27,9 +31,18 @@ class CalendarViewModel(private val dayDataRepository: DayDataRepository) : View
         _totalPeriodData.value = dayDataRepository.dayData()
     }
 
+    fun fetchMonthPeriodData(month: YearMonth) = viewModelScope.launch(Dispatchers.IO) {
+        _monthPeriodData.value = dayDataRepository.dayDataByMonth(month)
+    }
+
     fun upsertDayData(dayData: DayData) = viewModelScope.launch(Dispatchers.IO) {
         dayDataRepository.upsert(dayData)
-        fetchTotalPeriodData().join()
+        fetchMonthPeriodData(
+            month = YearMonth.of(
+                dayData.startDate.year, dayData.startDate
+                    .month
+            )
+        ).join()
     }
 
     fun updateUIState(selectedDate: LocalDate) {
