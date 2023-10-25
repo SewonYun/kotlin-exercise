@@ -40,6 +40,7 @@
     <string name="logging">logging</string>
 
     <string name="menu_start_date">Period start date</string>
+    <string name="ask_menu_date_remove">Remove this date history?</string>
     <string name="menu_end_date">Period End Date</string>
     <string name="menu_note">Today’s Little Note</string>
 
