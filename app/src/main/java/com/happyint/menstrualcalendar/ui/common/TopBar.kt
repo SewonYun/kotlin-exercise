@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.happyint.menstrualcalendar.R
+import com.happyint.menstrualcalendar.constants.AppName
 import com.happyint.menstrualcalendar.constants.UserPage
 
 
@@ -39,7 +40,7 @@ fun TopBar(currentScreen: MutableState<UserPage>) {
 
         title = {
             Text(
-                "Large TopAppBar",
+                AppName.Pascal.value,
                 fontFamily = agbalumoFamily,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
