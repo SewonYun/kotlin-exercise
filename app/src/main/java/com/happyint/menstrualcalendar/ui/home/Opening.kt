@@ -10,7 +10,12 @@ import com.happyint.menstrualcalendar.ui.theme.MenstrualCalendarTheme
 
 @Composable
 fun Opening(iterationsCount: Int) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("loading-animation.json"))
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.Asset(
+            "animation-calendar" +
+                    ".json"
+        )
+    )
     LottieAnimation(composition, iterations = iterationsCount)
 }
 

@@ -31,7 +31,9 @@ fun TopBar(currentScreen: MutableState<UserPage>) {
             )
         },
         navigationIcon = {
-            IconButton(onClick = { }) {
+            IconButton(onClick = {
+                currentScreen.value = UserPage.MAIN
+            }) {
                 if (currentScreen.value == UserPage.MAIN) {
                     Icon(
                         imageVector = Icons.Filled.Menu,

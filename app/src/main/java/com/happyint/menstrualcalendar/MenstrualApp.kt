@@ -65,7 +65,7 @@ fun MenstrualAppOf(
                 }
 
                 LaunchedEffect(Unit) {
-                    delay(1000)
+                    delay(1500)
                     currentScreen.value = UserPage.MAIN
                 }
 
