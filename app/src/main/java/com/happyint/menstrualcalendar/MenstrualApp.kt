@@ -3,29 +3,32 @@ package com.happyint.menstrualcalendar
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieConstants
 import com.happyint.menstrualcalendar.constants.UserPage
 import com.happyint.menstrualcalendar.ui.calendar.LoadCalendar
-import com.happyint.menstrualcalendar.ui.common.LeftDrawerLayout
+import com.happyint.menstrualcalendar.ui.common.BottomNavBar
+import com.happyint.menstrualcalendar.ui.common.TopBar
 import com.happyint.menstrualcalendar.ui.home.LoadMainHome
 import com.happyint.menstrualcalendar.ui.home.Opening
 import com.happyint.menstrualcalendar.ui.notice.LoadNotice
 import com.happyint.menstrualcalendar.ui.setting.LoadSettingMain
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun rememberAppState(context: Context = LocalContext.current) = remember(context) {
@@ -42,30 +45,37 @@ fun MenstrualAppOf(
 
     if (appState.isOnline) {
 
-        // 현재 화면 상태를 가지는 State 변수를 정의합니다.
         val currentScreen = remember { mutableStateOf(UserPage.OPENING) }
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
 
-        val scope = rememberCoroutineScope()
-        val drawerState = rememberDrawerState(DrawerValue.Closed)
+            Box(modifier = Modifier.height(56.dp)) {
+                TopBar(currentScreen)
+            }
 
-        scope.launch { drawerState.close() }
-        // 현재 화면 상태에 따라 적절한 화면을 표시합니다.
-        when (currentScreen.value) {
-            UserPage.OPENING -> Opening(LottieConstants.IterateForever)
-            UserPage.MAIN -> LeftDrawerLayout(
-                drawerState,
-                currentScreen
-            ) { LoadMainHome(drawerState) }
+            Box(modifier = Modifier.weight(1f)) {
 
-            UserPage.SETTING -> LoadSettingMain(currentScreen)
-            UserPage.NOTICE -> LoadNotice(currentScreen, listOf("test1", "test2"))
-            UserPage.CALENDAR -> LoadCalendar(currentScreen)
-        }
+                when (currentScreen.value) {
+                    UserPage.OPENING -> Opening(LottieConstants.IterateForever)
+                    UserPage.MAIN -> LoadMainHome()
+                    UserPage.SETTING -> LoadSettingMain()
+                    UserPage.NOTICE -> LoadNotice(listOf("test1", "test2"))
+                    UserPage.CALENDAR -> LoadCalendar()
+                }
 
-        LaunchedEffect(Unit) {
-            // todo: When the data loaded, it's lottie animation must stop.
-            delay(1000)
-            currentScreen.value = UserPage.MAIN
+                LaunchedEffect(Unit) {
+                    delay(1000)
+                    currentScreen.value = UserPage.MAIN
+                }
+
+            }
+
+            Box(modifier = Modifier.height(56.dp)) {
+                BottomNavBar(currentScreen)
+            }
+
+            currentScreen.value.GoBack(currentScreen = currentScreen)
         }
 
     } else {

@@ -7,16 +7,13 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import com.happyint.menstrualcalendar.constants.UserPage
 import com.happyint.menstrualcalendar.customApi.testBorder
-import com.happyint.menstrualcalendar.ui.setting.TopBar
 import com.happyint.menstrualcalendar.util.ViewModelProvider
 import kotlinx.coroutines.flow.filter
 import java.time.YearMonth
@@ -25,10 +22,9 @@ import java.time.YearMonth
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 @Composable
-fun LoadCalendar(currentScreen: MutableState<UserPage>) {
+fun LoadCalendar() {
 
     Column {
-        TopBar(currentScreen = currentScreen)
 
         val currentMonth = YearMonth.now()
         var months by remember {
