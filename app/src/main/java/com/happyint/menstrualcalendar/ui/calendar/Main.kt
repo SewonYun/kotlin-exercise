@@ -32,7 +32,12 @@ fun LoadCalendar() {
                 currentMonth.minusMonths(2).plusMonths(it.toLong())
             })
         }
-        val pagerState = rememberPagerState(initialPage = 2)
+        val pagerState = rememberPagerState(
+            initialPage = 2,
+            initialPageOffsetFraction = 0f
+        ) {
+            2
+        }
 
         val calendarViewModel = ViewModelProvider.getCalendarViewModel()
 
@@ -50,27 +55,24 @@ fun LoadCalendar() {
         }
 
         VerticalPager(
-            state = pagerState,
             modifier = Modifier
                 .weight(1f)
                 .testBorder(),
-            pageCount = months.size,
+            state = pagerState,
             beyondBoundsPageCount = 3,
+            pageContent = {
+                val month = months[it]
 
-            ) { page ->
+                OutSurface {
 
-            val month = months[page]
+                    Column {
+                        CalendarHeader(month)
+                        CalendarBody(month)
+                    }
 
-            OutSurface {
-
-                Column {
-                    CalendarHeader(month)
-                    CalendarBody(month)
                 }
-
             }
-
-        }
+        )
 
         CalendarBottomView()
     }
