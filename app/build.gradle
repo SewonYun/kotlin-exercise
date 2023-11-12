@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.happyint.menstrualcalendar'
+    namespace 'com.happyint.cyclescape'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.happyint.menstrualcalendar"
+        applicationId "com.happyint.cyclescape"
         minSdk 29
         targetSdk 33
         versionCode 1
