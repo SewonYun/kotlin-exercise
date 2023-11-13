@@ -28,30 +28,38 @@ fun LoadCalendar() {
 
         val currentMonth = YearMonth.now()
         var months by remember {
-            mutableStateOf(List(5) {
-                currentMonth.minusMonths(2).plusMonths(it.toLong())
+            mutableStateOf(List(7) {
+                currentMonth.minusMonths(3).plusMonths(it.toLong())
             })
         }
+
         val pagerState = rememberPagerState(
-            initialPage = 2,
+            initialPage = 3,
             initialPageOffsetFraction = 0f
         ) {
-            2
+            months.size
         }
 
-        val calendarViewModel = ViewModelProvider.getCalendarViewModel()
+        val cv = ViewModelProvider.getCalendarViewModel()
 
         LaunchedEffect(pagerState.currentPage) {
-            calendarViewModel.fetchMonthPeriodData(months[pagerState.currentPage]).join()
+
+            cv.fetchMonthPeriodData(months[pagerState.currentPage]).join()
+
             snapshotFlow { pagerState.isScrollInProgress }.filter { it == false }.collect {
 
                 if (pagerState.currentPage <= 1) {  // 첫 번째 페이지에 도달했을 때
-                    months = listOf(months.first().minusMonths(1)) + months  // 이전 달을 추가합니다.
+
+                    months = listOf(months.first().minusMonths(1)) + months
                     pagerState.scrollToPage(pagerState.currentPage + 1)
                 } else if (pagerState.currentPage >= months.size - 2) {  // 마지막 페이지에 도달했을 때
-                    months = months + listOf(months.last().plusMonths(1))  // 다음 달을 추가합니다.
+
+                    months = months + listOf(months.last().plusMonths(1))
+
                 }
+
             }
+
         }
 
         VerticalPager(
