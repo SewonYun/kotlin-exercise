@@ -7,29 +7,20 @@ import com.happyint.cyclescape.viewModels.CalendarViewModel
 import java.time.LocalDate
 
 @ExperimentalMaterial3Api
-class ClickStartDateInteraction(val show: () -> Unit, val close: () -> Unit) {
+class ClickStartDateInteraction {
 
-    private var _calendarViewModel: CalendarViewModel? = null
+    private var _calendarViewModel: CalendarViewModel = ViewModelProvider.getCalendarViewModel()
 
-    init {
-        _calendarViewModel = ViewModelProvider.getCalendarViewModel()
-    }
-
-    fun insertOrRemove() {
-
-        val selectedDayData = _calendarViewModel!!.uiState.value.selectedDayData
-        val localData: LocalDate = _calendarViewModel!!.uiState.value.selectedDate!!
-
-        if (selectedDayData == null) {
-            insertStartDate(localData)
-        } else {
-            show()
+    companion object {
+        fun of(): ClickStartDateInteraction {
+            return ClickStartDateInteraction()
         }
-
     }
+
 
     fun insertStartDate(localData: LocalDate) {
-        _calendarViewModel!!.upsertDayData(
+
+        _calendarViewModel.upsertDayData(
             DayData(
                 id = 0,
                 startDate = localData,
@@ -37,6 +28,11 @@ class ClickStartDateInteraction(val show: () -> Unit, val close: () -> Unit) {
                 hasLittleNote = false
             )
         )
+
+    }
+
+    fun removeStartDate(dayData: DayData) {
+        _calendarViewModel.removeData(dayData)
     }
 
 }

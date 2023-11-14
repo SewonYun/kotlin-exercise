@@ -3,8 +3,8 @@ package com.happyint.cyclescape.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.happyint.cyclescape.entities.calendar.data.DayData
+import com.happyint.cyclescape.entities.calendar.state.UIState
 import com.happyint.cyclescape.repositories.DayDataRepository
-import com.happyint.cyclescape.ui.calendar.UIState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,17 +20,6 @@ class CalendarViewModel(private val dayDataRepository: DayDataRepository) : View
     private var _monthPeriodData: MutableStateFlow<List<DayData>> = MutableStateFlow(listOf())
     val monthPeriodData: StateFlow<List<DayData>> get() = _monthPeriodData.asStateFlow()
 
-    private var _totalPeriodData: MutableStateFlow<List<DayData>> = MutableStateFlow(listOf())
-    val totalPeriodData: StateFlow<List<DayData>> get() = _totalPeriodData.asStateFlow()
-
-    init {
-        fetchTotalPeriodData()
-    }
-
-    private fun fetchTotalPeriodData() = viewModelScope.launch(Dispatchers.IO) {
-        _totalPeriodData.value = dayDataRepository.dayData()
-    }
-
     fun fetchMonthPeriodData(month: YearMonth) = viewModelScope.launch(Dispatchers.IO) {
         _monthPeriodData.value = dayDataRepository.dayDataByMonth(month)
     }
@@ -45,11 +34,28 @@ class CalendarViewModel(private val dayDataRepository: DayDataRepository) : View
         ).join()
     }
 
+    fun removeData(dayData: DayData) = viewModelScope.launch(Dispatchers.IO) {
+        dayDataRepository.delete(dayData)
+        fetchMonthPeriodData(
+            month = YearMonth.of(
+                dayData.startDate.year, dayData.startDate
+                    .month
+            )
+        ).join()
+    }
+
     fun updateUIState(selectedDate: LocalDate) {
-        val selectedDayData = _totalPeriodData.value.firstOrNull { it.startDate == selectedDate }
+        val selectedDayData = _monthPeriodData.value.firstOrNull { it.startDate == selectedDate }
         _uiState.value = _uiState.value.copy(
             selectedDate = selectedDate,
             selectedDayData = selectedDayData
+        )
+    }
+
+    fun initUIState() {
+        _uiState.value = _uiState.value.copy(
+            selectedDate = null,
+            selectedDayData = null
         )
     }
 

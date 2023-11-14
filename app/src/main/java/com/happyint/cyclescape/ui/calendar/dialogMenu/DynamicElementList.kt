@@ -7,38 +7,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.stringResource
 import com.happyint.cyclescape.R
+import com.happyint.cyclescape.entities.calendar.data.DayData
 import com.happyint.cyclescape.util.ViewModelProvider
 
 @ExperimentalMaterial3Api
 @Composable
-fun DynamicElement(
-    clickStartDateInteraction: ClickStartDateInteraction,
+fun DynamicElementList(
     closeCallback: () -> Unit
 ) {
 
     val calendarViewModel = ViewModelProvider.getCalendarViewModel()
     val dayData = calendarViewModel.uiState.collectAsState().value.selectedDayData
 
-    TextButton(onClick = {
-        clickStartDateInteraction.insertOrRemove()
-        closeCallback()
-    }) {
-        val insertOrAskText = if (dayData == null) {
-            stringResource(id = R.string.menu_start_date)
-        } else {
-            stringResource(id = R.string.ask_menu_date_remove)
-        }
-        Text(text = insertOrAskText)
-    }
-
-    if (dayData == null) {
-        TextButton(onClick = { closeCallback() }) {
-            Text(text = stringResource(id = R.string.menu_end_date))
-        }
-    }
+    startOrRemoveComponent(dayData, closeCallback)()
 
     TextButton(onClick = { closeCallback() }) {
         Text(text = stringResource(id = R.string.menu_note))
     }
 
+
+}
+
+@Composable
+fun startOrRemoveComponent(dayData: DayData?, closeCallback: () -> Unit): @Composable () -> Unit {
+    if (dayData == null) {
+        return { StartDateButton(closeCallback) }
+    }
+
+    return { RemoveDateButton(closeCallback) }
 }

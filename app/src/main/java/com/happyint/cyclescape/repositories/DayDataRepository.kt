@@ -17,4 +17,8 @@ class DayDataRepository(private val dayDataDao: DayDataDao) {
     fun upsert(dayData: DayData) {
         dayDataDao.upsert(dayData)
     }
+
+    fun delete(dayData: DayData) {
+        dayDataDao.delete(dayData)
+    }
 }

@@ -1,6 +1,7 @@
 package com.happyint.cyclescape.repositories
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import com.happyint.cyclescape.entities.calendar.data.DayData
@@ -17,4 +18,7 @@ interface DayDataDao {
 
     @Upsert
     fun upsert(dayData: DayData)
+
+    @Delete
+    fun delete(dayData: DayData)
 }

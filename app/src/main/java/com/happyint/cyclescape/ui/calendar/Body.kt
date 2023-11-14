@@ -15,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.happyint.cyclescape.ui.calendar.dialogMenu.CancelStartDateConfirmDialog
-import com.happyint.cyclescape.ui.calendar.dialogMenu.ClickStartDateInteraction
 import java.time.YearMonth
 
 @ExperimentalMaterial3Api
@@ -27,17 +25,12 @@ fun CalendarBody(month: YearMonth) {
         contentColor = Color.Black,
         shadowElevation = 8.dp
     ) {
-        val openCancelDialog = remember { mutableStateOf(false) }
-        val close = { openCancelDialog.value = false }
-        val show = { openCancelDialog.value = true }
-        val clickStartDateInteraction = ClickStartDateInteraction(show, close)
+
 
         val openDialog = remember { mutableStateOf(false) }
-        FeatureDialog(openDialog, clickStartDateInteraction)
+        UserInputDialog(openDialog)
 
-        if (openCancelDialog.value) {
-            CancelStartDateConfirmDialog(clickStartDateInteraction)
-        }
+//        CancelStartDateConfirmDialog(clickStartDateInteraction)
 
         Box(
             modifier = Modifier

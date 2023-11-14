@@ -9,17 +9,17 @@ import com.happyint.cyclescape.ui.common.ConfirmDialog
 
 @ExperimentalMaterial3Api
 @Composable
-fun CancelStartDateConfirmDialog(clickStartDateInteraction: ClickStartDateInteraction) {
+fun CancelStartDateConfirmDialog() {
     ConfirmDialog(
         "Doy u want remove it?",
         "are u sure?",
         stringResource(id = R.string.close),
         stringResource(id = R.string.cancel),
         {
-            clickStartDateInteraction.close()
+//            clickStartDateInteraction.close()
         },
         {
-            clickStartDateInteraction.close()
+//            clickStartDateInteraction.close()
         }
     )
 }

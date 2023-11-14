@@ -10,16 +10,12 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.stringResource
 import com.happyint.cyclescape.R
-import com.happyint.cyclescape.ui.calendar.dialogMenu.ClickStartDateInteraction
-import com.happyint.cyclescape.ui.calendar.dialogMenu.DynamicElement
+import com.happyint.cyclescape.ui.calendar.dialogMenu.DynamicElementList
 import com.happyint.cyclescape.util.ViewModelProvider
 
 @ExperimentalMaterial3Api
 @Composable
-fun FeatureDialog(
-    openDialog: MutableState<Boolean>,
-    clickStartDateInteraction: ClickStartDateInteraction
-) {
+fun UserInputDialog(openDialog: MutableState<Boolean>) {
 
     val calendarViewModel = ViewModelProvider.getCalendarViewModel()
 
@@ -31,16 +27,23 @@ fun FeatureDialog(
             onDismissRequest = { openDialog.value = false },
             title = { Text(text = selectedDate.toString()) },
             text = {
+
                 Column {
-                    DynamicElement(clickStartDateInteraction) {
+
+                    DynamicElementList {
                         openDialog.value = false
+                        calendarViewModel.initUIState()
                     }
+
                 }
+
             },
             confirmButton = {
-                Button(onClick = { openDialog.value = false }) {
+
+            Button(onClick = { openDialog.value = false }) {
                     Text(stringResource(id = R.string.close))
                 }
+
             }
         )
 

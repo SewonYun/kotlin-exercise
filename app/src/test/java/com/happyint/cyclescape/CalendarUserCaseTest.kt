@@ -1,7 +1,7 @@
 package com.happyint.cyclescape
 
 import androidx.compose.material3.ExperimentalMaterial3Api
-import com.happyint.cyclescape.ui.calendar.dialogMenu.ClickStartDateInteraction
+import com.happyint.cyclescape.service.calendar.ClickStartDateInteraction
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
