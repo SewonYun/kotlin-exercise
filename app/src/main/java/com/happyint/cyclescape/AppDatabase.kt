@@ -12,7 +12,7 @@ import com.happyint.cyclescape.repositories.InformationDao
 import com.happyint.cyclescape.util.LocalDateConverter
 
 @Database(
-    version = 5,
+    version = 6,
     entities = [Information::class, DayData::class]
 )
 @TypeConverters(LocalDateConverter::class)
