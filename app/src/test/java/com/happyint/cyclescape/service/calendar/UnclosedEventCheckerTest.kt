@@ -6,9 +6,7 @@ import com.happyint.cyclescape.AppDatabase
 import com.happyint.cyclescape.entities.calendar.data.DayData
 import com.happyint.cyclescape.repositories.DayDataDao
 import com.happyint.cyclescape.repositories.DayDataRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -21,9 +19,9 @@ import java.time.LocalDate
 @RunWith(RobolectricTestRunner::class)
 class UnclosedEventCheckerTest {
 
-    lateinit var mockDatabase: AppDatabase
-    lateinit var mockDayDataDao: DayDataDao
-    lateinit var mockDataRepository: DayDataRepository
+    private lateinit var mockDatabase: AppDatabase
+    private lateinit var mockDayDataDao: DayDataDao
+    private lateinit var mockDataRepository: DayDataRepository
 
     @Before
     fun setup() {
@@ -34,18 +32,14 @@ class UnclosedEventCheckerTest {
         mockDayDataDao = mockDatabase.dayDataDao()
         mockDataRepository = DayDataRepository(mockDayDataDao)
 
-        CoroutineScope(Dispatchers.IO).launch {
-
-            mockDataRepository.upsert(
-                DayData(
-                    id = 0,
-                    startDate = LocalDate.now().minusDays(1),
-                    endDate = null,
-                    hasLittleNote = false
-                )
+        mockDataRepository.upsert(
+            DayData(
+                id = 0,
+                startDate = LocalDate.now().minusDays(1),
+                endDate = null,
+                hasLittleNote = false
             )
-
-        }
+        )
 
     }
 
@@ -53,14 +47,37 @@ class UnclosedEventCheckerTest {
     fun findUnClosedEvents(): Unit = runBlocking(Dispatchers.IO) {
 
         val checker = UnclosedEventChecker(mockDataRepository)
-        val result = checker.findUnClosedEvents(LocalDate.now())
+        val result = checker.checkUnClosedEvents(LocalDate.now())
 
         assertEquals(ProcessingResult.Success, result)
 
     }
 
+    @Test
+    fun getUnClosedEvents(): Unit = runBlocking(Dispatchers.IO) {
+
+        val checker = UnclosedEventChecker(mockDataRepository)
+        checker.checkUnClosedEvents(LocalDate.now())
+        val result = checker.getUnClosedEvents()
+
+        assertEquals(1, result.size)
+        val firstDay = result.first()
+        assertEquals(firstDay.startDate, LocalDate.now().minusDays(1))
+        assertEquals(firstDay.endDate, null)
+        assertEquals(firstDay.hasLittleNote, false)
+
+    }
+
+    @Test(expected = IllegalAccessException::class)
+    fun errorTest(): Unit = runBlocking(Dispatchers.IO) {
+
+        val checker = UnclosedEventChecker(mockDataRepository)
+        checker.getUnClosedEvents()
+
+    }
+
     @After
-    fun last() {
+    fun tearDown() {
         mockDatabase.close()
     }
 
