@@ -12,8 +12,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.YearMonth
+import javax.inject.Inject
 
-class CalendarViewModel(private val dayDataRepository: DayDataRepository) : ViewModel() {
+class CalendarViewModel @Inject constructor(private val dayDataRepository: DayDataRepository) :
+    ViewModel
+        () {
     private val _uiState = MutableStateFlow(UIState())
     val uiState: StateFlow<UIState> get() = _uiState.asStateFlow()
 

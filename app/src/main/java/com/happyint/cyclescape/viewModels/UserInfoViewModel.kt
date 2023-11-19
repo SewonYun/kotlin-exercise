@@ -10,8 +10,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserInfoViewModel(private val userRepository: UserRepository): ViewModel() {
+class UserInfoViewModel @Inject constructor(private val userRepository: UserRepository) :
+    ViewModel() {
 
     private var _information: MutableStateFlow<Information> =
         MutableStateFlow(InformationBuilder.getEmptyInformation())
