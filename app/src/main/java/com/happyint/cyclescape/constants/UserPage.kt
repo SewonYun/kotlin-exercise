@@ -13,7 +13,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.happyint.cyclescape.PeriodApplication
+import com.happyint.cyclescape.CycleScapeApplication
 import com.happyint.cyclescape.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -43,7 +43,7 @@ enum class UserPage(val value: Int) {
                 openDialog.value = true
 
                 Toast.makeText(
-                    PeriodApplication.instance,
+                    CycleScapeApplication.instance,
                     R.string.app_exit_dialog_asking,
                     Toast.LENGTH_SHORT
                 ).show()

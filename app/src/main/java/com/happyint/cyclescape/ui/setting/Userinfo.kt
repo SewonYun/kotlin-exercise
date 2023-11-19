@@ -31,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.happyint.cyclescape.PeriodApplication
+import com.happyint.cyclescape.CycleScapeApplication
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.customApi.testBorder
 import com.happyint.cyclescape.ui.setting.modal.AverageCycleBottomSheet
@@ -44,7 +44,7 @@ import com.happyint.cyclescape.viewModels.UserInfoViewModel
 fun nameField(userInfoViewModel: UserInfoViewModel): String {
     val information = userInfoViewModel.information
     return if (information.collectAsState().value.name.isNullOrEmpty()) {
-        PeriodApplication.instance.getString(R.string.default_user_nickname)
+        CycleScapeApplication.instance.getString(R.string.default_user_nickname)
     } else {
         return userInfoViewModel.information.collectAsState().value.name!!
     }

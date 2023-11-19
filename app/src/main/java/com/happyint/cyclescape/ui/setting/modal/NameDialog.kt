@@ -24,7 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.happyint.cyclescape.PeriodApplication
+import com.happyint.cyclescape.CycleScapeApplication
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.constants.Numbers
 import com.happyint.cyclescape.entities.user.data.Information
@@ -44,8 +44,8 @@ fun NameDialog(disappearCallback: () -> Unit) {
     AlertDialog(
         onDismissRequest = {
             Toast.makeText(
-                PeriodApplication.instance,
-                PeriodApplication.instance.getString(R.string.did_not_save),
+                CycleScapeApplication.instance,
+                CycleScapeApplication.instance.getString(R.string.did_not_save),
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -70,8 +70,8 @@ fun NameDialog(disappearCallback: () -> Unit) {
 
                         if (isError.value) {
                             Toast.makeText(
-                                PeriodApplication.instance,
-                                PeriodApplication.instance.getString(R.string.nick_max_length_alert),
+                                CycleScapeApplication.instance,
+                                CycleScapeApplication.instance.getString(R.string.nick_max_length_alert),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

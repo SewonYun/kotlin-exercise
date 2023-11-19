@@ -1,7 +1,7 @@
 package com.happyint.cyclescape.util
 
 import com.happyint.cyclescape.AppDatabase
-import com.happyint.cyclescape.PeriodApplication
+import com.happyint.cyclescape.CycleScapeApplication
 import com.happyint.cyclescape.repositories.DayDataRepository
 import com.happyint.cyclescape.repositories.UserRepository
 import com.happyint.cyclescape.viewModelFactories.UserInfoViewModelFactory
@@ -12,7 +12,7 @@ object ViewModelProvider {
 
     private var _userInfoViewModel: UserInfoViewModel? = null
     private var _calendarViewModel: CalendarViewModel? = null
-    private val database: AppDatabase = PeriodApplication.instance.database
+    private val database: AppDatabase = CycleScapeApplication.instance.database
     fun getUserInfoViewModel(): UserInfoViewModel {
 
         if (_userInfoViewModel == null) {

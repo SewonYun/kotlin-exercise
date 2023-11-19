@@ -11,7 +11,7 @@ class Bootstrap {
     fun on() {
 
         CoroutineScope(Dispatchers.IO).launch {
-            val db = PeriodApplication.instance.database
+            val db = CycleScapeApplication.instance.database
             val informationOption: Information? = (db.userDao()).select()
             if (informationOption == null) {
                 (db.userDao()).insertInformation(InformationBuilder.getEmptyInformation())
