@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -20,9 +21,9 @@ import java.time.LocalDate
 @RunWith(RobolectricTestRunner::class)
 class UnclosedEventCheckerTest {
 
-    private lateinit var mockDatabase: AppDatabase
-    private lateinit var mockDayDataDao: DayDataDao
-    private lateinit var mockDataRepository: DayDataRepository
+    lateinit var mockDatabase: AppDatabase
+    lateinit var mockDayDataDao: DayDataDao
+    lateinit var mockDataRepository: DayDataRepository
 
     @Before
     fun setup() {
@@ -57,4 +58,10 @@ class UnclosedEventCheckerTest {
         assertEquals(ProcessingResult.Success, result)
 
     }
+
+    @After
+    fun last() {
+        mockDatabase.close()
+    }
+
 }
