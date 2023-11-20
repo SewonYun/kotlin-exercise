@@ -13,7 +13,8 @@ import com.happyint.cyclescape.util.LocalDateConverter
 
 @Database(
     version = 6,
-    entities = [Information::class, DayData::class]
+    entities = [Information::class, DayData::class],
+    exportSchema = false
 )
 @TypeConverters(LocalDateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
