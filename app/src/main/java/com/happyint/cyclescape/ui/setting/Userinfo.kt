@@ -31,13 +31,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.CycleScapeApplication
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.customApi.testBorder
 import com.happyint.cyclescape.ui.setting.modal.AverageCycleBottomSheet
 import com.happyint.cyclescape.ui.setting.modal.BirthDateBottomSheet
 import com.happyint.cyclescape.ui.setting.modal.NameDialog
-import com.happyint.cyclescape.util.ViewModelProvider
 import com.happyint.cyclescape.viewModels.UserInfoViewModel
 
 @Composable
@@ -59,7 +59,7 @@ fun UserInfo() {
     val showAverageCycleBottomSheet = remember { mutableStateOf(false) }
     AverageCycleBottomSheet(showAverageCycleBottomSheet)
 
-    val userInfoViewModel: UserInfoViewModel = ViewModelProvider.getUserInfoViewModel()
+    val userInfoViewModel = viewModel<UserInfoViewModel>()
     val obAge = userInfoViewModel.information.collectAsState().value.birth
 
     Column(

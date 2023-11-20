@@ -96,7 +96,6 @@ class CalendarViewModel @Inject constructor(private val dayDataRepository: DayDa
 
         val unclosedEventChecker = UnclosedEventChecker(dayDataRepository)
         val optionResult = unclosedEventChecker.findByDay(date)
-        val a = optionResult.getOrNull()
 
         return when {
             _uiState.value.selectedDayData != null -> CalendarDialogPage.CancelDialog

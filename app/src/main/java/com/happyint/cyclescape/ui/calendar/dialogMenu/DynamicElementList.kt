@@ -11,9 +11,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.service.calendar.CalendarDialogPage
-import com.happyint.cyclescape.util.ViewModelProvider
+import com.happyint.cyclescape.viewModels.CalendarViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ fun DynamicElementList(closeCallback: () -> Unit) {
 
 @Composable
 fun DialogRendering(closeCallback: () -> Unit) {
-    val calendarViewModel = ViewModelProvider.getCalendarViewModel()
+    val calendarViewModel = viewModel<CalendarViewModel>()
     val date = calendarViewModel.uiState.collectAsState().value.selectedDate
 
     var dialogPage: CalendarDialogPage? by remember { mutableStateOf(null) }

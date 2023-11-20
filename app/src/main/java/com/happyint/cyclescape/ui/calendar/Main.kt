@@ -13,8 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.customApi.testBorder
-import com.happyint.cyclescape.util.ViewModelProvider
+import com.happyint.cyclescape.viewModels.CalendarViewModel
 import kotlinx.coroutines.flow.filter
 import java.time.YearMonth
 
@@ -40,7 +41,7 @@ fun LoadCalendar() {
             months.size
         }
 
-        val cv = ViewModelProvider.getCalendarViewModel()
+        val cv = viewModel<CalendarViewModel>()
 
         LaunchedEffect(pagerState.currentPage) {
 

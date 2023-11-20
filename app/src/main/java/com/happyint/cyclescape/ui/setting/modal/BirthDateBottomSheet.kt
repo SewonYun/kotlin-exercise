@@ -30,8 +30,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.R
-import com.happyint.cyclescape.util.ViewModelProvider
 import com.happyint.cyclescape.viewModels.UserInfoViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -53,7 +53,7 @@ fun BirthDateBottomSheet(showIt: MutableState<Boolean>) {
             sheetState = bottomSheetState
         ) {
 
-            val userInfoViewModel: UserInfoViewModel = ViewModelProvider.getUserInfoViewModel()
+            val userInfoViewModel = viewModel<UserInfoViewModel>()
             val informationState = userInfoViewModel.information.collectAsState()
 
             val age = informationState.value.birth

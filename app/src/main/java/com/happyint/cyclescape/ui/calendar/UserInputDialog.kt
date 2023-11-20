@@ -9,16 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.ui.calendar.dialogMenu.DynamicElementList
-import com.happyint.cyclescape.util.ViewModelProvider
+import com.happyint.cyclescape.viewModels.CalendarViewModel
 
 @ExperimentalMaterial3Api
 @Composable
 fun UserInputDialog(openDialog: MutableState<Boolean>) {
 
-
-    val calendarViewModel = ViewModelProvider.getCalendarViewModel()
+    val calendarViewModel = viewModel<CalendarViewModel>()
 
     if (!openDialog.value) {
         return

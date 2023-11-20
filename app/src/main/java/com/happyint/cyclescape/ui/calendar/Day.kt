@@ -10,15 +10,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.customApi.testBorder
 import com.happyint.cyclescape.entities.calendar.data.DayData
-import com.happyint.cyclescape.util.ViewModelProvider.getCalendarViewModel
+import com.happyint.cyclescape.viewModels.CalendarViewModel
 import java.time.LocalDate
 
 
 @Composable
 fun Day(localDate: LocalDate, color: Color, dayData: DayData?, cb: () -> Unit) {
-    val calendarViewModel = getCalendarViewModel()
+    val calendarViewModel = viewModel<CalendarViewModel>()
+
     Box(
         modifier = Modifier
             .fillMaxSize()

@@ -5,19 +5,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.service.calendar.ClickStartDateInteraction
-import com.happyint.cyclescape.util.ViewModelProvider
+import com.happyint.cyclescape.viewModels.CalendarViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RemoveDateButton(closeCallback: () -> Unit) {
+    val calendarViewModel = viewModel<CalendarViewModel>()
 
     TextButton(onClick = {
 
         val service = ClickStartDateInteraction.of()
-        val calendarViewModel = ViewModelProvider.getCalendarViewModel()
-
         service.removeStartDate(calendarViewModel.uiState.value.selectedDayData!!)
         closeCallback()
     }) {

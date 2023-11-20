@@ -13,8 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.customApi.testBorder
-import com.happyint.cyclescape.util.ViewModelProvider
+import com.happyint.cyclescape.viewModels.CalendarViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -23,7 +24,7 @@ import java.time.YearMonth
 fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
     val daysInMonth = month.lengthOfMonth()
     val firstDayOfWeek = month.atDay(1).dayOfWeek.value % 7 // 일요일이 0이 되도록 조정
-    val calendarViewModel = ViewModelProvider.getCalendarViewModel()
+    val calendarViewModel = viewModel<CalendarViewModel>()
 
     val monthPeriodData = calendarViewModel.monthPeriodData.collectAsState(initial = (listOf()))
     val periodDataMap = monthPeriodData.value.associateBy { it.startDate.toString() }

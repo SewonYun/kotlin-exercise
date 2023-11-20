@@ -24,17 +24,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.CycleScapeApplication
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.constants.Numbers
 import com.happyint.cyclescape.entities.user.data.Information
-import com.happyint.cyclescape.util.ViewModelProvider
+import com.happyint.cyclescape.viewModels.UserInfoViewModel
 
 
 @ExperimentalMaterial3Api
 @Composable
 fun NameDialog(disappearCallback: () -> Unit) {
-    val userInfoViewModel = ViewModelProvider.getUserInfoViewModel()
+    val userInfoViewModel = viewModel<UserInfoViewModel>()
     val localScopeName = userInfoViewModel.information.collectAsState()
         .value
         .name!!
