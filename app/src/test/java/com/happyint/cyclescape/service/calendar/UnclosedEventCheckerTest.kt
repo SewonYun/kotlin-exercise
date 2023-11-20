@@ -52,11 +52,11 @@ class UnclosedEventCheckerTest {
 
         assertEquals(
             DayData(
-                id = 0,
+                id = 1,
                 startDate = LocalDate.now().minusDays(1),
                 endDate = null,
                 hasLittleNote = false
-            ), result
+            ), result?.last()
         )
 
     }
