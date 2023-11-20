@@ -2,7 +2,6 @@ package com.happyint.cyclescape.dependency
 
 import android.app.Application
 import com.happyint.cyclescape.dependency.module.RepositoryModule
-import com.happyint.cyclescape.service.calendar.UnclosedEventChecker
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import com.happyint.cyclescape.viewModels.UserInfoViewModel
 import dagger.BindsInstance
@@ -22,8 +21,6 @@ interface ComponentRoot {
         fun application(application: Application): Builder
         fun build(): ComponentRoot
     }
-
-    fun inject(unclosedEventChecker: UnclosedEventChecker)
 
     fun inject(userInfoViewModel: UserInfoViewModel)
 

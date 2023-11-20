@@ -30,8 +30,6 @@ fun CalendarBody(month: YearMonth) {
         val openDialog = remember { mutableStateOf(false) }
         UserInputDialog(openDialog)
 
-//        CancelStartDateConfirmDialog(clickStartDateInteraction)
-
         Box(
             modifier = Modifier
                 .fillMaxSize()

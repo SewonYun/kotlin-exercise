@@ -17,35 +17,38 @@ import com.happyint.cyclescape.util.ViewModelProvider
 @Composable
 fun UserInputDialog(openDialog: MutableState<Boolean>) {
 
+
     val calendarViewModel = ViewModelProvider.getCalendarViewModel()
 
-    if (openDialog.value) {
-        val uiState = calendarViewModel.uiState.collectAsState()
-        val selectedDate = uiState.value.selectedDate!!
+    if (!openDialog.value) {
+        return
+    }
 
-        AlertDialog(
-            onDismissRequest = { openDialog.value = false },
-            title = { Text(text = selectedDate.toString()) },
-            text = {
+    val uiState = calendarViewModel.uiState.collectAsState()
+    val selectedDate = uiState.value.selectedDate!!
 
-                Column {
+    AlertDialog(
+        onDismissRequest = { openDialog.value = false },
+        title = { Text(text = selectedDate.toString()) },
+        text = {
 
-                    DynamicElementList {
-                        openDialog.value = false
-                        calendarViewModel.initUIState()
-                    }
+            Column {
 
-                }
-
-            },
-            confirmButton = {
-
-            Button(onClick = { openDialog.value = false }) {
-                    Text(stringResource(id = R.string.close))
+                DynamicElementList {
+                    openDialog.value = false
+                    calendarViewModel.initUIState()
                 }
 
             }
-        )
 
-    }
+        },
+        confirmButton = {
+
+            Button(onClick = { openDialog.value = false }) {
+                Text(stringResource(id = R.string.close))
+            }
+
+        }
+    )
+
 }

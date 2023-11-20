@@ -1,12 +1,22 @@
 package com.happyint.cyclescape.repositories
 
 import com.happyint.cyclescape.entities.calendar.data.DayData
+import java.time.LocalDate
 import java.time.YearMonth
+import javax.inject.Inject
 
-class DayDataRepository(private val dayDataDao: DayDataDao) {
+class DayDataRepository @Inject constructor(private val dayDataDao: DayDataDao) {
 
     fun dayData(): List<DayData> {
         return dayDataDao.getDayDataList()
+    }
+
+    fun dayDataByDate(date: LocalDate): List<DayData> {
+        return dayDataDao.getDayDataListByDate(date)
+    }
+
+    fun unclosedDayData(day: LocalDate): List<DayData> {
+        return dayDataDao.getDayDataListUnclose(day)
     }
 
     // test require first of month and end of month

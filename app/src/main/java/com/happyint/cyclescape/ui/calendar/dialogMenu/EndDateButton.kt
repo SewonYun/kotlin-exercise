@@ -11,16 +11,20 @@ import com.happyint.cyclescape.util.ViewModelProvider
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RemoveDateButton(closeCallback: () -> Unit) {
+fun EndDateButton(closeCallback: () -> Unit) {
 
     TextButton(onClick = {
 
         val service = ClickStartDateInteraction.of()
         val calendarViewModel = ViewModelProvider.getCalendarViewModel()
+        val date = calendarViewModel.uiState.value.selectedDate
 
-        service.removeStartDate(calendarViewModel.uiState.value.selectedDayData!!)
+        date?.let {
+            service.insertEndDate(date)
+        }
+
         closeCallback()
     }) {
-        Text(text = stringResource(id = R.string.ask_menu_date_remove))
+        Text(text = stringResource(id = R.string.menu_end_date))
     }
 }

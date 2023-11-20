@@ -15,8 +15,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.happyint.cyclescape.CycleScapeApplication
 import com.happyint.cyclescape.R
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
@@ -48,7 +48,7 @@ enum class UserPage(val value: Int) {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                GlobalScope.launch(Dispatchers.IO) {
+                CoroutineScope(Dispatchers.IO).launch {
                     delay(3000)
                     openDialog.value = false
                 }

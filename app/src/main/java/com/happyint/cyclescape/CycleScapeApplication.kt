@@ -9,8 +9,6 @@ class CycleScapeApplication : Application() {
 
     val database: AppDatabase by lazy { AppDatabase.getDatabase(this) }
 
-//    val appComponent =
-
     init {
         instance = this
     }

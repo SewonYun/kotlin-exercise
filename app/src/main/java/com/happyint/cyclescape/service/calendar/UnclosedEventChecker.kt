@@ -1,0 +1,17 @@
+package com.happyint.cyclescape.service.calendar
+
+import arrow.core.Option
+import arrow.core.toOption
+import com.happyint.cyclescape.entities.calendar.data.DayData
+import com.happyint.cyclescape.repositories.DayDataRepository
+import java.time.LocalDate
+
+
+// never use singleton
+class UnclosedEventChecker constructor(private val dayDataRepository: DayDataRepository) {
+    fun findByDay(day: LocalDate): Option<List<DayData>> {
+        val result = dayDataRepository.unclosedDayData(day)
+        return result.toOption()
+    }
+
+}

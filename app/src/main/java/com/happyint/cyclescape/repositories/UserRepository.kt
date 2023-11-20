@@ -1,8 +1,9 @@
 package com.happyint.cyclescape.repositories
 
 import com.happyint.cyclescape.entities.user.data.Information
+import javax.inject.Inject
 
-class UserRepository(private val informationDao: InformationDao) {
+class UserRepository @Inject constructor(private val informationDao: InformationDao) {
 
     fun userInformation(): Information {
         return informationDao.getInformation()

@@ -2,6 +2,7 @@ package com.happyint.cyclescape.service.calendar
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import arrow.core.getOrElse
 import com.happyint.cyclescape.AppDatabase
 import com.happyint.cyclescape.entities.calendar.data.DayData
 import com.happyint.cyclescape.repositories.DayDataDao
@@ -47,9 +48,16 @@ class UnclosedEventCheckerTest {
     fun findUnClosedEvents(): Unit = runBlocking(Dispatchers.IO) {
 
         val checker = UnclosedEventChecker(mockDataRepository)
-        val result = checker.checkUnClosedEvents(LocalDate.now())
+        val result = checker.findByDay(LocalDate.now()).getOrNull()
 
-        assertEquals(ProcessingResult.Success, result)
+        assertEquals(
+            DayData(
+                id = 0,
+                startDate = LocalDate.now().minusDays(1),
+                endDate = null,
+                hasLittleNote = false
+            ), result
+        )
 
     }
 
@@ -57,22 +65,16 @@ class UnclosedEventCheckerTest {
     fun getUnClosedEvents(): Unit = runBlocking(Dispatchers.IO) {
 
         val checker = UnclosedEventChecker(mockDataRepository)
-        checker.checkUnClosedEvents(LocalDate.now())
-        val result = checker.getUnClosedEvents()
+        val result = checker.findByDay(day = LocalDate.now())
 
-        assertEquals(1, result.size)
-        val firstDay = result.first()
-        assertEquals(firstDay.startDate, LocalDate.now().minusDays(1))
-        assertEquals(firstDay.endDate, null)
-        assertEquals(firstDay.hasLittleNote, false)
+        val optionResult = result.getOrElse { listOf() }
+        assertEquals(1, optionResult.size)
 
-    }
-
-    @Test(expected = IllegalAccessException::class)
-    fun errorTest(): Unit = runBlocking(Dispatchers.IO) {
-
-        val checker = UnclosedEventChecker(mockDataRepository)
-        checker.getUnClosedEvents()
+        optionResult.first().let {
+            assertEquals(it.startDate, LocalDate.now().minusDays(1))
+            assertEquals(it.endDate, null)
+            assertEquals(it.hasLittleNote, false)
+        }
 
     }
 

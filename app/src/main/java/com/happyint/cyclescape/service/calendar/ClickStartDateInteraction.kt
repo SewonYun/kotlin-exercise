@@ -24,11 +24,16 @@ class ClickStartDateInteraction {
             DayData(
                 id = 0,
                 startDate = localData,
-                endDate = localData,
+                endDate = null,
                 hasLittleNote = false
             )
         )
 
+    }
+
+
+    fun insertEndDate(localData: LocalDate) {
+        _calendarViewModel.updateEndDate(localData)
     }
 
     fun removeStartDate(dayData: DayData) {
