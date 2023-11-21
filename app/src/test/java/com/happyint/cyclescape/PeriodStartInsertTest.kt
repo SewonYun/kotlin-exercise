@@ -7,10 +7,13 @@ import com.happyint.cyclescape.entities.calendar.data.DayData
 import com.happyint.cyclescape.repositories.DayDataDao
 import com.happyint.cyclescape.repositories.DayDataRepository
 import com.happyint.cyclescape.repositories.InformationDao
+import com.happyint.cyclescape.service.calendar.CalendarDialogPage
+import com.happyint.cyclescape.service.calendar.EventPeriodChecker
 import com.happyint.cyclescape.service.calendar.UnclosedEventChecker
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -49,7 +52,8 @@ class PeriodStartInsertTest {
         val dayDataRepository = DayDataRepository(mockDayDataDao)
         calendarViewModel = CalendarViewModel(
             DayDataRepository(mockDayDataDao),
-            UnclosedEventChecker(dayDataRepository)
+            UnclosedEventChecker(dayDataRepository),
+            EventPeriodChecker(dayDataRepository)
         )
     }
 
@@ -70,6 +74,47 @@ class PeriodStartInsertTest {
 
         assert((selectedDate == getDayData?.startDate))
     }
+
+    @Test
+    fun `dialogDependOn should return InsertDialog when no events`() = runBlocking {
+        val result = calendarViewModel.dialogDependOn(LocalDate.now())
+        assertEquals(CalendarDialogPage.InsertDialog, result)
+    }
+
+    @Test
+    fun `dialogDependOn should return update`() = runBlocking {
+        val selectedDayData = DayData(0, localDate, endDate = localDate.plusDays(30), false)
+        val selectedDate: LocalDate = localDate.plusDays(10)
+
+        calendarViewModel.upsertDayData(selectedDayData).join()
+
+        val result = calendarViewModel.dialogDependOn(selectedDate)
+        assertEquals(CalendarDialogPage.UpdateDialog, result)
+    }
+
+    @Test
+    fun `dialogDependOn should return end`() = runBlocking {
+        val selectedDayData = DayData(0, localDate, endDate = null, false)
+        val selectedDate: LocalDate = localDate.plusDays(10)
+
+        calendarViewModel.upsertDayData(selectedDayData).join()
+
+        val result = calendarViewModel.dialogDependOn(selectedDate)
+        assertEquals(CalendarDialogPage.EndDialog, result)
+    }
+
+    @Test
+    fun `dialogDependOn should return cancelDialog`() = runBlocking {
+        val selectedDayData = DayData(0, localDate, endDate = null, false)
+        val selectedDate: LocalDate = localDate
+
+        calendarViewModel.upsertDayData(selectedDayData).join()
+        calendarViewModel.updateUIState(selectedDate)
+
+        val result = calendarViewModel.dialogDependOn(selectedDate)
+        assertEquals(CalendarDialogPage.CancelDialog, result)
+    }
+
 
     @After
     fun tearDown() {
