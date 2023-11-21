@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -23,6 +24,10 @@ import java.time.YearMonth
 @Composable
 fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
     val daysInMonth = month.lengthOfMonth()
+    val daysInLastMonth = month.minusMonths(1)
+    val daysInLastMonthLen = daysInLastMonth.lengthOfMonth()
+    val daysInNextMonth = month.plusMonths(1)
+
     val firstDayOfWeek = month.atDay(1).dayOfWeek.value % 7 // 일요일이 0이 되도록 조정
     val calendarViewModel = viewModel<CalendarViewModel>()
 
@@ -36,7 +41,8 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
     ) {
         Column {
             var startDate = 1
-            while (startDate <= daysInMonth) {
+            var nextMonthStartDate = 1
+            for (z in 0..5) {
                 Row(
                     modifier = Modifier
                         .weight(1f)
@@ -49,7 +55,29 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
                                     .border(2.dp, md_theme_light_secondaryContainer)
                                     .weight(1f)
                                     .fillMaxHeight() // 추가
-                            )
+                                    .alpha(0.5f)
+                            ) {
+                                val localDate = LocalDate.of(
+                                    daysInLastMonth.year,
+                                    daysInLastMonth.month,
+                                    daysInLastMonthLen - firstDayOfWeek + i + 1
+                                )
+                                val color =
+                                    when (daysInLastMonth.atDay(
+                                        daysInLastMonthLen -
+                                                firstDayOfWeek + i + 1
+                                    ).dayOfWeek) {
+                                        DayOfWeek.SUNDAY -> Color.Red
+                                        DayOfWeek.SATURDAY -> Color.Blue
+                                        else -> Color.Black
+                                    }
+                                Day(
+                                    localDate,
+                                    color = color,
+                                    null,
+                                ) {}
+                            }
+
                         } else if (startDate <= daysInMonth) {
                             val color = when (month.atDay(startDate).dayOfWeek) {
                                 DayOfWeek.SUNDAY -> Color.Red
@@ -79,7 +107,27 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
                                     .border(2.dp, md_theme_light_secondaryContainer)
                                     .weight(1f)
                                     .fillMaxHeight() // 추가
-                            )
+                                    .alpha(0.3f)
+
+                            ) {
+                                val localDate = LocalDate.of(
+                                    daysInNextMonth.year, daysInNextMonth.month,
+                                    nextMonthStartDate
+                                )
+                                val color =
+                                    when (daysInNextMonth.atDay(nextMonthStartDate)
+                                        .dayOfWeek) {
+                                        DayOfWeek.SUNDAY -> Color.Red
+                                        DayOfWeek.SATURDAY -> Color.Blue
+                                        else -> Color.Black
+                                    }
+                                Day(
+                                    localDate,
+                                    color = color,
+                                    null
+                                ) {}
+                                nextMonthStartDate++
+                            }
                         }
                     }
                 }
