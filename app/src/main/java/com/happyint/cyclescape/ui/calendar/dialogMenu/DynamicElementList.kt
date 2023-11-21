@@ -35,6 +35,7 @@ fun DynamicElementList(closeCallback: () -> Unit) {
 fun DialogRendering(closeCallback: () -> Unit) {
     val calendarViewModel = viewModel<CalendarViewModel>()
     val date = calendarViewModel.uiState.collectAsState().value.selectedDate
+    val dayData = calendarViewModel.uiState.collectAsState().value.selectedDayData
 
     var dialogPage: CalendarDialogPage? by remember { mutableStateOf(null) }
 
@@ -55,6 +56,7 @@ fun DialogRendering(closeCallback: () -> Unit) {
             CalendarDialogPage.InsertDialog -> StartDateButton(closeCallback)
             CalendarDialogPage.EndDialog -> EndDateButton(closeCallback)
             CalendarDialogPage.CancelDialog -> RemoveDateButton(closeCallback)
+            CalendarDialogPage.UpdateDialog -> UpdateDateButton(dayData, closeCallback)
         }
     }
 }

@@ -8,6 +8,7 @@ import com.happyint.cyclescape.entities.calendar.state.UIState
 import com.happyint.cyclescape.exception.NotFoundDataException
 import com.happyint.cyclescape.repositories.DayDataRepository
 import com.happyint.cyclescape.service.calendar.CalendarDialogPage
+import com.happyint.cyclescape.service.calendar.EventPeriodChecker
 import com.happyint.cyclescape.service.calendar.UnclosedEventChecker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
     private val dayDataRepository: DayDataRepository,
-    private val unclosedEventChecker: UnclosedEventChecker
+    private val unclosedEventChecker: UnclosedEventChecker,
+    private val eventPeriodChecker: EventPeriodChecker
 ) :
     ViewModel() {
 
@@ -109,13 +111,33 @@ class CalendarViewModel @Inject constructor(
 
     fun dialogDependOn(date: LocalDate): CalendarDialogPage {
 
-        val optionResult = unclosedEventChecker.findByDay(date)
+        val unclosedResult = unclosedEventChecker.findByDay(date).getOrElse { listOf() }
+        val periodCheckResult = eventPeriodChecker.findByDay(date).getOrElse { listOf() }
+
+        if ((unclosedResult.size + periodCheckResult.size) == 1) {
+            updateUiStateInDialog(unclosedResult + periodCheckResult)
+        }
 
         return when {
-            _uiState.value.selectedDayData != null -> CalendarDialogPage.CancelDialog
-            optionResult.getOrElse { listOf() }.isNotEmpty() -> CalendarDialogPage.EndDialog
+            periodCheckResult.isNotEmpty() -> CalendarDialogPage.UpdateDialog
+            unclosedResult.isNotEmpty() -> CalendarDialogPage.EndDialog
+            checkSelectDayEqualToDayData() -> CalendarDialogPage.CancelDialog
             else -> CalendarDialogPage.InsertDialog
         }
+    }
+
+    private fun checkSelectDayEqualToDayData(): Boolean {
+        return _uiState.value.selectedDayData != null
+                && _uiState.value.selectedDayData!!.startDate == _uiState.value.selectedDate
+    }
+
+    private fun updateUiStateInDialog(result: List<DayData>) {
+
+        val dayData = result.first()
+        _uiState.value = _uiState.value.copy(
+            selectedDayData = dayData
+        )
+
     }
 
 }
