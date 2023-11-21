@@ -6,12 +6,9 @@ import com.happyint.cyclescape.viewModels.CalendarViewModel
 import com.happyint.cyclescape.viewModels.UserInfoViewModel
 import dagger.BindsInstance
 import dagger.Component
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-@EntryPoint
-@InstallIn(SingletonComponent::class)
+@Singleton
 @Component(modules = [RepositoryModule::class])
 interface ComponentRoot {
 

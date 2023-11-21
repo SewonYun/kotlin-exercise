@@ -7,7 +7,7 @@ import com.happyint.cyclescape.entities.calendar.data.DayData
 import com.happyint.cyclescape.repositories.DayDataDao
 import com.happyint.cyclescape.repositories.DayDataRepository
 import com.happyint.cyclescape.repositories.InformationDao
-import com.happyint.cyclescape.viewModelFactories.CalendarViewModelFactory
+import com.happyint.cyclescape.service.calendar.UnclosedEventChecker
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -46,10 +46,11 @@ class PeriodStartInsertTest {
         ).allowMainThreadQueries().build()
         mockInformationDao = mockDatabase.userDao()
         mockDayDataDao = mockDatabase.dayDataDao()
-
-        calendarViewModel =
-            CalendarViewModelFactory(DayDataRepository(mockDayDataDao)).create(CalendarViewModel::class.java)
-
+        val dayDataRepository = DayDataRepository(mockDayDataDao)
+        calendarViewModel = CalendarViewModel(
+            DayDataRepository(mockDayDataDao),
+            UnclosedEventChecker(dayDataRepository)
+        )
     }
 
     @Test

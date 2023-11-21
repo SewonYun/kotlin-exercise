@@ -6,7 +6,6 @@ import androidx.test.core.app.ApplicationProvider
 import com.happyint.cyclescape.entities.user.data.Information
 import com.happyint.cyclescape.repositories.InformationDao
 import com.happyint.cyclescape.repositories.UserRepository
-import com.happyint.cyclescape.viewModelFactories.UserInfoViewModelFactory
 import com.happyint.cyclescape.viewModels.UserInfoViewModel
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -14,6 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import javax.inject.Inject
 
 @ExperimentalMaterial3Api
 @RunWith(RobolectricTestRunner::class)
@@ -21,6 +21,7 @@ class UserInformationInsertTest {
 
     private lateinit var mockDatabase: AppDatabase
     private lateinit var mockInformationDao: InformationDao
+    @Inject
     private lateinit var userInfoViewModel: UserInfoViewModel
 
     @Before
@@ -30,9 +31,8 @@ class UserInformationInsertTest {
             AppDatabase::class.java
         ).allowMainThreadQueries().build()
         mockInformationDao = mockDatabase.userDao()
-
-        userInfoViewModel =
-            UserInfoViewModelFactory(UserRepository(mockInformationDao)).create(UserInfoViewModel::class.java)
+        val userRepository = UserRepository(mockInformationDao)
+        userInfoViewModel = UserInfoViewModel(userRepository)
     }
 
     @Test

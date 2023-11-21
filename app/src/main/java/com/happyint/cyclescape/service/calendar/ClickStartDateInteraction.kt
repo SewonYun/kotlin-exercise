@@ -1,23 +1,11 @@
 package com.happyint.cyclescape.service.calendar
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import com.happyint.cyclescape.entities.calendar.data.DayData
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import java.time.LocalDate
 import javax.inject.Inject
 
-@ExperimentalMaterial3Api
-class ClickStartDateInteraction {
-
-    @Inject
-    lateinit var calendarViewModel: CalendarViewModel
-
-    companion object {
-        fun of(): ClickStartDateInteraction {
-            return ClickStartDateInteraction()
-        }
-    }
-
+class ClickStartDateInteraction @Inject constructor(val calendarViewModel: CalendarViewModel) {
 
     fun insertStartDate(localData: LocalDate) {
 
@@ -31,7 +19,6 @@ class ClickStartDateInteraction {
         )
 
     }
-
 
     fun insertEndDate(localData: LocalDate) {
         calendarViewModel.updateEndDate(localData)

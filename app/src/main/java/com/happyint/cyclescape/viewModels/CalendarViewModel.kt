@@ -20,9 +20,12 @@ import java.time.YearMonth
 import javax.inject.Inject
 
 @HiltViewModel
-class CalendarViewModel @Inject constructor(private val dayDataRepository: DayDataRepository) :
-    ViewModel
-        () {
+class CalendarViewModel @Inject constructor(
+    private val dayDataRepository: DayDataRepository,
+    private val unclosedEventChecker: UnclosedEventChecker
+) :
+    ViewModel() {
+
     private val _uiState = MutableStateFlow(UIState())
     val uiState: StateFlow<UIState> get() = _uiState.asStateFlow()
 
@@ -77,6 +80,18 @@ class CalendarViewModel @Inject constructor(private val dayDataRepository: DayDa
         ).join()
     }
 
+    fun insertStartDate(localData: LocalDate) {
+        upsertDayData(
+            DayData(
+                id = 0,
+                startDate = localData,
+                endDate = null,
+                hasLittleNote = false
+            )
+        )
+
+    }
+
     fun updateUIState(selectedDate: LocalDate) {
         val selectedDayData = _monthPeriodData.value.firstOrNull { it.startDate == selectedDate }
         _uiState.value = _uiState.value.copy(
@@ -94,7 +109,6 @@ class CalendarViewModel @Inject constructor(private val dayDataRepository: DayDa
 
     fun dialogDependOn(date: LocalDate): CalendarDialogPage {
 
-        val unclosedEventChecker = UnclosedEventChecker(dayDataRepository)
         val optionResult = unclosedEventChecker.findByDay(date)
 
         return when {
