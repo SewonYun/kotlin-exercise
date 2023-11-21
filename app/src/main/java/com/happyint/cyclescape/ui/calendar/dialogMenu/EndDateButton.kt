@@ -18,7 +18,7 @@ fun EndDateButton(closeCallback: () -> Unit) {
         val date = calendarViewModel.uiState.value.selectedDate
 
         date?.let {
-            calendarViewModel.insertStartDate(date)
+            calendarViewModel.updateEndDate(date)
         }
 
         closeCallback()
