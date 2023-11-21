@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CalendarBottomView() {
+fun CalendarPaddingView() {
     Box(
         modifier = Modifier
             .height(100.dp)

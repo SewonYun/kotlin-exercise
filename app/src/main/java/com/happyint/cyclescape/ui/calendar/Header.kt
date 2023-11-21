@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -25,7 +24,6 @@ fun CalendarHeader(month: YearMonth) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         contentColor = Color.Black,
-        shape = RoundedCornerShape(8.dp),
         shadowElevation = 8.dp
     ) {
         Box(

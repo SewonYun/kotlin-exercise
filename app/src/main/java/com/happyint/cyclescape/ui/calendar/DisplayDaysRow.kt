@@ -1,20 +1,20 @@
 package com.happyint.cyclescape.ui.calendar
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.happyint.cyclescape.customApi.testBorder
+import com.happyint.cyclescape.ui.graphics.md_theme_light_secondaryContainer
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -32,37 +32,37 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .testBorder()
+            .border(2.dp, md_theme_light_secondaryContainer)
     ) {
         Column {
             var startDate = 1
             while (startDate <= daysInMonth) {
-
-                Row {
-
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                ) {
                     for (i in 0..6) {
-
                         if (startDate == 1 && i < firstDayOfWeek) {
                             Box(
                                 modifier = Modifier
+                                    .border(2.dp, md_theme_light_secondaryContainer)
                                     .weight(1f)
-                                    .height(50.dp)
+                                    .fillMaxHeight() // 추가
                             )
                         } else if (startDate <= daysInMonth) {
-
                             val color = when (month.atDay(startDate).dayOfWeek) {
                                 DayOfWeek.SUNDAY -> Color.Red
                                 DayOfWeek.SATURDAY -> Color.Blue
                                 else -> Color.Black
                             }
-
                             Box(
                                 modifier = Modifier
+                                    .border(2.dp, md_theme_light_secondaryContainer)
                                     .weight(1f)
-                                    .height(50.dp),
-                                contentAlignment = Alignment.Center
+                                    .fillMaxHeight() // 추가
+                                    .fillMaxWidth() // 추가
                             ) {
-
                                 val localDate = LocalDate.of(month.year, month.month, startDate)
                                 Day(
                                     localDate,
@@ -71,16 +71,14 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
                                 ) {
                                     openDialog.value = true
                                 }
-
                             }
                             startDate++
-
                         } else {
-                            // 날짜가 없는 경우 빈 박스를 표시합니다.
                             Box(
                                 modifier = Modifier
+                                    .border(2.dp, md_theme_light_secondaryContainer)
                                     .weight(1f)
-                                    .height(50.dp)
+                                    .fillMaxHeight() // 추가
                             )
                         }
                     }
@@ -88,4 +86,5 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
             }
         }
     }
+
 }

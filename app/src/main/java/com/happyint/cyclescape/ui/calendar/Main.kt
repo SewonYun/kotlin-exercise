@@ -1,6 +1,7 @@
 package com.happyint.cyclescape.ui.calendar
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -13,8 +14,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.happyint.cyclescape.customApi.testBorder
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import kotlinx.coroutines.flow.filter
 import java.time.YearMonth
@@ -63,10 +65,12 @@ fun LoadCalendar() {
 
         }
 
+        CalendarPaddingView()
+
         VerticalPager(
             modifier = Modifier
                 .weight(1f)
-                .testBorder(),
+                .border(2.dp, Color.Gray),
             state = pagerState,
             beyondBoundsPageCount = 3,
             pageContent = {
@@ -83,7 +87,6 @@ fun LoadCalendar() {
             }
         )
 
-        CalendarBottomView()
     }
 
 }
