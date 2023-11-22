@@ -33,9 +33,15 @@ class CalendarViewModel @Inject constructor(
 
     private var _monthPeriodData: MutableStateFlow<List<DayData>> = MutableStateFlow(listOf())
     val monthPeriodData: StateFlow<List<DayData>> get() = _monthPeriodData.asStateFlow()
+    private var _prevMonthPeriodData: MutableStateFlow<List<DayData>> = MutableStateFlow(listOf())
+    val prevMonthPeriodData: StateFlow<List<DayData>> get() = _prevMonthPeriodData.asStateFlow()
+    private var _nextMonthPeriodData: MutableStateFlow<List<DayData>> = MutableStateFlow(listOf())
+    val nextMonthPeriodData: StateFlow<List<DayData>> get() = _nextMonthPeriodData.asStateFlow()
 
     fun fetchMonthPeriodData(month: YearMonth) = viewModelScope.launch(Dispatchers.IO) {
         _monthPeriodData.value = dayDataRepository.dayDataByMonth(month)
+        _prevMonthPeriodData.value = dayDataRepository.dayDataByMonth(month.minusMonths(1))
+        _nextMonthPeriodData.value = dayDataRepository.dayDataByMonth(month.plusMonths(1))
     }
 
     fun upsertDayData(dayData: DayData) = viewModelScope.launch(Dispatchers.IO) {

@@ -32,7 +32,15 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
     val calendarViewModel = viewModel<CalendarViewModel>()
 
     val monthPeriodData = calendarViewModel.monthPeriodData.collectAsState(initial = (listOf()))
+    val prevMonthPeriodData = calendarViewModel.prevMonthPeriodData.collectAsState(
+        initial = (listOf
+            ())
+    )
+    val nextMonthPeriodData =
+        calendarViewModel.nextMonthPeriodData.collectAsState(initial = (listOf()))
     val periodDataMap = monthPeriodData.value.associateBy { it.startDate.toString() }
+    val prevPeriodDataMap = prevMonthPeriodData.value.associateBy { it.startDate.toString() }
+    val nextPeriodDataMap = nextMonthPeriodData.value.associateBy { it.startDate.toString() }
 
     Surface(
         modifier = Modifier
@@ -74,7 +82,7 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
                                 Day(
                                     localDate,
                                     color = color,
-                                    null,
+                                    prevPeriodDataMap[localDate.toString()]
                                 ) {}
                             }
 
@@ -124,7 +132,7 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
                                 Day(
                                     localDate,
                                     color = color,
-                                    null
+                                    nextPeriodDataMap[localDate.toString()]
                                 ) {}
                                 nextMonthStartDate++
                             }
