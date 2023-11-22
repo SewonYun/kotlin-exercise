@@ -37,7 +37,7 @@ fun LoadCalendar() {
         }
 
         val pagerState = rememberPagerState(
-            initialPage = 2,
+            initialPage = 1,
             initialPageOffsetFraction = 0f
         ) {
             months.size
@@ -72,7 +72,7 @@ fun LoadCalendar() {
                 .weight(1f)
                 .border(2.dp, Color.Gray),
             state = pagerState,
-            beyondBoundsPageCount = 3,
+            beyondBoundsPageCount = 0,
             pageContent = {
                 val month = months[it]
 

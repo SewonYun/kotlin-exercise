@@ -1,5 +1,6 @@
 package com.happyint.cyclescape.ui.calendar
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,25 +10,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.R
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.happyint.cyclescape.entities.calendar.data.DayData
+import com.happyint.cyclescape.CycleScapeApplication
+import com.happyint.cyclescape.entities.calendar.state.DayComponentState
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import java.time.LocalDate
 
 
 @Composable
-fun Day(localDate: LocalDate, color: Color, dayData: DayData?, cb: () -> Unit) {
+fun Day(localDate: LocalDate, color: Color, dayComponentState: DayComponentState, cb: () -> Unit) {
     val calendarViewModel = viewModel<CalendarViewModel>()
-
     Box(
         modifier = Modifier
             .fillMaxSize()
             .clickable {
+                Toast
+                    .makeText(
+                        CycleScapeApplication.instance, dayComponentState.dayData.toString(),
+                        Toast.LENGTH_SHORT
+                    )
+                    .show()
                 cb()
                 calendarViewModel.updateUIState(localDate)
             },
@@ -51,30 +56,37 @@ fun Day(localDate: LocalDate, color: Color, dayData: DayData?, cb: () -> Unit) {
 
             Box(modifier = Modifier.weight(1f)) {
 
-                if (dayData != null) {
+                if (!dayComponentState.isStartDate || !dayComponentState.isMiddleDate ||
+                    !dayComponentState.isEndDate
+                ) {
 
                     Box(
                         modifier = Modifier
                             .fillMaxSize(),
                         contentAlignment = Alignment.BottomEnd
                     ) {
-                        if (dayData.startDate == localDate) {
+                        if (dayComponentState.isStartDate) {
 
-                            Text(text = stringResource(id = R.string.range_start), fontSize = 10.sp)
+                            Text(text = "!!!!!!!!!", fontSize = 10.sp)
 
                         }
-                    }
 
-                    Box {
-                        if (dayData.hasLittleNote) {
-                            Text(text = "블라블라", color = color)
+                        if (dayComponentState.isMiddleDate) {
+
+                            Text(text = "@@@@@@@@@@", fontSize = 10.sp)
+
+                        }
+
+                        if (dayComponentState.isEndDate) {
+
+                            Text(text = "#############", fontSize = 10.sp)
+
                         }
                     }
 
                 }
             }
         }
-
 
     }
 }

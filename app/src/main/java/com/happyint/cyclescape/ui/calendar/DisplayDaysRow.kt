@@ -15,6 +15,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.happyint.cyclescape.customApi.conditional
+import com.happyint.cyclescape.entities.calendar.data.DayData
+import com.happyint.cyclescape.entities.calendar.state.DayComponentState
 import com.happyint.cyclescape.ui.graphics.md_theme_light_secondaryContainer
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import java.time.DayOfWeek
@@ -47,94 +50,67 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
             .border(2.dp, md_theme_light_secondaryContainer)
     ) {
         Column {
-            var startDate = 1
+            var date = 1
             var nextMonthStartDate = 1
+            var prevDayData: DayData? = null
+
             for (z in 0..5) {
                 Row(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth()
                 ) {
+
                     for (i in 0..6) {
-                        if (startDate == 1 && i < firstDayOfWeek) {
-                            Box(
-                                modifier = Modifier
-                                    .border(2.dp, md_theme_light_secondaryContainer)
-                                    .weight(1f)
-                                    .fillMaxHeight() // 추가
-                                    .alpha(0.5f)
-                            ) {
-                                val localDate = LocalDate.of(
-                                    daysInLastMonth.year,
-                                    daysInLastMonth.month,
-                                    daysInLastMonthLen - firstDayOfWeek + i + 1
-                                )
-                                val color =
-                                    when (daysInLastMonth.atDay(
-                                        daysInLastMonthLen -
-                                                firstDayOfWeek + i + 1
-                                    ).dayOfWeek) {
-                                        DayOfWeek.SUNDAY -> Color.Red
-                                        DayOfWeek.SATURDAY -> Color.Blue
-                                        else -> Color.Black
-                                    }
-                                Day(
-                                    localDate,
-                                    color = color,
-                                    prevPeriodDataMap[localDate.toString()]
-                                ) {}
+                        if (date == 1 && i < firstDayOfWeek) {
+
+                            val localDate = LocalDate.of(
+                                daysInNextMonth.year,
+                                daysInNextMonth.month,
+                                daysInLastMonthLen - (6 - i)
+                            )
+
+                            if (prevPeriodDataMap[localDate.toString()] != null) {
+                                prevDayData = prevPeriodDataMap[localDate.toString()]
                             }
 
-                        } else if (startDate <= daysInMonth) {
-                            val color = when (month.atDay(startDate).dayOfWeek) {
-                                DayOfWeek.SUNDAY -> Color.Red
-                                DayOfWeek.SATURDAY -> Color.Blue
-                                else -> Color.Black
+                            Surface(modifier = Modifier.weight(1f)) {
+                                DayGrid(
+                                    daysInLastMonth, daysInLastMonthLen - firstDayOfWeek + i
+                                            + 1, prevDayData, openDialog, isAlpha = true
+                                )
                             }
-                            Box(
-                                modifier = Modifier
-                                    .border(2.dp, md_theme_light_secondaryContainer)
-                                    .weight(1f)
-                                    .fillMaxHeight() // 추가
-                                    .fillMaxWidth() // 추가
-                            ) {
-                                val localDate = LocalDate.of(month.year, month.month, startDate)
-                                Day(
-                                    localDate,
-                                    color = color,
-                                    periodDataMap[localDate.toString()]
-                                ) {
-                                    openDialog.value = true
-                                }
+
+                        } else if (date <= daysInMonth) {
+
+                            val localDate = LocalDate.of(month.year, month.month, date)
+
+                            if (periodDataMap[localDate.toString()] != null) {
+                                prevDayData = periodDataMap[localDate.toString()]
                             }
-                            startDate++
+
+                            Surface(modifier = Modifier.weight(1f)) {
+                                DayGrid(month, date, prevDayData, openDialog, isAlpha = false)
+                            }
+                            date++
                         } else {
-                            Box(
-                                modifier = Modifier
-                                    .border(2.dp, md_theme_light_secondaryContainer)
-                                    .weight(1f)
-                                    .fillMaxHeight() // 추가
-                                    .alpha(0.3f)
 
-                            ) {
-                                val localDate = LocalDate.of(
-                                    daysInNextMonth.year, daysInNextMonth.month,
-                                    nextMonthStartDate
-                                )
-                                val color =
-                                    when (daysInNextMonth.atDay(nextMonthStartDate)
-                                        .dayOfWeek) {
-                                        DayOfWeek.SUNDAY -> Color.Red
-                                        DayOfWeek.SATURDAY -> Color.Blue
-                                        else -> Color.Black
-                                    }
-                                Day(
-                                    localDate,
-                                    color = color,
-                                    nextPeriodDataMap[localDate.toString()]
-                                ) {}
-                                nextMonthStartDate++
+                            val localDate = LocalDate.of(
+                                daysInNextMonth.year, daysInNextMonth.month,
+                                nextMonthStartDate
+                            )
+
+                            if (nextPeriodDataMap[localDate.toString()] != null) {
+                                prevDayData = nextPeriodDataMap[localDate.toString()]
                             }
+
+                            Surface(modifier = Modifier.weight(1f)) {
+                                DayGrid(
+                                    daysInNextMonth, nextMonthStartDate, prevDayData,
+                                    openDialog, isAlpha = true
+                                )
+                            }
+                            nextMonthStartDate++
                         }
                     }
                 }
@@ -142,4 +118,58 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
         }
     }
 
+}
+
+@Composable
+fun DayGrid(
+    month: YearMonth, startDate: Int, dayData: DayData?, openDialog:
+    MutableState<Boolean>, isAlpha: Boolean
+) {
+    if (dayData != null) {
+        dayData.hasLittleNote = false
+    }
+    val color = when (month.atDay(startDate).dayOfWeek) {
+        DayOfWeek.SUNDAY -> Color.Red
+        DayOfWeek.SATURDAY -> Color.Blue
+        else -> Color.Black
+    }
+
+    Box(
+        modifier = Modifier
+            .border(2.dp, md_theme_light_secondaryContainer)
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .conditional(isAlpha) {
+                this.alpha(0.5f)
+            }
+    ) {
+
+        val localDate = LocalDate.of(month.year, month.month, startDate)
+
+        Day(
+            localDate,
+            color = color,
+            dayComponentHandler(dayData, localDate)
+        ) {
+            openDialog.value = true
+        }
+
+    }
+}
+
+fun dayComponentHandler(dayData: DayData?, localDate: LocalDate): DayComponentState {
+
+    if (dayData == null) {
+        return DayComponentState(false, false, false, null)
+    }
+
+    val isStartDate = localDate == dayData.startDate
+    val isMiddleDate =
+        (dayData.endDate != null && dayData.endDate > localDate) && dayData.startDate < localDate
+    val isEndDate = dayData.endDate != null && dayData.endDate == localDate
+
+    return DayComponentState(
+        isStartDate = isStartDate, isMiddleDate = isMiddleDate, isEndDate =
+        isEndDate, dayData = dayData
+    )
 }
