@@ -62,6 +62,7 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
                 ) {
 
                     for (i in 0..6) {
+
                         if (date == 1 && i < firstDayOfWeek) {
 
                             val localDate = LocalDate.of(
@@ -69,6 +70,10 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
                                 daysInNextMonth.month,
                                 daysInLastMonthLen - (6 - i)
                             )
+
+                            if (prevDayData?.endDate != null && prevDayData?.endDate!! < localDate) {
+                                prevDayData = null
+                            }
 
                             if (prevPeriodDataMap[localDate.toString()] != null) {
                                 prevDayData = prevPeriodDataMap[localDate.toString()]
@@ -85,6 +90,10 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
 
                             val localDate = LocalDate.of(month.year, month.month, date)
 
+                            if (prevDayData?.endDate != null && prevDayData?.endDate!! < localDate) {
+                                prevDayData = null
+                            }
+
                             if (periodDataMap[localDate.toString()] != null) {
                                 prevDayData = periodDataMap[localDate.toString()]
                             }
@@ -99,6 +108,10 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
                                 daysInNextMonth.year, daysInNextMonth.month,
                                 nextMonthStartDate
                             )
+
+                            if (prevDayData?.endDate != null && prevDayData?.endDate!! < localDate) {
+                                prevDayData = null
+                            }
 
                             if (nextPeriodDataMap[localDate.toString()] != null) {
                                 prevDayData = nextPeriodDataMap[localDate.toString()]
