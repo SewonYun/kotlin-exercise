@@ -100,12 +100,16 @@ class CalendarViewModel @Inject constructor(
 
     }
 
-    fun updateUIState(selectedDate: LocalDate) {
+    fun updateUIStateByDate(selectedDate: LocalDate) {
         val selectedDayData = _monthPeriodData.value.firstOrNull { it.startDate == selectedDate }
         _uiState.value = _uiState.value.copy(
             selectedDate = selectedDate,
             selectedDayData = selectedDayData
         )
+    }
+
+    fun updateUIStateByCopy(uiState: UIState) {
+        _uiState.value = uiState
     }
 
     fun initUIState() {

@@ -1,6 +1,6 @@
 package com.happyint.cyclescape.ui.calendar
 
-import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,8 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.happyint.cyclescape.CycleScapeApplication
+import com.happyint.cyclescape.customApi.conditional
 import com.happyint.cyclescape.entities.calendar.state.DayComponentState
+import com.happyint.cyclescape.ui.graphics.md_theme_dark_secondary
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import java.time.LocalDate
 
@@ -27,14 +28,8 @@ fun Day(localDate: LocalDate, color: Color, dayComponentState: DayComponentState
         modifier = Modifier
             .fillMaxSize()
             .clickable {
-                Toast
-                    .makeText(
-                        CycleScapeApplication.instance, dayComponentState.dayData.toString(),
-                        Toast.LENGTH_SHORT
-                    )
-                    .show()
                 cb()
-                calendarViewModel.updateUIState(localDate)
+                calendarViewModel.updateUIStateByDate(localDate)
             },
         contentAlignment = Alignment.Center
     ) {
@@ -62,7 +57,14 @@ fun Day(localDate: LocalDate, color: Color, dayComponentState: DayComponentState
 
                     Box(
                         modifier = Modifier
-                            .fillMaxSize(),
+                            .fillMaxSize()
+                            .conditional(
+                                dayComponentState.isStartDate ||
+                                        dayComponentState.isMiddleDate ||
+                                        dayComponentState.isEndDate
+                            ) {
+                                this.background(color = md_theme_dark_secondary)
+                            },
                         contentAlignment = Alignment.BottomEnd
                     ) {
                         if (dayComponentState.isStartDate) {

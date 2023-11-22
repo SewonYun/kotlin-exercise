@@ -7,7 +7,9 @@ import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.happyint.cyclescape.service.calendar.TopbarSyncDelegator
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import kotlinx.coroutines.flow.filter
 import java.time.YearMonth
@@ -44,6 +47,8 @@ fun LoadCalendar() {
         }
 
         val cv = viewModel<CalendarViewModel>()
+        cv.updateUIStateByCopy(cv.uiState.collectAsState().value.copy(month = months[pagerState.currentPage]))
+        TopbarSyncDelegator.UiStateUpdate(cv, months, pagerState)
 
         LaunchedEffect(pagerState.currentPage) {
 
@@ -79,13 +84,23 @@ fun LoadCalendar() {
                 OutSurface {
 
                     Column {
-                        CalendarHeader(month)
+//                        CalendarHeader(month)
                         CalendarBody(month)
                     }
 
                 }
             }
         )
+
+    }
+
+    val calendarViewModel = viewModel<CalendarViewModel>()
+    DisposableEffect(Unit) {
+
+        onDispose {
+            val uiState = calendarViewModel.uiState.value
+            calendarViewModel.updateUIStateByCopy(uiState.copy(month = null))
+        }
 
     }
 

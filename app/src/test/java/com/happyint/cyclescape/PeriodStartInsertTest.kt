@@ -109,7 +109,7 @@ class PeriodStartInsertTest {
         val selectedDate: LocalDate = localDate
 
         calendarViewModel.upsertDayData(selectedDayData).join()
-        calendarViewModel.updateUIState(selectedDate)
+        calendarViewModel.updateUIStateByDate(selectedDate)
 
         val result = calendarViewModel.dialogDependOn(selectedDate)
         assertEquals(CalendarDialogPage.CancelDialog, result)
