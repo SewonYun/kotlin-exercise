@@ -33,8 +33,7 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
 
     val monthPeriodData = calendarViewModel.monthPeriodData.collectAsState(initial = (listOf()))
     val prevMonthPeriodData = calendarViewModel.prevMonthPeriodData.collectAsState(
-        initial = (listOf
-            ())
+        initial = (listOf())
     )
     val nextMonthPeriodData =
         calendarViewModel.nextMonthPeriodData.collectAsState(initial = (listOf()))

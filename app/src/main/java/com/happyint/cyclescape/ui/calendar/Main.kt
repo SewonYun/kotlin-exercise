@@ -31,13 +31,13 @@ fun LoadCalendar() {
 
         val currentMonth = YearMonth.now()
         var months by remember {
-            mutableStateOf(List(7) {
-                currentMonth.minusMonths(3).plusMonths(it.toLong())
+            mutableStateOf(List(3) {
+                currentMonth.minusMonths(1).plusMonths(it.toLong())
             })
         }
 
         val pagerState = rememberPagerState(
-            initialPage = 3,
+            initialPage = 2,
             initialPageOffsetFraction = 0f
         ) {
             months.size
@@ -47,7 +47,7 @@ fun LoadCalendar() {
 
         LaunchedEffect(pagerState.currentPage) {
 
-            cv.fetchMonthPeriodData(months[pagerState.currentPage]).join()
+            cv.fetchMonthPeriodData(months[pagerState.currentPage])
 
             snapshotFlow { pagerState.isScrollInProgress }.filter { it == false }.collect {
 
