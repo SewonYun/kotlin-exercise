@@ -54,5 +54,6 @@
     <string name="sat">Sat</string>
 
     <string name="month_header">(%1$d) %2$s</string>
+    <string name="explain_today">Today</string>
 
 </resources>

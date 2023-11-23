@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.customApi.conditional
 import com.happyint.cyclescape.entities.calendar.state.DayComponentState
@@ -64,26 +63,9 @@ fun Day(localDate: LocalDate, color: Color, dayComponentState: DayComponentState
                                         dayComponentState.isEndDate
                             ) {
                                 this.background(color = md_theme_dark_secondary)
-                            },
-                        contentAlignment = Alignment.BottomEnd
+                            }
                     ) {
-                        if (dayComponentState.isStartDate) {
-
-                            Text(text = "!!!!!!!!!", fontSize = 10.sp)
-
-                        }
-
-                        if (dayComponentState.isMiddleDate) {
-
-                            Text(text = "@@@@@@@@@@", fontSize = 10.sp)
-
-                        }
-
-                        if (dayComponentState.isEndDate) {
-
-                            Text(text = "#############", fontSize = 10.sp)
-
-                        }
+                        DayComponent(localDate)
                     }
 
                 }
