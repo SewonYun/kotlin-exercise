@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -45,7 +47,20 @@ fun CycleScapeAppOf(
 
     if (appState.isOnline) {
 
-        val currentScreen = remember { mutableStateOf(UserPage.OPENING) }
+        val pagerState = rememberPagerState(pageCount = { UserPage.values().size })
+        val currentScreen = remember { mutableStateOf(UserPage.MAIN) }
+
+        val isOpening = remember { mutableStateOf(true) }
+
+        if (isOpening.value) {
+            Opening(LottieConstants.IterateForever)
+        }
+
+        LaunchedEffect(Unit) {
+            delay(1500)
+            isOpening.value = false
+        }
+
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -55,24 +70,22 @@ fun CycleScapeAppOf(
             }
 
             Box(modifier = Modifier.weight(1f)) {
+                HorizontalPager(state = pagerState) { page ->
+                    currentScreen.value = UserPage.values()[page]
 
-                when (currentScreen.value) {
-                    UserPage.OPENING -> Opening(LottieConstants.IterateForever)
-                    UserPage.MAIN -> LoadMainHome()
-                    UserPage.SETTING -> LoadSettingMain()
-                    UserPage.NOTICE -> LoadNotice(listOf("test1", "test2"))
-                    UserPage.CALENDAR -> LoadCalendar()
-                }
+                    when (currentScreen.value) {
+                        UserPage.MAIN -> LoadMainHome()
+                        UserPage.SETTING -> LoadSettingMain()
+                        UserPage.NOTICE -> LoadNotice(listOf("test1", "test2"))
+                        UserPage.CALENDAR -> LoadCalendar()
+                    }
 
-                LaunchedEffect(Unit) {
-                    delay(1500)
-                    currentScreen.value = UserPage.MAIN
                 }
 
             }
 
             Box(modifier = Modifier.height(56.dp)) {
-                BottomNavBar(currentScreen)
+                BottomNavBar(currentScreen, pagerState = pagerState)
             }
 
             currentScreen.value.GoBack(currentScreen = currentScreen)
