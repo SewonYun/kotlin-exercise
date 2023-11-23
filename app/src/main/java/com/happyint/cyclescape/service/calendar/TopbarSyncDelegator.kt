@@ -2,6 +2,7 @@ package com.happyint.cyclescape.service.calendar
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.PagerState
@@ -28,16 +29,34 @@ class TopbarSyncDelegator {
 
         @Composable
         fun Grid(month: YearMonth) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(id = R.string.month_header, month.month.name, month.year),
-                    style = androidx.compose.ui.text.TextStyle(fontSize = 15.sp),
-                    fontFamily = agbalumoFamily
-                )
+            Column {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val arabial = month.month.value
+
+                    Text(
+                        text = stringResource(
+                            id = R.string.month_header, arabial, month.month.name
+                        ),
+                        style = androidx.compose.ui.text.TextStyle(fontSize = 17.sp),
+                        fontFamily = agbalumoFamily
+                    )
+
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Text(
+                        text = month.year.toString(),
+                        style = androidx.compose.ui.text.TextStyle(fontSize = 14.sp)
+                    )
+                }
             }
         }
 
