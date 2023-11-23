@@ -26,31 +26,19 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.happyint.cyclescape.R
 import com.happyint.cyclescape.constants.AppName
 import com.happyint.cyclescape.constants.UserPage
 import com.happyint.cyclescape.service.calendar.TopbarSyncDelegator
+import com.happyint.cyclescape.ui.graphics.agbalumoFamily
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 
 
 @ExperimentalMaterial3Api
 @Composable
 fun TopBar(currentScreen: MutableState<UserPage>) {
-
-    val agbalumoFamily = FontFamily(
-        Font(R.font.agbalumo, FontWeight.Light),
-        Font(R.font.agbalumo, FontWeight.Normal),
-        Font(R.font.agbalumo, FontWeight.Normal, FontStyle.Italic),
-        Font(R.font.agbalumo, FontWeight.Medium),
-        Font(R.font.agbalumo, FontWeight.Bold)
-    )
 
     CenterAlignedTopAppBar(
 
@@ -60,14 +48,21 @@ fun TopBar(currentScreen: MutableState<UserPage>) {
                     .padding(start = 50.dp)
                     .padding(horizontal = 8.dp)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = AppName.Pascal.value,
-                    fontFamily = agbalumoFamily,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Row(
+                    modifier = Modifier.weight(0.5f),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = AppName.Pascal.value,
+                        fontFamily = agbalumoFamily,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
 
                 Spacer(modifier = Modifier.width(16.dp))
 
@@ -76,7 +71,7 @@ fun TopBar(currentScreen: MutableState<UserPage>) {
 
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .weight(0.5f)
                         .fillMaxHeight(),
                     contentAlignment = Alignment.Center
                 ) {
