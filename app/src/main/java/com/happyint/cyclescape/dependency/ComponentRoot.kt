@@ -1,8 +1,10 @@
 package com.happyint.cyclescape.dependency
 
 import android.app.Application
+import androidx.compose.foundation.ExperimentalFoundationApi
 import com.happyint.cyclescape.dependency.module.RepositoryModule
 import com.happyint.cyclescape.viewModels.CalendarViewModel
+import com.happyint.cyclescape.viewModels.ComposableCalendarViewModel
 import com.happyint.cyclescape.viewModels.UserInfoViewModel
 import dagger.BindsInstance
 import dagger.Component
@@ -22,5 +24,8 @@ interface ComponentRoot {
     fun inject(userInfoViewModel: UserInfoViewModel)
 
     fun inject(calendarViewModel: CalendarViewModel)
+
+    @OptIn(ExperimentalFoundationApi::class)
+    fun inject(composableCalendarViewModel: ComposableCalendarViewModel)
 
 }

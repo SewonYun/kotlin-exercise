@@ -25,8 +25,7 @@ class CalendarViewModel @Inject constructor(
     private val dayDataRepository: DayDataRepository,
     private val unclosedEventChecker: UnclosedEventChecker,
     private val eventPeriodChecker: EventPeriodChecker
-) :
-    ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UIState())
     val uiState: StateFlow<UIState> get() = _uiState.asStateFlow()
