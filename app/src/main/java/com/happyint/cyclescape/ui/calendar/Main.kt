@@ -34,8 +34,6 @@ fun LoadCalendar() {
     LaunchedEffect(pagerState.value.currentPage) {
 
         snapshotFlow { pagerState.value.isScrollInProgress }.filter { !it }.collect {
-            cv.fetchMonthPeriodData(months.value[pagerState.value.currentPage])
-
             if (pagerState.value.currentPage <= 1) {  // 첫 번째 페이지에 도달했을 때
 
                 composableCalendarViewModel.updateMonth(

@@ -9,7 +9,6 @@ import com.happyint.cyclescape.viewModels.CalendarViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.YearMonth
 
 class Bootstrap {
 
@@ -29,7 +28,7 @@ class Bootstrap {
                 EventPeriodChecker(dayDataRepository)
             )
 
-            calendarViewModel.fetchMonthPeriodData(YearMonth.now())
+            calendarViewModel.fetchMonthPeriodData()
 
         }
 

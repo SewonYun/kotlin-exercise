@@ -33,16 +33,9 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
 
     val firstDayOfWeek = month.atDay(1).dayOfWeek.value % 7 // 일요일이 0이 되도록 조정
     val calendarViewModel = viewModel<CalendarViewModel>()
-
+    calendarViewModel.fetchMonthPeriodData()
     val monthPeriodData = calendarViewModel.monthPeriodData.collectAsState(initial = (listOf()))
-    val prevMonthPeriodData = calendarViewModel.prevMonthPeriodData.collectAsState(
-        initial = (listOf())
-    )
-    val nextMonthPeriodData =
-        calendarViewModel.nextMonthPeriodData.collectAsState(initial = (listOf()))
     val periodDataMap = monthPeriodData.value.associateBy { it.startDate.toString() }
-    val prevPeriodDataMap = prevMonthPeriodData.value.associateBy { it.startDate.toString() }
-    val nextPeriodDataMap = nextMonthPeriodData.value.associateBy { it.startDate.toString() }
 
     Surface(
         modifier = Modifier
@@ -75,8 +68,8 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
                                 prevDayData = null
                             }
 
-                            if (prevPeriodDataMap[localDate.toString()] != null) {
-                                prevDayData = prevPeriodDataMap[localDate.toString()]
+                            if (periodDataMap[localDate.toString()] != null) {
+                                prevDayData = periodDataMap[localDate.toString()]
                             }
 
                             Surface(modifier = Modifier.weight(1f)) {
@@ -113,8 +106,8 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
                                 prevDayData = null
                             }
 
-                            if (nextPeriodDataMap[localDate.toString()] != null) {
-                                prevDayData = nextPeriodDataMap[localDate.toString()]
+                            if (periodDataMap[localDate.toString()] != null) {
+                                prevDayData = periodDataMap[localDate.toString()]
                             }
 
                             Surface(modifier = Modifier.weight(1f)) {
