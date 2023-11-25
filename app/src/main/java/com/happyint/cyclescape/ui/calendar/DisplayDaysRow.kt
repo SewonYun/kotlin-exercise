@@ -164,7 +164,9 @@ fun DayGrid(
             color = color,
             dayComponentHandler(dayData, localDate)
         ) {
-            openDialog.value = true
+            if (!isAlpha) {
+                openDialog.value = true
+            }
         }
 
     }

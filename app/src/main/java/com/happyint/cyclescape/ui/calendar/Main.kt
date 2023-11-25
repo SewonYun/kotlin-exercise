@@ -1,6 +1,5 @@
 package com.happyint.cyclescape.ui.calendar
 
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.happyint.cyclescape.CycleScapeApplication
 import com.happyint.cyclescape.service.calendar.TopbarSyncDelegator
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import com.happyint.cyclescape.viewModels.ComposableCalendarViewModel
@@ -38,29 +36,25 @@ fun LoadCalendar() {
         snapshotFlow { pagerState.value.isScrollInProgress }.filter { !it }.collect {
             cv.fetchMonthPeriodData(months.value[pagerState.value.currentPage])
 
-            Toast.makeText(
-                CycleScapeApplication.instance,
-                pagerState.value.currentPage.toString() + "----" + months.value.size,
-                Toast
-                    .LENGTH_SHORT
-            ).show()
-
             if (pagerState.value.currentPage <= 1) {  // 첫 번째 페이지에 도달했을 때
+
                 composableCalendarViewModel.updateMonth(
                     listOf(
                         months.value.first().minusMonths(1)
                     ) + months.value
                 )
                 pagerState.value.scrollToPage(pagerState.value.currentPage + 1)
+
             } else if (pagerState.value.currentPage >= months.value.size - 2) {  // 마지막 페이지에 도달했을 때
+
                 composableCalendarViewModel.updateMonth(
                     months.value + listOf(
                         months.value.last().plusMonths(1)
                     )
                 )
+
             }
 
-//            composableCalendarViewModel.updatePagerState(pagerState.value)
         }
 
     }
