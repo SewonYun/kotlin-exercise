@@ -28,6 +28,12 @@ interface DayDataDao {
     )
     fun getDayDataListInEventPeriod(findDate: LocalDate): List<DayData>
 
+    @Query(
+        "SELECT * FROM day_data WHERE start_date >= :start AND start_date <= :end ORDER BY " +
+                "id DESC"
+    )
+    fun getDayDataListFromBetween(start: LocalDate, end: LocalDate): List<DayData>
+
     @Query("SELECT * FROM day_data WHERE start_date >= :startDate and start_date <= :endDate")
     fun getDayDataListByMonth(startDate: LocalDate, endDate: LocalDate): List<DayData>
 

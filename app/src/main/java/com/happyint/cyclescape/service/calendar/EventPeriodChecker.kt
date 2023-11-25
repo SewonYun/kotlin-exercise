@@ -14,4 +14,9 @@ class EventPeriodChecker @Inject constructor(private val dayDataRepository: DayD
         return result.toOption()
     }
 
+    fun findByDay(start: LocalDate, click: LocalDate): Option<List<DayData>> {
+        val result = dayDataRepository.eventPeriodDayData(start, click)
+        return result.toOption()
+    }
+
 }

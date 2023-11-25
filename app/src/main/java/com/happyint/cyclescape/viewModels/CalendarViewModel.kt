@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.YearMonth
 import javax.inject.Inject
@@ -36,6 +37,34 @@ class CalendarViewModel @Inject constructor(
     val prevMonthPeriodData: StateFlow<List<DayData>> get() = _prevMonthPeriodData.asStateFlow()
     private var _nextMonthPeriodData: MutableStateFlow<List<DayData>> = MutableStateFlow(listOf())
     val nextMonthPeriodData: StateFlow<List<DayData>> get() = _nextMonthPeriodData.asStateFlow()
+
+    suspend fun isInvalidation(clickDate: LocalDate): Boolean {
+
+        return withContext(Dispatchers.IO) {
+
+            val unclosedResult = unclosedEventChecker.findByDay(clickDate).getOrElse { listOf() }
+
+            if (unclosedResult.isEmpty()) {
+                return@withContext false
+            }
+
+            if (unclosedResult.size >= 2) {
+                return@withContext true
+            }
+
+            val start = unclosedResult.first().startDate.plusDays(1)
+            val periodCheckResult = eventPeriodChecker.findByDay(start, clickDate).getOrElse {
+                listOf()
+            }
+
+            if (periodCheckResult.isNotEmpty()) {
+                return@withContext true
+            }
+
+            return@withContext false
+        }
+
+    }
 
     fun fetchMonthPeriodData(month: YearMonth) = viewModelScope.launch(Dispatchers.IO) {
         _monthPeriodData.value = dayDataRepository.dayDataByMonth(month)
@@ -118,20 +147,23 @@ class CalendarViewModel @Inject constructor(
         )
     }
 
-    fun dialogDependOn(date: LocalDate): CalendarDialogPage {
+    suspend fun dialogDependOn(date: LocalDate): CalendarDialogPage {
 
-        val unclosedResult = unclosedEventChecker.findByDay(date).getOrElse { listOf() }
-        val periodCheckResult = eventPeriodChecker.findByDay(date).getOrElse { listOf() }
+        return withContext(Dispatchers.IO) {
+            val unclosedResult = unclosedEventChecker.findByDay(date).getOrElse { listOf() }
+            val periodCheckResult = eventPeriodChecker.findByDay(date).getOrElse { listOf() }
 
-        if ((unclosedResult.size + periodCheckResult.size) == 1) {
-            updateUiStateInDialog(unclosedResult + periodCheckResult)
-        }
+            if ((unclosedResult.size + periodCheckResult.size) == 1) {
+                updateUiStateInDialog(unclosedResult + periodCheckResult)
+            }
 
-        return when {
-            periodCheckResult.isNotEmpty() -> CalendarDialogPage.UpdateDialog
-            unclosedResult.isNotEmpty() -> CalendarDialogPage.EndDialog
-            checkSelectDayEqualToDayData() -> CalendarDialogPage.CancelDialog
-            else -> CalendarDialogPage.InsertDialog
+            return@withContext when {
+                periodCheckResult.isNotEmpty() -> CalendarDialogPage.UpdateDialog
+                unclosedResult.isNotEmpty() -> CalendarDialogPage.EndDialog
+                checkSelectDayEqualToDayData() -> CalendarDialogPage.CancelDialog
+                else -> CalendarDialogPage.InsertDialog
+            }
+
         }
     }
 

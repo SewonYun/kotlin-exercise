@@ -23,6 +23,10 @@ class DayDataRepository @Inject constructor(private val dayDataDao: DayDataDao) 
         return dayDataDao.getDayDataListInEventPeriod(day)
     }
 
+    fun eventPeriodDayData(start: LocalDate, end: LocalDate): List<DayData> {
+        return dayDataDao.getDayDataListFromBetween(start, end)
+    }
+
     // test require first of month and end of month
     fun dayDataByMonth(month: YearMonth): List<DayData> {
         return dayDataDao.getDayDataListByMonth(month.atDay(1), month.atEndOfMonth())

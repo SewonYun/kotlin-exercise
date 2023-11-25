@@ -1,5 +1,6 @@
 package com.happyint.cyclescape.ui.calendar.dialogMenu
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +25,33 @@ import com.happyint.cyclescape.viewModels.CalendarViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
+@SuppressLint("CoroutineCreationDuringComposition")
+@ExperimentalMaterial3Api
+@Composable
+fun DialogRoot(closeCallback: () -> Unit) {
+    val calendarViewModel = viewModel<CalendarViewModel>()
+
+    val invalidRemember = remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        val clickDate = calendarViewModel.uiState.value.selectedDate!!
+        invalidRemember.value = calendarViewModel.isInvalidation(clickDate)
+    }
+
+    if (invalidRemember.value) {
+        AlertIncorrectSelection()
+        return
+    }
+
+    DynamicElementList(closeCallback)
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun AlertIncorrectSelection() {
+    Text(text = stringResource(id = R.string.incorrect_selection_alert))
+}
 
 @ExperimentalMaterial3Api
 @Composable

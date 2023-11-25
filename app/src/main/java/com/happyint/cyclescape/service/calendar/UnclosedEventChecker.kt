@@ -10,9 +10,9 @@ import javax.inject.Inject
 
 // never use singleton
 class UnclosedEventChecker @Inject constructor(private val dayDataRepository: DayDataRepository) {
+
     fun findByDay(day: LocalDate): Option<List<DayData>> {
-        val result = dayDataRepository.unclosedDayData(day)
-        return result.toOption()
+        return dayDataRepository.unclosedDayData(day).toOption()
     }
 
 }

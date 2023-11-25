@@ -11,7 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.R
-import com.happyint.cyclescape.ui.calendar.dialogMenu.DynamicElementList
+import com.happyint.cyclescape.ui.calendar.dialogMenu.DialogRoot
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 
 @ExperimentalMaterial3Api
@@ -34,7 +34,7 @@ fun UserInputDialog(openDialog: MutableState<Boolean>) {
 
             Column {
 
-                DynamicElementList {
+                DialogRoot {
                     openDialog.value = false
                     calendarViewModel.initUIState()
                 }
