@@ -66,7 +66,7 @@ fun CycleScapeAppOf(
         ) {
 
             Box(modifier = Modifier.height(56.dp)) {
-                TopBar(currentScreen)
+                TopBar()
             }
 
             Box(modifier = Modifier.weight(1f)) {
