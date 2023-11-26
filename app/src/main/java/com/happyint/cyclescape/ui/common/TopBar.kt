@@ -5,7 +5,6 @@
 
 package com.happyint.cyclescape.ui.common
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -34,7 +33,6 @@ import com.happyint.cyclescape.ui.graphics.agbalumoFamily
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalMaterial3Api
 @Composable
 fun TopBar() {

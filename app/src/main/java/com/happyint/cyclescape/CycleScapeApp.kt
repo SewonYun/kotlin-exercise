@@ -2,6 +2,8 @@ package com.happyint.cyclescape
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +32,11 @@ import com.happyint.cyclescape.ui.home.LoadMainHome
 import com.happyint.cyclescape.ui.home.Opening
 import com.happyint.cyclescape.ui.notice.LoadNotice
 import com.happyint.cyclescape.ui.setting.LoadSettingMain
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 @Composable
 fun rememberAppState(context: Context = LocalContext.current) = remember(context) {
@@ -88,7 +94,28 @@ fun CycleScapeAppOf(
                 BottomNavBar(currentScreen, pagerState = pagerState)
             }
 
-            currentScreen.value.GoBack(currentScreen = currentScreen)
+            val openDialog = remember { mutableStateOf(false) }
+
+            BackHandler {
+
+                if (openDialog.value) {
+                    exitProcess(0)
+                }
+
+                openDialog.value = true
+
+                Toast.makeText(
+                    CycleScapeApplication.instance,
+                    R.string.app_exit_dialog_asking,
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    delay(3000)
+                    openDialog.value = false
+                }
+
+            }
         }
 
     } else {
