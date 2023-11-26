@@ -60,7 +60,7 @@ fun LoadCalendar() {
     Column {
 
         CalendarPaddingView()
-
+        DisplayWeekdaysRow()
         VerticalPager(
             modifier = Modifier
                 .weight(1f)

@@ -37,7 +37,6 @@ fun CalendarBody(month: YearMonth) {
             contentAlignment = Alignment.TopCenter
         ) {
             Column {
-                DisplayWeekdaysRow()
                 DisplayDaysOfMonth(month, openDialog)
             }
         }
