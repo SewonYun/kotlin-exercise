@@ -3,12 +3,17 @@ package com.happyint.cyclescape
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerDefaults
+import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -70,7 +75,25 @@ fun CycleScapeAppOf() {
         }
 
         Box(modifier = Modifier.weight(1f)) {
-            HorizontalPager(state = pagerState) { page ->
+            val flingBehavior = PagerDefaults.flingBehavior(
+                state = pagerState,
+                pagerSnapDistance = PagerSnapDistance.atMost(1),
+                lowVelocityAnimationSpec = tween(
+                    easing = FastOutLinearInEasing,
+                    durationMillis = 500
+                ),
+                highVelocityAnimationSpec = rememberSplineBasedDecay(),
+                snapAnimationSpec = tween(
+                    easing = FastOutLinearInEasing,
+                    durationMillis = 500
+                ),
+            )
+
+            HorizontalPager(
+                state = pagerState,
+                flingBehavior = flingBehavior,
+                beyondBoundsPageCount = 4
+            ) { page ->
                 currentScreen.value = UserPage.values()[page]
 
                 when (currentScreen.value) {

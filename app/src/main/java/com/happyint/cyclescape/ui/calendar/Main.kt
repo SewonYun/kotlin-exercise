@@ -89,7 +89,7 @@ fun LoadCalendar() {
                 .border(2.dp, Color.Gray),
             state = pagerState.value,
             flingBehavior = flingBehavior,
-            beyondBoundsPageCount = 3,
+            beyondBoundsPageCount = 5,
             pageContent = {
                 val month = months.value[it]
 
