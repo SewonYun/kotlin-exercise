@@ -57,25 +57,28 @@ fun AlertIncorrectSelection() {
 @Composable
 fun DynamicElementList(closeCallback: () -> Unit) {
 
-    DialogRendering(closeCallback)
-
-    TextButton(
-        modifier = Modifier.fillMaxWidth(),
-        onClick = { closeCallback() })
-    {
-        Row(
+    val lastComponent: @Composable () -> Unit = {
+        TextButton(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically
+            onClick = { closeCallback() }
         ) {
-            Text(text = stringResource(id = R.string.menu_note))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = stringResource(id = R.string.menu_note))
+            }
         }
     }
+
+    DialogRendering(closeCallback, lastComponent)
+
 
 }
 
 @Composable
-fun DialogRendering(closeCallback: () -> Unit) {
+fun DialogRendering(closeCallback: () -> Unit, lastComponent: @Composable () -> Unit) {
     val calendarViewModel = viewModel<CalendarViewModel>()
     val date = calendarViewModel.uiState.collectAsState().value.selectedDate
     val dayData = calendarViewModel.uiState.collectAsState().value.selectedDayData
@@ -101,5 +104,7 @@ fun DialogRendering(closeCallback: () -> Unit) {
             CalendarDialogPage.CancelDialog -> RemoveDateButton(closeCallback)
             CalendarDialogPage.UpdateDialog -> UpdateDateButton(dayData, closeCallback)
         }
+
+        lastComponent()
     }
 }
