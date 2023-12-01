@@ -1,8 +1,13 @@
 package com.happyint.cyclescape.ui.calendar
 
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.pager.PagerDefaults
+import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -34,21 +39,23 @@ fun LoadCalendar() {
     LaunchedEffect(pagerState.value.currentPage) {
 
         snapshotFlow { pagerState.value.isScrollInProgress }.filter { !it }.collect {
-            if (pagerState.value.currentPage <= 1) {  // 첫 번째 페이지에 도달했을 때
+
+            if (pagerState.value.currentPage <= 7) {  // 첫 번째 페이지에 도달했을 때
 
                 composableCalendarViewModel.updateMonth(
-                    listOf(
-                        months.value.first().minusMonths(1)
-                    ) + months.value
+                    List(10) {
+                        months.value.first().minusMonths(it.toLong() + 1)
+                    }.reversed() + months.value
                 )
-                pagerState.value.scrollToPage(pagerState.value.currentPage + 1)
 
-            } else if (pagerState.value.currentPage >= months.value.size - 2) {  // 마지막 페이지에 도달했을 때
+                pagerState.value.scrollToPage(pagerState.value.currentPage + 9)
+
+            } else if (pagerState.value.currentPage >= months.value.size - 7) {  // 마지막 페이지에 도달했을 때
 
                 composableCalendarViewModel.updateMonth(
-                    months.value + listOf(
-                        months.value.last().plusMonths(1)
-                    )
+                    months.value + List(10) {
+                        months.value.last().plusMonths(it.toLong() + 1)
+                    }
                 )
 
             }
@@ -61,12 +68,28 @@ fun LoadCalendar() {
 
         CalendarPaddingView()
         DisplayWeekdaysRow()
+
+        val flingBehavior = PagerDefaults.flingBehavior(
+            state = pagerState.value,
+            pagerSnapDistance = PagerSnapDistance.atMost(1),
+            lowVelocityAnimationSpec = tween(
+                easing = FastOutLinearInEasing,
+                durationMillis = 500
+            ),
+            highVelocityAnimationSpec = rememberSplineBasedDecay(),
+            snapAnimationSpec = tween(
+                easing = FastOutLinearInEasing,
+                durationMillis = 500
+            ),
+        )
+
         VerticalPager(
             modifier = Modifier
                 .weight(1f)
                 .border(2.dp, Color.Gray),
             state = pagerState.value,
-            beyondBoundsPageCount = 0,
+            flingBehavior = flingBehavior,
+            beyondBoundsPageCount = 3,
             pageContent = {
                 val month = months.value[it]
 

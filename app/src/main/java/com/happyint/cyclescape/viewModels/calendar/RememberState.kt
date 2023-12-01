@@ -25,15 +25,15 @@ class RememberState {
     fun build(): RememberState {
 
         val rememberMonth by remember {
-            mutableStateOf(List(3) {
-                currentMonth.minusMonths(1).plusMonths(it.toLong())
+            mutableStateOf(List(20) {
+                currentMonth.minusMonths(10).plusMonths(it.toLong())
             })
         }
 
         months = rememberMonth
 
         pagerState = rememberPagerState(
-            initialPage = 1,
+            initialPage = 10,
             initialPageOffsetFraction = 0f
         ) {
             Int.MAX_VALUE

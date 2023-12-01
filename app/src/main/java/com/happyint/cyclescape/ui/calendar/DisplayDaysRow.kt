@@ -30,6 +30,7 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
     val daysInLastMonth = month.minusMonths(1)
     val daysInLastMonthLen = daysInLastMonth.lengthOfMonth()
     val daysInNextMonth = month.plusMonths(1)
+    val daysInNextMonthLen = daysInNextMonth.lengthOfMonth()
 
     val firstDayOfWeek = month.atDay(1).dayOfWeek.value % 7 // 일요일이 0이 되도록 조정
     val calendarViewModel = viewModel<CalendarViewModel>()
@@ -61,7 +62,7 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
                             val localDate = LocalDate.of(
                                 daysInNextMonth.year,
                                 daysInNextMonth.month,
-                                daysInLastMonthLen - (6 - i)
+                                daysInNextMonthLen - (6 - i)
                             )
 
                             if (prevDayData?.endDate != null && prevDayData?.endDate!! < localDate) {
