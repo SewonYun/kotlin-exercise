@@ -1,7 +1,6 @@
 package com.happyint.cyclescape
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -11,17 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieConstants
 import com.happyint.cyclescape.constants.UserPage
@@ -38,101 +32,75 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
-@Composable
-fun rememberAppState(context: Context = LocalContext.current) = remember(context) {
-    AppState(context)
-}
-
 @OptIn(ExperimentalFoundationApi::class)
 @ExperimentalMaterial3Api
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun CycleScapeAppOf(
-    appState: AppState = rememberAppState()
-) {
+fun CycleScapeAppOf() {
 
-    if (appState.isOnline) {
+    val pagerState = rememberPagerState(pageCount = { UserPage.values().size })
+    val currentScreen = remember { mutableStateOf(UserPage.MAIN) }
 
-        val pagerState = rememberPagerState(pageCount = { UserPage.values().size })
-        val currentScreen = remember { mutableStateOf(UserPage.MAIN) }
+    val isOpening = remember { mutableStateOf(true) }
 
-        val isOpening = remember { mutableStateOf(true) }
-
-        if (isOpening.value) {
-            Opening(LottieConstants.IterateForever)
-        }
-
-        LaunchedEffect(Unit) {
-            delay(1500)
-            isOpening.value = false
-        }
-
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-
-            Box(modifier = Modifier.height(56.dp)) {
-                TopBar()
-            }
-
-            Box(modifier = Modifier.weight(1f)) {
-                HorizontalPager(state = pagerState) { page ->
-                    currentScreen.value = UserPage.values()[page]
-
-                    when (currentScreen.value) {
-                        UserPage.MAIN -> LoadMainHome()
-                        UserPage.SETTING -> LoadSettingMain()
-                        UserPage.NOTICE -> LoadNotice(listOf("test1", "test2"))
-                        UserPage.CALENDAR -> LoadCalendar()
-                    }
-
-                }
-
-            }
-
-            Box(modifier = Modifier.height(56.dp)) {
-                BottomNavBar(currentScreen, pagerState = pagerState)
-            }
-
-            val openDialog = remember { mutableStateOf(false) }
-
-            BackHandler {
-
-                if (openDialog.value) {
-                    exitProcess(0)
-                }
-
-                openDialog.value = true
-
-                Toast.makeText(
-                    CycleScapeApplication.instance,
-                    R.string.app_exit_dialog_asking,
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    delay(3000)
-                    openDialog.value = false
-                }
-
-            }
-        }
-
-    } else {
-        OfflineDialog { appState.refreshOnline() }
+    if (isOpening.value) {
+        Opening(LottieConstants.IterateForever)
     }
-}
 
-@Composable
-fun OfflineDialog(onRetry: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = {},
-        title = { Text(text = stringResource(R.string.connection_error_title)) },
-        text = { Text(text = stringResource(R.string.connection_error_message)) },
-        confirmButton = {
-            TextButton(onClick = onRetry) {
-                Text(stringResource(R.string.retry_label))
-            }
+    LaunchedEffect(Unit) {
+        delay(1500)
+        isOpening.value = false
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+
+        Box(modifier = Modifier.height(56.dp)) {
+            TopBar()
         }
-    )
+
+        Box(modifier = Modifier.weight(1f)) {
+            HorizontalPager(state = pagerState) { page ->
+                currentScreen.value = UserPage.values()[page]
+
+                when (currentScreen.value) {
+                    UserPage.MAIN -> LoadMainHome()
+                    UserPage.SETTING -> LoadSettingMain()
+                    UserPage.NOTICE -> LoadNotice(listOf("test1", "test2"))
+                    UserPage.CALENDAR -> LoadCalendar()
+                }
+
+            }
+
+        }
+
+        Box(modifier = Modifier.height(56.dp)) {
+            BottomNavBar(currentScreen, pagerState = pagerState)
+        }
+
+        val openDialog = remember { mutableStateOf(false) }
+
+        BackHandler {
+
+            if (openDialog.value) {
+                exitProcess(0)
+            }
+
+            openDialog.value = true
+
+            Toast.makeText(
+                CycleScapeApplication.instance,
+                R.string.app_exit_dialog_asking,
+                Toast.LENGTH_SHORT
+            ).show()
+
+            CoroutineScope(Dispatchers.IO).launch {
+                delay(3000)
+                openDialog.value = false
+            }
+
+        }
+    }
+
 }
