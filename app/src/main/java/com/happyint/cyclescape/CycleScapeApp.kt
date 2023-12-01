@@ -12,11 +12,11 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.airbnb.lottie.compose.LottieConstants
 import com.happyint.cyclescape.constants.UserPage
 import com.happyint.cyclescape.ui.calendar.LoadCalendar
@@ -26,6 +26,7 @@ import com.happyint.cyclescape.ui.home.LoadMainHome
 import com.happyint.cyclescape.ui.home.Opening
 import com.happyint.cyclescape.ui.notice.LoadNotice
 import com.happyint.cyclescape.ui.setting.LoadSettingMain
+import com.happyint.cyclescape.viewModels.CalendarViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -40,6 +41,7 @@ fun CycleScapeAppOf() {
 
     val pagerState = rememberPagerState(pageCount = { UserPage.values().size })
     val currentScreen = remember { mutableStateOf(UserPage.MAIN) }
+    val calendarViewModel = viewModel<CalendarViewModel>()
 
     val isOpening = remember { mutableStateOf(true) }
 
@@ -47,9 +49,16 @@ fun CycleScapeAppOf() {
         Opening(LottieConstants.IterateForever)
     }
 
-    LaunchedEffect(Unit) {
-        delay(1500)
+    CoroutineScope(Dispatchers.IO).launch {
+
+        calendarViewModel.fetchMonthPeriodData().join()
+        delay(1000)
         isOpening.value = false
+
+    }
+
+    if (isOpening.value) {
+        return
     }
 
     Column(

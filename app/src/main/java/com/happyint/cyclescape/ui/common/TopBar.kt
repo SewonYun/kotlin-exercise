@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.constants.AppName
-import com.happyint.cyclescape.customApi.testBorder
 import com.happyint.cyclescape.service.calendar.TopbarSyncDelegator
 import com.happyint.cyclescape.ui.graphics.agbalumoFamily
 import com.happyint.cyclescape.viewModels.CalendarViewModel
@@ -49,8 +48,7 @@ fun TopBar() {
             ) {
                 Row(
                     modifier = Modifier
-                        .weight(0.5f)
-                        .testBorder(),
+                        .weight(0.5f),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
