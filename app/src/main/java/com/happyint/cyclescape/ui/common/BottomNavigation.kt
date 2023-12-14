@@ -27,7 +27,7 @@ fun BottomNavBar(pagerState: PagerState) {
                     Icon(
                         getBottomNavIcon(item),
                         contentDescription = "",
-                        tint = if (item.value == pagerState.currentPage) Color.Red else Color.Blue
+                        tint = if (item.value == pagerState.currentPage) Color.Black else Color.LightGray
                     )
                 },
                 selected = item.value == pagerState.currentPage,
