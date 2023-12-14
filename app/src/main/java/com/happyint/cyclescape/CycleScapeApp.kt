@@ -44,8 +44,9 @@ import kotlin.system.exitProcess
 @Composable
 fun CycleScapeAppOf() {
 
-    val pagerState = rememberPagerState(pageCount = { UserPage.values().size })
-    val currentScreen = remember { mutableStateOf(UserPage.MAIN) }
+    val pagerState = rememberPagerState(initialPage = UserPage.MAIN.value, pageCount = {
+        UserPage.values().size
+    })
     val calendarViewModel = viewModel<CalendarViewModel>()
 
     val isOpening = remember { mutableStateOf(true) }
@@ -94,13 +95,12 @@ fun CycleScapeAppOf() {
                 flingBehavior = flingBehavior,
                 beyondBoundsPageCount = 4
             ) { page ->
-                currentScreen.value = UserPage.values()[page]
 
-                when (currentScreen.value) {
-                    UserPage.MAIN -> LoadMainHome()
-                    UserPage.SETTING -> LoadSettingMain()
-                    UserPage.NOTICE -> LoadNotice(listOf("test1", "test2"))
-                    UserPage.CALENDAR -> LoadCalendar()
+                when (page) {
+                    UserPage.MAIN.value -> LoadMainHome()
+                    UserPage.SETTING.value -> LoadSettingMain()
+                    UserPage.CALENDAR.value -> LoadCalendar()
+                    UserPage.NOTICE.value -> LoadNotice(listOf("test1", "test2"))
                 }
 
             }
@@ -108,7 +108,7 @@ fun CycleScapeAppOf() {
         }
 
         Box(modifier = Modifier.height(56.dp)) {
-            BottomNavBar(currentScreen, pagerState = pagerState)
+            BottomNavBar(pagerState = pagerState)
         }
 
         val openDialog = remember { mutableStateOf(false) }
