@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -34,7 +35,7 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
 
     val firstDayOfWeek = month.atDay(1).dayOfWeek.value % 7 // 일요일이 0이 되도록 조정
     val calendarViewModel = viewModel<CalendarViewModel>()
-    calendarViewModel.fetchMonthPeriodData()
+//    calendarViewModel.fetchMonthPeriodData()
     val monthPeriodData = calendarViewModel.monthPeriodData.collectAsState(initial = (listOf()))
     val periodDataMap = monthPeriodData.value.associateBy { it.startDate.toString() }
 
@@ -151,7 +152,7 @@ fun DayGrid(
             }
     ) {
 
-        val localDate = LocalDate.of(month.year, month.month, startDate)
+        val localDate = remember { LocalDate.of(month.year, month.month, startDate) }
 
         Day(
             localDate,

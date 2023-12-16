@@ -29,8 +29,7 @@ fun Day(localDate: LocalDate, color: Color, dayComponentState: DayComponentState
             .clickable {
                 cb()
                 calendarViewModel.updateUIStateByDate(localDate)
-            },
-        contentAlignment = Alignment.Center
+            }, contentAlignment = Alignment.Center
     ) {
 
         Column {
@@ -43,28 +42,26 @@ fun Day(localDate: LocalDate, color: Color, dayComponentState: DayComponentState
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = localDate.dayOfMonth.toString(),
-                    color = color
+                    text = localDate.dayOfMonth.toString(), color = color
                 )
             }
 
             Box(modifier = Modifier.weight(1f)) {
 
-                if (!dayComponentState.isStartDate || !dayComponentState.isMiddleDate ||
-                    !dayComponentState.isEndDate
-                ) {
+                val shouldShowDayComponent =
+                    !dayComponentState.isStartDate || !dayComponentState.isMiddleDate ||
+                            !dayComponentState.isEndDate
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .conditional(
-                                dayComponentState.isStartDate ||
-                                        dayComponentState.isMiddleDate ||
-                                        dayComponentState.isEndDate
-                            ) {
-                                this.background(color = md_theme_dark_secondary)
-                            }
-                    ) {
+                if (shouldShowDayComponent) {
+
+                    Box(modifier = Modifier
+                        .fillMaxSize()
+                        .conditional(
+                            dayComponentState.isStartDate || dayComponentState.isMiddleDate
+                                    || dayComponentState.isEndDate
+                        ) {
+                            this.background(color = md_theme_dark_secondary)
+                        }) {
                         DayComponent(localDate)
                     }
 

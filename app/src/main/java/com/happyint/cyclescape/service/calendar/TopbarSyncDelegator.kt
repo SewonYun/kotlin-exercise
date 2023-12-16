@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,8 +22,8 @@ class TopbarSyncDelegator {
     companion object {
         @OptIn(ExperimentalFoundationApi::class)
         @Composable
-        fun UiStateUpdate(cv: CalendarViewModel, months: List<YearMonth>, pagerState: PagerState) {
-            cv.updateUIStateByCopy(cv.uiState.collectAsState().value.copy(month = months[pagerState.currentPage]))
+        fun UiStateUpdate(cv: CalendarViewModel, month: YearMonth) {
+            cv.updateUIStateByCopy(cv.uiState.collectAsState().value.copy(month = month))
         }
 
         @Composable

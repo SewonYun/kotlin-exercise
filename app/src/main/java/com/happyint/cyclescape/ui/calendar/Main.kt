@@ -15,6 +15,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -32,13 +34,13 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterial3Api
 @Composable
 fun LoadCalendar() {
-
+    val openDialog = remember { mutableStateOf(false) }
     val composableCalendarViewModel = viewModel<ComposableCalendarViewModel>()
     val months = composableCalendarViewModel.months.collectAsState()
     val pagerState = composableCalendarViewModel.pagerState.collectAsState()
     val cv = viewModel<CalendarViewModel>()
     cv.updateUIStateByCopy(cv.uiState.collectAsState().value.copy(month = months.value[pagerState.value.currentPage]))
-    TopbarSyncDelegator.UiStateUpdate(cv, months.value, pagerState.value)
+    TopbarSyncDelegator.UiStateUpdate(cv, months.value[pagerState.value.currentPage])
 
     if (pagerState.value.currentPage <= 7) {  // 첫 번째 페이지에 도달했을 때
 
@@ -62,6 +64,8 @@ fun LoadCalendar() {
 
     }
 
+    UserInputDialog(openDialog)
+
     Column {
 
         CalendarPaddingView()
@@ -72,12 +76,12 @@ fun LoadCalendar() {
             pagerSnapDistance = PagerSnapDistance.atMost(1),
             lowVelocityAnimationSpec = tween(
                 easing = FastOutLinearInEasing,
-                durationMillis = 500
+                durationMillis = 1
             ),
             highVelocityAnimationSpec = rememberSplineBasedDecay(),
             snapAnimationSpec = tween(
                 easing = FastOutLinearInEasing,
-                durationMillis = 500
+                durationMillis = 1
             ),
         )
 
@@ -95,7 +99,7 @@ fun LoadCalendar() {
                     OutSurface {
 
                         Column {
-                            CalendarBody(month)
+                            CalendarBody(month, openDialog)
                         }
 
                     }

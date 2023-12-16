@@ -8,6 +8,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -19,16 +20,12 @@ import java.time.YearMonth
 
 @ExperimentalMaterial3Api
 @Composable
-fun CalendarBody(month: YearMonth) {
+fun CalendarBody(month: YearMonth, openDialog: MutableState<Boolean>) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         contentColor = Color.Black,
         shadowElevation = 8.dp
     ) {
-
-
-        val openDialog = remember { mutableStateOf(false) }
-        UserInputDialog(openDialog)
 
         Box(
             modifier = Modifier
@@ -47,5 +44,6 @@ fun CalendarBody(month: YearMonth) {
 @Preview
 @Composable
 fun PreviewCalendarBody() {
-    CalendarBody(month = YearMonth.now())
+    val openDialog = remember { mutableStateOf(false) }
+    CalendarBody(month = YearMonth.now(), openDialog)
 }
