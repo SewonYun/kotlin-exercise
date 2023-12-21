@@ -60,14 +60,13 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
                             val localDate = LocalDate.of(
                                 daysInLastMonth.year,
                                 daysInLastMonth.month,
-                                daysInLastMonthLen - (6 - i)
+                                daysInLastMonthLen - firstDayOfWeek + i + 1
                             )
 
                             Surface(modifier = Modifier.weight(1f)) {
                                 DayGrid(
                                     daysInLastMonth,
-                                    daysInLastMonthLen - firstDayOfWeek + i
-                                            + 1,
+                                    daysInLastMonthLen - firstDayOfWeek + i + 1,
                                     periodDataMap[localDate.toString()],
                                     openDialog,
                                     localDate,

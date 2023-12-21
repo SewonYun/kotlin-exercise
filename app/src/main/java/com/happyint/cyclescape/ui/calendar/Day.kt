@@ -70,14 +70,7 @@ fun Day(localDate: LocalDate, color: Color, dayComponentState: DayComponentState
             Box(modifier = Modifier.weight(1f)) {
 
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-//                    .conditional(
-//                        dayComponentState.isStartDate || dayComponentState.isMiddleDate
-//                                || dayComponentState.isEndDate
-//                    ) {
-//                        this.background(color = md_theme_light_secondary)
-//                    }) {
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     Column {
                         when (true) {
