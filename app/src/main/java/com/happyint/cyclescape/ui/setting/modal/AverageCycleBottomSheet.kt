@@ -92,8 +92,7 @@ fun AverageCycleBottomSheet(showIt: MutableState<Boolean>) {
                                 )
 
                                 hideAverageCycleBottomSheet(showIt, bottomSheetState, scope)
-                            }
-                        ,
+                            },
                         headlineContent = {
                             Text(stringResource(R.string.day, it))
                         },

@@ -21,6 +21,7 @@ class UserInformationInsertTest {
 
     private lateinit var mockDatabase: AppDatabase
     private lateinit var mockInformationDao: InformationDao
+
     @Inject
     private lateinit var userInfoViewModel: UserInfoViewModel
 

@@ -104,18 +104,19 @@ fun UserInfo() {
 
             }
 
-            Column (
+            Column(
                 modifier = Modifier
                     .width(200.dp)
                     .fillMaxHeight()
                     .padding(10.dp)
                     .testBorder()
             ) {
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .testBorder()
-                    .clickable { showBirthModal.value = true }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .testBorder()
+                        .clickable { showBirthModal.value = true }
                 ) {
 
                     val txt = if (obAge.isNullOrEmpty()) "" else
