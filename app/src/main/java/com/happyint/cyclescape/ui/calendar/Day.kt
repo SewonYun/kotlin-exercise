@@ -4,8 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,31 +44,41 @@ fun Day(localDate: LocalDate, color: Color, dayComponentState: DayComponentState
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = localDate.dayOfMonth.toString(), color = color
-                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(30.dp)
+                        .background(
+                            color = if (LocalDate
+                                    .now()
+                                    .isEqual(localDate)
+                            ) Color.Black else
+                                Color.White,
+                            shape = CircleShape
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = localDate.dayOfMonth.toString(), color = color
+                    )
+                }
             }
 
             Box(modifier = Modifier.weight(1f)) {
 
-                val shouldShowDayComponent =
-                    !dayComponentState.isStartDate || !dayComponentState.isMiddleDate ||
-                            !dayComponentState.isEndDate
-
-                if (shouldShowDayComponent) {
-
-                    Box(modifier = Modifier
-                        .fillMaxSize()
-                        .conditional(
-                            dayComponentState.isStartDate || dayComponentState.isMiddleDate
-                                    || dayComponentState.isEndDate
-                        ) {
-                            this.background(color = md_theme_dark_secondary)
-                        }) {
-                        DayComponent(localDate)
-                    }
-
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .conditional(
+                        dayComponentState.isStartDate || dayComponentState.isMiddleDate
+                                || dayComponentState.isEndDate
+                    ) {
+                        this.background(color = md_theme_dark_secondary)
+                    }) {
+                    DayComponent(localDate)
                 }
+
+
             }
         }
 

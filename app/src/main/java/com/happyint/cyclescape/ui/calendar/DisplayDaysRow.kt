@@ -70,6 +70,7 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
                                             + 1,
                                     periodDataMap[localDate.toString()],
                                     openDialog,
+                                    localDate,
                                     isAlpha = true
                                 )
                             }
@@ -84,6 +85,7 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
                                     date,
                                     periodDataMap[localDate.toString()],
                                     openDialog,
+                                    localDate,
                                     isAlpha = false
                                 )
                             }
@@ -101,6 +103,7 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
                                     nextMonthStartDate,
                                     periodDataMap[localDate.toString()],
                                     openDialog,
+                                    localDate,
                                     isAlpha = true
                                 )
                             }
@@ -117,14 +120,16 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
 @Composable
 fun DayGrid(
     month: YearMonth, startDate: Int, dayData: DayData?, openDialog:
-    MutableState<Boolean>, isAlpha: Boolean
+    MutableState<Boolean>, localDate: LocalDate, isAlpha: Boolean
 ) {
     if (dayData != null) {
         dayData.hasLittleNote = false
     }
-    val color = when (month.atDay(startDate).dayOfWeek) {
-        DayOfWeek.SUNDAY -> Color.Red
-        DayOfWeek.SATURDAY -> Color.Blue
+    val dayOfWeek = month.atDay(startDate).dayOfWeek
+    val color = when (true) {
+        (dayOfWeek == DayOfWeek.SUNDAY) -> Color.Red
+        (dayOfWeek == DayOfWeek.SATURDAY) -> Color.Blue
+        LocalDate.now().equals(localDate) -> Color.White
         else -> Color.Black
     }
 
@@ -136,8 +141,6 @@ fun DayGrid(
                 this.alpha(0.5f)
             }
     ) {
-
-        val localDate = LocalDate.of(month.year, month.month, startDate)
 
         Day(
             localDate,
