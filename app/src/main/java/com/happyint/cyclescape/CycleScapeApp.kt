@@ -3,18 +3,11 @@ package com.happyint.cyclescape
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerDefaults
-import androidx.compose.foundation.pager.PagerSnapDistance
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -44,9 +37,7 @@ import kotlin.system.exitProcess
 @Composable
 fun CycleScapeAppOf() {
 
-    val pagerState = rememberPagerState(initialPage = UserPage.MAIN.value, pageCount = {
-        UserPage.values().size
-    })
+    val currentPage = remember { mutableStateOf(UserPage.MAIN) }
     val calendarViewModel = viewModel<CalendarViewModel>()
 
     val isOpening = remember { mutableStateOf(true) }
@@ -76,39 +67,18 @@ fun CycleScapeAppOf() {
         }
 
         Box(modifier = Modifier.weight(1f)) {
-            val flingBehavior = PagerDefaults.flingBehavior(
-                state = pagerState,
-                pagerSnapDistance = PagerSnapDistance.atMost(1),
-                lowVelocityAnimationSpec = tween(
-                    easing = FastOutLinearInEasing,
-                    durationMillis = 500
-                ),
-                highVelocityAnimationSpec = rememberSplineBasedDecay(),
-                snapAnimationSpec = tween(
-                    easing = FastOutLinearInEasing,
-                    durationMillis = 500
-                ),
-            )
 
-            HorizontalPager(
-                state = pagerState,
-                flingBehavior = flingBehavior,
-                beyondBoundsPageCount = 4
-            ) { page ->
-
-                when (page) {
-                    UserPage.MAIN.value -> LoadMainHome()
-                    UserPage.SETTING.value -> LoadSettingMain()
-                    UserPage.CALENDAR.value -> LoadCalendar()
-                    UserPage.NOTICE.value -> LoadNotice(listOf("test1", "test2"))
-                }
-
+            when (currentPage.value) {
+                UserPage.MAIN -> LoadMainHome()
+                UserPage.SETTING -> LoadSettingMain()
+                UserPage.CALENDAR -> LoadCalendar()
+                UserPage.NOTICE -> LoadNotice(listOf("test1", "test2"))
             }
 
         }
 
         Box(modifier = Modifier.height(56.dp)) {
-            BottomNavBar(pagerState = pagerState)
+            BottomNavBar(currentPage)
         }
 
         val openDialog = remember { mutableStateOf(false) }

@@ -1,11 +1,10 @@
 package com.happyint.cyclescape.ui.common
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
 import com.happyint.cyclescape.constants.UserPage
 import com.happyint.cyclescape.constants.UserPage.Companion.getBottomNavIcon
@@ -13,9 +12,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BottomNavBar(pagerState: PagerState) {
+fun BottomNavBar(currentPage: MutableState<UserPage>) {
 
     val items = UserPage.values()
 
@@ -27,13 +25,14 @@ fun BottomNavBar(pagerState: PagerState) {
                     Icon(
                         getBottomNavIcon(item),
                         contentDescription = "",
-                        tint = if (item.value == pagerState.currentPage) Color.Black else Color.LightGray
+                        tint = if (item == currentPage.value) Color.Black else Color
+                            .LightGray
                     )
                 },
-                selected = item.value == pagerState.currentPage,
+                selected = item == currentPage.value,
                 onClick = {
                     CoroutineScope(Dispatchers.Main).launch {
-                        pagerState.scrollToPage(item.value)
+                        currentPage.value = item
                     }
                 }
             )
