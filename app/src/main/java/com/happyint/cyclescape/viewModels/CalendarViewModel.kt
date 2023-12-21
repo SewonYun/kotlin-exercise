@@ -30,8 +30,10 @@ class CalendarViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(UIState())
     val uiState: StateFlow<UIState> get() = _uiState.asStateFlow()
 
-    private var _monthPeriodData: MutableStateFlow<List<DayData>> = MutableStateFlow(listOf())
-    val monthPeriodData: StateFlow<List<DayData>> get() = _monthPeriodData.asStateFlow()
+    private var _monthPeriodData: MutableStateFlow<Map<String, DayData>> = MutableStateFlow(
+        mutableMapOf()
+    )
+    val monthPeriodData: StateFlow<Map<String, DayData>> get() = _monthPeriodData.asStateFlow()
 
     suspend fun isInvalidation(clickDate: LocalDate): Boolean {
 
@@ -52,17 +54,32 @@ class CalendarViewModel @Inject constructor(
                 listOf()
             }
 
-            if (periodCheckResult.isNotEmpty()) {
-                return@withContext true
-            }
-
-            return@withContext false
+            return@withContext periodCheckResult.isNotEmpty()
         }
 
     }
 
     fun fetchMonthPeriodData() = viewModelScope.launch(Dispatchers.IO) {
-        _monthPeriodData.value = dayDataRepository.dayData()
+        val dayDataList = dayDataRepository.dayData()
+        val tmpMap = mutableMapOf<String, DayData>()
+
+        for (dayData in dayDataList) {
+            tmpMap[dayData.startDate.toString()] = dayData
+
+            if (dayData.endDate == null) {
+                continue
+            }
+
+            var nextDay = dayData.startDate.plusDays(1)
+
+            while (nextDay < dayData.endDate) {
+                tmpMap[nextDay.toString()] = dayData
+                nextDay = nextDay.plusDays(1)
+            }
+        }
+
+        _monthPeriodData.value = tmpMap
+
     }
 
     fun upsertDayData(dayData: DayData) = viewModelScope.launch(Dispatchers.IO) {
@@ -107,7 +124,7 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun updateUIStateByDate(selectedDate: LocalDate) {
-        val selectedDayData = _monthPeriodData.value.firstOrNull { it.startDate == selectedDate }
+        val selectedDayData = _monthPeriodData.value[selectedDate.toString()]
         _uiState.value = _uiState.value.copy(
             selectedDate = selectedDate,
             selectedDayData = selectedDayData

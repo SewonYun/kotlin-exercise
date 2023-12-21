@@ -36,8 +36,7 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
 
     val firstDayOfWeek = month.atDay(1).dayOfWeek.value % 7 // 일요일이 0이 되도록 조정
     val calendarViewModel = viewModel<CalendarViewModel>()
-    val monthPeriodData = calendarViewModel.monthPeriodData.collectAsState(initial = (listOf()))
-    val periodDataMap = monthPeriodData.value.associateBy { it.startDate.toString() }
+    val periodDataMap = calendarViewModel.monthPeriodData.collectAsState().value
 
     Surface(
         modifier = Modifier
@@ -47,7 +46,6 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
         Column {
             var date = 1
             var nextMonthStartDate = 1
-            var prevDayData: DayData? = null
 
             for (z in 0..5) {
                 Row(
@@ -66,18 +64,14 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
                                 daysInNextMonthLen - (6 - i)
                             )
 
-                            if (prevDayData?.endDate != null && prevDayData?.endDate!! < localDate) {
-                                prevDayData = null
-                            }
-
-                            if (periodDataMap[localDate.toString()] != null) {
-                                prevDayData = periodDataMap[localDate.toString()]
-                            }
-
                             Surface(modifier = Modifier.weight(1f)) {
                                 DayGrid(
-                                    daysInLastMonth, daysInLastMonthLen - firstDayOfWeek + i
-                                            + 1, prevDayData, openDialog, isAlpha = true
+                                    daysInLastMonth,
+                                    daysInLastMonthLen - firstDayOfWeek + i
+                                            + 1,
+                                    periodDataMap[localDate.toString()],
+                                    openDialog,
+                                    isAlpha = true
                                 )
                             }
 
@@ -85,16 +79,14 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
 
                             val localDate = LocalDate.of(month.year, month.month, date)
 
-                            if (prevDayData?.endDate != null && prevDayData?.endDate!! < localDate) {
-                                prevDayData = null
-                            }
-
-                            if (periodDataMap[localDate.toString()] != null) {
-                                prevDayData = periodDataMap[localDate.toString()]
-                            }
-
                             Surface(modifier = Modifier.weight(1f)) {
-                                DayGrid(month, date, prevDayData, openDialog, isAlpha = false)
+                                DayGrid(
+                                    month,
+                                    date,
+                                    periodDataMap[localDate.toString()],
+                                    openDialog,
+                                    isAlpha = false
+                                )
                             }
                             date++
                         } else {
@@ -104,18 +96,13 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
                                 nextMonthStartDate
                             )
 
-                            if (prevDayData?.endDate != null && prevDayData?.endDate!! < localDate) {
-                                prevDayData = null
-                            }
-
-                            if (periodDataMap[localDate.toString()] != null) {
-                                prevDayData = periodDataMap[localDate.toString()]
-                            }
-
                             Surface(modifier = Modifier.weight(1f)) {
                                 DayGrid(
-                                    daysInNextMonth, nextMonthStartDate, prevDayData,
-                                    openDialog, isAlpha = true
+                                    daysInNextMonth,
+                                    nextMonthStartDate,
+                                    periodDataMap[localDate.toString()],
+                                    openDialog,
+                                    isAlpha = true
                                 )
                             }
                             nextMonthStartDate++
