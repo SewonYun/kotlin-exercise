@@ -32,7 +32,6 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
     val daysInLastMonth = month.minusMonths(1)
     val daysInLastMonthLen = daysInLastMonth.lengthOfMonth()
     val daysInNextMonth = month.plusMonths(1)
-    val daysInNextMonthLen = daysInNextMonth.lengthOfMonth()
 
     val firstDayOfWeek = month.atDay(1).dayOfWeek.value % 7 // 일요일이 0이 되도록 조정
     val calendarViewModel = viewModel<CalendarViewModel>()
@@ -59,9 +58,9 @@ fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableSt
                         if (date == 1 && i < firstDayOfWeek) {
 
                             val localDate = LocalDate.of(
-                                daysInNextMonth.year,
-                                daysInNextMonth.month,
-                                daysInNextMonthLen - (6 - i)
+                                daysInLastMonth.year,
+                                daysInLastMonth.month,
+                                daysInLastMonthLen - (6 - i)
                             )
 
                             Surface(modifier = Modifier.weight(1f)) {
