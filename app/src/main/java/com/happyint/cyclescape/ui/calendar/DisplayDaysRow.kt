@@ -130,7 +130,6 @@ fun DayGrid(
 
     Box(
         modifier = Modifier
-//            .border(2.dp, md_theme_light_secondaryContainer)
             .fillMaxHeight()
             .fillMaxWidth()
             .conditional(isAlpha) {
