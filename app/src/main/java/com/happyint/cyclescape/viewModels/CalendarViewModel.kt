@@ -72,7 +72,7 @@ class CalendarViewModel @Inject constructor(
 
             var nextDay = dayData.startDate.plusDays(1)
 
-            while (nextDay < dayData.endDate) {
+            while (nextDay <= dayData.endDate) {
                 tmpMap[nextDay.toString()] = dayData
                 nextDay = nextDay.plusDays(1)
             }
