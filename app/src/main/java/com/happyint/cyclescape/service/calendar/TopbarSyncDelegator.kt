@@ -1,6 +1,5 @@
 package com.happyint.cyclescape.service.calendar
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,10 +19,9 @@ import java.time.YearMonth
 class TopbarSyncDelegator {
 
     companion object {
-        @OptIn(ExperimentalFoundationApi::class)
         @Composable
-        fun UiStateUpdate(cv: CalendarViewModel, month: YearMonth) {
-            cv.updateUIStateByCopy(cv.uiState.collectAsState().value.copy(month = month))
+        fun UiStateUpdate(cv: CalendarViewModel, month: () -> YearMonth) {
+            cv.updateUIStateByCopy(cv.uiState.collectAsState().value.copy(month = month()))
         }
 
         @Composable

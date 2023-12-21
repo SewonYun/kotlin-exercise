@@ -16,9 +16,10 @@ import com.happyint.cyclescape.viewModels.CalendarViewModel
 
 @ExperimentalMaterial3Api
 @Composable
-fun UserInputDialog(openDialog: MutableState<Boolean>) {
+fun UserInputDialog(getOpenDialog: () -> MutableState<Boolean>) {
 
     val calendarViewModel = viewModel<CalendarViewModel>()
+    val openDialog = getOpenDialog()
 
     if (!openDialog.value) {
         return

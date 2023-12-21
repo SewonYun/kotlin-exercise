@@ -1,16 +1,15 @@
 package com.happyint.cyclescape.ui.calendar
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.PagerSnapDistance
-import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -21,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.happyint.cyclescape.CycleScapeApplication
 import com.happyint.cyclescape.service.calendar.TopbarSyncDelegator
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import com.happyint.cyclescape.viewModels.ComposableCalendarViewModel
@@ -40,7 +38,7 @@ fun LoadCalendar() {
     val pagerState = composableCalendarViewModel.pagerState.collectAsState()
     val cv = viewModel<CalendarViewModel>()
     cv.updateUIStateByCopy(cv.uiState.collectAsState().value.copy(month = months.value[pagerState.value.currentPage]))
-    TopbarSyncDelegator.UiStateUpdate(cv, months.value[pagerState.value.currentPage])
+    TopbarSyncDelegator.UiStateUpdate(cv) { months.value[pagerState.value.currentPage] }
 
     if (pagerState.value.currentPage <= 7) {  // 첫 번째 페이지에 도달했을 때
 
@@ -64,7 +62,7 @@ fun LoadCalendar() {
 
     }
 
-    UserInputDialog(openDialog)
+    UserInputDialog { openDialog }
 
     Column {
 
@@ -76,16 +74,16 @@ fun LoadCalendar() {
             pagerSnapDistance = PagerSnapDistance.atMost(1),
             lowVelocityAnimationSpec = tween(
                 easing = FastOutLinearInEasing,
-                durationMillis = 1
+                durationMillis = 500
             ),
             highVelocityAnimationSpec = rememberSplineBasedDecay(),
             snapAnimationSpec = tween(
                 easing = FastOutLinearInEasing,
-                durationMillis = 1
+                durationMillis = 500
             ),
         )
 
-        VerticalPager(
+        HorizontalPager(
             modifier = Modifier
                 .weight(1f)
                 .border(2.dp, Color.Gray),
@@ -93,24 +91,16 @@ fun LoadCalendar() {
             flingBehavior = flingBehavior,
             beyondBoundsPageCount = 5,
             pageContent = {
-                if (it < months.value.size) {
-                    val month = months.value[it]
+                val getMonth = { months.value[it] }
 
-                    OutSurface {
+                OutSurface {
 
-                        Column {
-                            CalendarBody(month, openDialog)
-                        }
-
+                    Column {
+                        CalendarBody(getMonth) { openDialog }
                     }
-                } else {
-                    Toast.makeText(
-                        CycleScapeApplication.instance,
-                        it.toString(),
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+
                 }
+
             }
         )
 

@@ -10,7 +10,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -26,7 +25,9 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
-fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
+fun DisplayDaysOfMonth(getMonth: () -> YearMonth, getOpenDialog: () -> MutableState<Boolean>) {
+    val openDialog = getOpenDialog()
+    val month = getMonth()
     val daysInMonth = month.lengthOfMonth()
     val daysInLastMonth = month.minusMonths(1)
     val daysInLastMonthLen = daysInLastMonth.lengthOfMonth()
@@ -35,7 +36,6 @@ fun DisplayDaysOfMonth(month: YearMonth, openDialog: MutableState<Boolean>) {
 
     val firstDayOfWeek = month.atDay(1).dayOfWeek.value % 7 // 일요일이 0이 되도록 조정
     val calendarViewModel = viewModel<CalendarViewModel>()
-//    calendarViewModel.fetchMonthPeriodData()
     val monthPeriodData = calendarViewModel.monthPeriodData.collectAsState(initial = (listOf()))
     val periodDataMap = monthPeriodData.value.associateBy { it.startDate.toString() }
 
@@ -144,7 +144,7 @@ fun DayGrid(
 
     Box(
         modifier = Modifier
-            .border(2.dp, md_theme_light_secondaryContainer)
+//            .border(2.dp, md_theme_light_secondaryContainer)
             .fillMaxHeight()
             .fillMaxWidth()
             .conditional(isAlpha) {
@@ -152,7 +152,7 @@ fun DayGrid(
             }
     ) {
 
-        val localDate = remember { LocalDate.of(month.year, month.month, startDate) }
+        val localDate = LocalDate.of(month.year, month.month, startDate)
 
         Day(
             localDate,
