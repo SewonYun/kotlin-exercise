@@ -12,14 +12,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.ui.calendar.dialogMenu.DialogRoot
+import com.happyint.cyclescape.ui.calendar.dialogMenu.LittleInputNoteRoot
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 
 @ExperimentalMaterial3Api
 @Composable
-fun UserInputDialog(getOpenDialog: () -> MutableState<Boolean>) {
+fun UserInputDialog(
+    getOpenDialog: () -> MutableState<Boolean>, getOpenLittleNoteDialog: () ->
+    MutableState<Boolean>
+) {
 
     val calendarViewModel = viewModel<CalendarViewModel>()
     val openDialog = getOpenDialog()
+    val openLittleNoteDialog = getOpenLittleNoteDialog()
 
     if (!openDialog.value) {
         return
@@ -35,7 +40,9 @@ fun UserInputDialog(getOpenDialog: () -> MutableState<Boolean>) {
 
             Column {
 
-                DialogRoot {
+                LittleInputNoteRoot { openLittleNoteDialog }
+
+                DialogRoot(getOpenLittleNoteDialog) {
                     openDialog.value = false
                     calendarViewModel.initUIState()
                 }

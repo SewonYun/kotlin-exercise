@@ -72,7 +72,10 @@ fun NameDialog(disappearCallback: () -> Unit) {
                         if (isError.value) {
                             Toast.makeText(
                                 CycleScapeApplication.instance,
-                                CycleScapeApplication.instance.getString(R.string.nick_max_length_alert),
+                                CycleScapeApplication.instance.getString(
+                                    R.string
+                                        .nick_max_length_alert, Numbers.MAX_NICKNAME_LENGTH.value
+                                ),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

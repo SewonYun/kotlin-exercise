@@ -28,13 +28,14 @@ class LittleNoteViewModel @Inject constructor(private val littleNoteRepository: 
                 ?: DailyNoteDataBuilder.getEmptyDailyNoteData()
     }
 
-    suspend fun getDailyNoteData(dayDataId: Int): DailyNoteData {
+    suspend fun getDailyNoteDataByDayDataId(dayDataId: Int): DailyNoteData {
         fetchData(dayDataId).join()
         return dailyNoteData.value
     }
 
     fun insert(dailyNoteData: DailyNoteData) = viewModelScope.launch(Dispatchers.IO) {
-        littleNoteRepository.insert(dailyNoteData)
+        val id = littleNoteRepository.insert(dailyNoteData)
+        fetchData(id.toInt())
     }
 
 }

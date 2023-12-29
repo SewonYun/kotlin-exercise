@@ -10,10 +10,11 @@ import com.happyint.cyclescape.entities.calendar.data.DayData
 import com.happyint.cyclescape.entities.user.data.Information
 import com.happyint.cyclescape.repositories.DayDataDao
 import com.happyint.cyclescape.repositories.InformationDao
+import com.happyint.cyclescape.repositories.LittleNoteDao
 import com.happyint.cyclescape.util.LocalDateConverter
 
 @Database(
-    version = 7,
+    version = 8,
     entities = [Information::class, DayData::class, DailyNoteData::class],
     exportSchema = false
 )
@@ -21,6 +22,7 @@ import com.happyint.cyclescape.util.LocalDateConverter
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): InformationDao
     abstract fun dayDataDao(): DayDataDao
+    abstract fun littleNoteDao(): LittleNoteDao
 
     companion object {
         @Volatile

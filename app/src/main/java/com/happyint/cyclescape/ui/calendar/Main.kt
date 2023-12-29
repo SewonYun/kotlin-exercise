@@ -33,6 +33,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoadCalendar() {
     val openDialog = remember { mutableStateOf(false) }
+    val getOpenDialog = { openDialog }
+    val openLittleNoteDialog = remember { mutableStateOf(false) }
+    val getOpenLittleNoteDialog = { openLittleNoteDialog }
     val composableCalendarViewModel = viewModel<ComposableCalendarViewModel>()
     val months = composableCalendarViewModel.months.collectAsState()
     val pagerState = composableCalendarViewModel.pagerState.collectAsState()
@@ -62,7 +65,7 @@ fun LoadCalendar() {
 
     }
 
-    UserInputDialog { openDialog }
+    UserInputDialog(getOpenDialog, getOpenLittleNoteDialog)
 
     Column {
 

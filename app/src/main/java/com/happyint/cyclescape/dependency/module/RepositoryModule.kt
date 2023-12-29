@@ -6,6 +6,8 @@ import com.happyint.cyclescape.AppDatabase
 import com.happyint.cyclescape.repositories.DayDataDao
 import com.happyint.cyclescape.repositories.DayDataRepository
 import com.happyint.cyclescape.repositories.InformationDao
+import com.happyint.cyclescape.repositories.LittleNoteDao
+import com.happyint.cyclescape.repositories.LittleNoteRepository
 import com.happyint.cyclescape.repositories.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -46,5 +48,15 @@ class RepositoryModule {
     @Provides
     fun provideUserRepository(informationDao: InformationDao): UserRepository {
         return UserRepository(informationDao)
+    }
+
+    @Provides
+    fun provideLittleNoteDao(appDatabase: AppDatabase): LittleNoteDao {
+        return appDatabase.littleNoteDao()
+    }
+
+    @Provides
+    fun provideLittleNoteRepository(littleNoteDao: LittleNoteDao): LittleNoteRepository {
+        return LittleNoteRepository(littleNoteDao)
     }
 }

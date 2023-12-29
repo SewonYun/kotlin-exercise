@@ -13,28 +13,32 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.CycleScapeApplication
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.constants.Numbers
 import com.happyint.cyclescape.viewModels.CalendarViewModel
-import com.happyint.cyclescape.viewModels.UserInfoViewModel
+import com.happyint.cyclescape.viewModels.LittleNoteViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun LittleInputNoteRoot(getOpenDialog: () -> MutableState<Boolean>) {
 
+    val rememberedName = remember { mutableStateOf("") }
     val calendarViewModel = viewModel<CalendarViewModel>()
+    val littleNoteViewModel = viewModel<LittleNoteViewModel>()
     val openDialog = getOpenDialog()
+
 
     if (!openDialog.value) {
         return
@@ -50,35 +54,56 @@ fun LittleInputNoteRoot(getOpenDialog: () -> MutableState<Boolean>) {
         text = {
 
             Column {
-
-//                LittleNoteInputDialog {
-//                    openDialog.value = false
-//                    calendarViewModel.initUIState()
-//                }
-
+                LittleNoteInputDialog(rememberedName)
             }
 
         },
-        confirmButton = {
+        dismissButton = {
 
             Button(onClick = { openDialog.value = false }) {
                 Text(stringResource(id = R.string.close))
             }
 
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val dayData = calendarViewModel.uiState.value.selectedDayData
+
+                        val dailyNoteData =
+                            littleNoteViewModel.getDailyNoteDataByDayDataId(dayData!!.id)
+                        littleNoteViewModel.insert(
+                            dailyNoteData.copy(
+                                dayDataId = dayData.id,
+                                content = rememberedName.value
+                            )
+                        )
+                        openDialog.value = false
+                    }
+
+                }
+            ) {
+                Text(stringResource(id = R.string.confirm))
+            }
         }
     )
 }
 
-@Preview
 @Composable
-fun LittleNoteInputDialog() {
+fun LittleNoteInputDialog(rememberedName: MutableState<String>) {
 
-    val userInfoViewModel = viewModel<UserInfoViewModel>()
-    val localScopeName = userInfoViewModel.information.collectAsState()
-        .value
-        .name!!
+    val calendarViewModel = viewModel<CalendarViewModel>()
+    val littleNoteViewModel = viewModel<LittleNoteViewModel>()
+    val dayData = calendarViewModel.uiState.collectAsState().value.selectedDayData
 
-    var rememberedName: String by remember { mutableStateOf(localScopeName) }
+    LaunchedEffect(dayData) {
+        val dailyNoteData =
+            littleNoteViewModel.getDailyNoteDataByDayDataId(dayDataId = dayData!!.id)
+        rememberedName.value = dailyNoteData.content
+    }
+
     val isError = remember { mutableStateOf(false) }
 
     Surface(
@@ -91,18 +116,22 @@ fun LittleNoteInputDialog() {
 
         Column(modifier = Modifier.padding(16.dp)) {
             OutlinedTextField(
-                value = rememberedName,
+                value = rememberedName.value,
                 minLines = 10,
                 maxLines = 10,
                 onValueChange = {
 
-                    rememberedName = it.take(Numbers.MAX_NICKNAME_LENGTH.value)
-                    isError.value = it.length > Numbers.MAX_NICKNAME_LENGTH.value
+                    rememberedName.value = it.take(Numbers.MAX_LITTLE_NOTE_CONTENT_LENGTH.value)
+                    isError.value = it.length > Numbers.MAX_LITTLE_NOTE_CONTENT_LENGTH.value
 
                     if (isError.value) {
                         Toast.makeText(
                             CycleScapeApplication.instance,
-                            CycleScapeApplication.instance.getString(R.string.nick_max_length_alert),
+                            CycleScapeApplication.instance.getString(
+                                R.string
+                                    .little_note_max_length_alert, Numbers
+                                    .MAX_LITTLE_NOTE_CONTENT_LENGTH.value
+                            ),
                             Toast.LENGTH_SHORT
                         ).show()
                     }

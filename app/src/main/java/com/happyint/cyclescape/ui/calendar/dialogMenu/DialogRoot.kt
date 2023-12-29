@@ -10,6 +10,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +30,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("CoroutineCreationDuringComposition")
 @ExperimentalMaterial3Api
 @Composable
-fun DialogRoot(closeCallback: () -> Unit) {
+fun DialogRoot(getOpenLittleNoteDialog: () -> MutableState<Boolean>, closeCallback: () -> Unit) {
     val calendarViewModel = viewModel<CalendarViewModel>()
 
     val invalidRemember = remember { mutableStateOf(false) }
@@ -44,7 +45,7 @@ fun DialogRoot(closeCallback: () -> Unit) {
         return
     }
 
-    DynamicElementList(closeCallback)
+    DynamicElementList(getOpenLittleNoteDialog, closeCallback)
 }
 
 @ExperimentalMaterial3Api
@@ -55,12 +56,18 @@ fun AlertIncorrectSelection() {
 
 @ExperimentalMaterial3Api
 @Composable
-fun DynamicElementList(closeCallback: () -> Unit) {
+fun DynamicElementList(
+    getOpenLittleNoteDialog: () -> MutableState<Boolean>, closeCallback: () ->
+    Unit
+) {
 
     val lastComponent: @Composable () -> Unit = {
         TextButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { closeCallback() }
+            onClick = {
+                val state = getOpenLittleNoteDialog()
+                state.value = true
+            }
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -98,13 +105,20 @@ fun DialogRendering(closeCallback: () -> Unit, lastComponent: @Composable () -> 
     }
 
     dialogPage?.let {
+
         when (it) {
             CalendarDialogPage.InsertDialog -> StartDateButton(closeCallback)
             CalendarDialogPage.EndDialog -> EndDateButton(closeCallback)
-            CalendarDialogPage.CancelDialog -> RemoveDateButton(closeCallback)
-            CalendarDialogPage.UpdateDialog -> UpdateDateButton(dayData, closeCallback)
+            CalendarDialogPage.CancelDialog -> {
+                RemoveDateButton(closeCallback)
+                lastComponent()
+            }
+
+            CalendarDialogPage.UpdateDialog -> {
+                UpdateDateButton(dayData, closeCallback)
+                lastComponent()
+            }
         }
 
-        lastComponent()
     }
 }
