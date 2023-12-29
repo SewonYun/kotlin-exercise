@@ -74,12 +74,12 @@ fun LoadCalendar() {
             pagerSnapDistance = PagerSnapDistance.atMost(1),
             lowVelocityAnimationSpec = tween(
                 easing = FastOutLinearInEasing,
-                durationMillis = 500
+                durationMillis = 1500
             ),
             highVelocityAnimationSpec = rememberSplineBasedDecay(),
             snapAnimationSpec = tween(
                 easing = FastOutLinearInEasing,
-                durationMillis = 500
+                durationMillis = 1500
             ),
         )
 

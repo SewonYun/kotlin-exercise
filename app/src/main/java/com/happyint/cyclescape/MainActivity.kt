@@ -7,6 +7,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.ui.graphics.AppTheme
+import com.happyint.cyclescape.viewModels.CalendarViewModel
 import com.happyint.cyclescape.viewModels.ComposableCalendarViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,8 +21,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             (Bootstrap()).on()
             AppTheme {
-
                 val composableCalendarViewModel = viewModel<ComposableCalendarViewModel>()
+                val calendarViewModel = viewModel<CalendarViewModel>()
+                calendarViewModel.fetchMonthPeriodData()
                 composableCalendarViewModel.BootStrap()
                 CycleScapeAppOf()
             }
