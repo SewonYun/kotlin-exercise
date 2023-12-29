@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.customApi.conditional
 import com.happyint.cyclescape.entities.calendar.data.DayData
-import com.happyint.cyclescape.entities.calendar.state.DayComponentState
+import com.happyint.cyclescape.entities.calendar.vo.DayComponentState
 import com.happyint.cyclescape.ui.graphics.md_theme_light_secondaryContainer
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import java.time.DayOfWeek

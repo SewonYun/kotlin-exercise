@@ -5,12 +5,12 @@ import javax.inject.Inject
 
 class LittleNoteRepository @Inject constructor(private val littleNoteDao: LittleNoteDao) {
 
-    fun insert(content: String) {
-        littleNoteDao.insert(content = content)
+    fun insert(dailyNoteData: DailyNoteData) {
+        littleNoteDao.insert(dailyNoteData = dailyNoteData)
     }
 
-    fun getByUserId(id: Int): DailyNoteData? {
-        return littleNoteDao.select(id = id)
+    fun getByDayDataId(dayDataId: Int): DailyNoteData? {
+        return littleNoteDao.select(dayDataId = dayDataId)
     }
 
 }

@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.happyint.cyclescape.entities.calendar.state.DayComponentState
+import com.happyint.cyclescape.entities.calendar.vo.DayComponentState
 import com.happyint.cyclescape.ui.graphics.md_theme_light_secondary
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import java.time.LocalDate

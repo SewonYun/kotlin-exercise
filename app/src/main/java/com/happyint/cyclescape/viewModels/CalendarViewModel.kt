@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.getOrElse
 import com.happyint.cyclescape.entities.calendar.data.DayData
-import com.happyint.cyclescape.entities.calendar.state.UIState
+import com.happyint.cyclescape.entities.calendar.vo.UIState
 import com.happyint.cyclescape.exception.NotFoundDataException
 import com.happyint.cyclescape.repositories.DayDataRepository
 import com.happyint.cyclescape.service.calendar.CalendarDialogPage

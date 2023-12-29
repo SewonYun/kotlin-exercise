@@ -1,4 +1,4 @@
-package com.happyint.cyclescape.entities.calendar.state
+package com.happyint.cyclescape.entities.calendar.vo
 
 import com.happyint.cyclescape.entities.calendar.data.DayData
 
