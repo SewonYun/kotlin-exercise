@@ -3,13 +3,14 @@ package com.happyint.cyclescape.repositories
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.happyint.cyclescape.entities.LittleNote.data.DailyNoteData
+import com.happyint.cyclescape.entities.littleNote.data.DailyNoteData
+import java.time.LocalDate
 
 @Dao
 interface LittleNoteDao {
 
-    @Query("SELECT * FROM dailynotedata WHERE day_data_id = :dayDataId")
-    fun select(dayDataId: Int): DailyNoteData?
+    @Query("SELECT * FROM dailynotedata WHERE note_date = :noteDate")
+    fun select(noteDate: LocalDate): DailyNoteData?
 
     @Upsert
     fun insert(dailyNoteData: DailyNoteData): Long

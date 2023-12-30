@@ -1,7 +1,7 @@
-package com.happyint.cyclescape.entities.LittleNote.vo
+package com.happyint.cyclescape.entities.littleNote.vo
 
-import com.happyint.cyclescape.entities.LittleNote.data.DailyNoteData
 import com.happyint.cyclescape.entities.calendar.data.DayData
+import com.happyint.cyclescape.entities.littleNote.data.DailyNoteData
 
 data class DayHasLittleNote(
     val dayData: DayData,

@@ -1,6 +1,7 @@
 package com.happyint.cyclescape.repositories
 
-import com.happyint.cyclescape.entities.LittleNote.data.DailyNoteData
+import com.happyint.cyclescape.entities.littleNote.data.DailyNoteData
+import java.time.LocalDate
 import javax.inject.Inject
 
 class LittleNoteRepository @Inject constructor(private val littleNoteDao: LittleNoteDao) {
@@ -9,8 +10,8 @@ class LittleNoteRepository @Inject constructor(private val littleNoteDao: Little
         return littleNoteDao.insert(dailyNoteData = dailyNoteData)
     }
 
-    fun getByDayDataId(dayDataId: Int): DailyNoteData? {
-        return littleNoteDao.select(dayDataId = dayDataId)
+    fun getByDayDataId(noteDate: LocalDate): DailyNoteData? {
+        return littleNoteDao.select(noteDate)
     }
 
 }

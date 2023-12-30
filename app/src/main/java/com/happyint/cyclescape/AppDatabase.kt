@@ -5,8 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.happyint.cyclescape.entities.LittleNote.data.DailyNoteData
 import com.happyint.cyclescape.entities.calendar.data.DayData
+import com.happyint.cyclescape.entities.littleNote.data.DailyNoteData
 import com.happyint.cyclescape.entities.user.data.Information
 import com.happyint.cyclescape.repositories.DayDataDao
 import com.happyint.cyclescape.repositories.InformationDao
@@ -14,7 +14,7 @@ import com.happyint.cyclescape.repositories.LittleNoteDao
 import com.happyint.cyclescape.util.LocalDateConverter
 
 @Database(
-    version = 8,
+    version = 11,
     entities = [Information::class, DayData::class, DailyNoteData::class],
     exportSchema = false
 )
