@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.getOrElse
 import com.happyint.cyclescape.entities.calendar.data.DayData
 import com.happyint.cyclescape.entities.calendar.vo.UIState
+import com.happyint.cyclescape.entities.littleNote.data.DailyNoteData
 import com.happyint.cyclescape.exception.NotFoundDataException
 import com.happyint.cyclescape.repositories.DayDataRepository
 import com.happyint.cyclescape.repositories.LittleNoteRepository
@@ -99,7 +100,7 @@ class CalendarViewModel @Inject constructor(
     fun resetOtherDays(dayData: DayData) = viewModelScope.launch(Dispatchers.IO) {
         dayDataRepository.upsert(dayData.copy(endDate = null))
 
-        val dailyNoteData = littleNoteRepository.getByDate(dayData.startDate)!!
+        val dailyNoteData = littleNoteRepository.getByDate(dayData.startDate)
 
         littleNoteRepository.bulkUpdateDayDataId(
             null,
@@ -107,7 +108,7 @@ class CalendarViewModel @Inject constructor(
             dayData.endDate
         )
 
-        littleNoteRepository.upsert(dailyNoteData)
+        updateDailyNoteData(dailyNoteData = dailyNoteData)
 
         fetchMonthPeriodData().join()
     }
@@ -210,6 +211,12 @@ class CalendarViewModel @Inject constructor(
             selectedDayData = dayData
         )
 
+    }
+
+    private fun updateDailyNoteData(dailyNoteData: DailyNoteData?) {
+        dailyNoteData?.let {
+            littleNoteRepository.upsert(it)
+        }
     }
 
 }
