@@ -38,7 +38,7 @@ interface DayDataDao {
     fun getDayDataListByMonth(startDate: LocalDate, endDate: LocalDate): List<DayData>
 
     @Upsert
-    fun upsert(dayData: DayData)
+    fun upsert(dayData: DayData): Long
 
     @Delete
     fun delete(dayData: DayData)

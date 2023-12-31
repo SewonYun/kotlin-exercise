@@ -46,7 +46,7 @@ fun LittleInputNoteRoot(getOpenDialog: () -> MutableState<Boolean>) {
 
     val uiState = calendarViewModel.uiState.collectAsState()
     val selectedDate = uiState.value.selectedDate!!
-    val dayData = uiState.value.selectedDayData!!
+    val dayData = uiState.value.selectedDayData
 
 
     AlertDialog(
@@ -77,7 +77,7 @@ fun LittleInputNoteRoot(getOpenDialog: () -> MutableState<Boolean>) {
                             littleNoteViewModel.getDailyNoteDataByDayDataId(selectedDate)
                         littleNoteViewModel.insert(
                             dailyNoteData.copy(
-                                dayDataId = dayData.id,
+                                dayDataId = dayData?.id,
                                 content = rememberedName.value
                             )
                         )
@@ -97,10 +97,9 @@ fun LittleNoteInputDialog(rememberedName: MutableState<String>) {
 
     val calendarViewModel = viewModel<CalendarViewModel>()
     val littleNoteViewModel = viewModel<LittleNoteViewModel>()
-    val dayData = calendarViewModel.uiState.collectAsState().value.selectedDayData!!
     val date = calendarViewModel.uiState.collectAsState().value.selectedDate!!
 
-    LaunchedEffect(dayData) {
+    LaunchedEffect(true) {
         val dailyNoteData =
             littleNoteViewModel.getDailyNoteDataByDayDataId(noteDate = date)
         rememberedName.value = dailyNoteData.content

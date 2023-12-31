@@ -23,9 +23,7 @@ fun UpdateDateButton(dayData: DayData?, closeCallback: () -> Unit) {
         onClick = {
 
             if (dayData != null) {
-                calendarViewModel.upsertDayData(
-                    dayData.copy(endDate = null)
-                )
+                calendarViewModel.resetOtherDays(dayData)
             }
 
             closeCallback()

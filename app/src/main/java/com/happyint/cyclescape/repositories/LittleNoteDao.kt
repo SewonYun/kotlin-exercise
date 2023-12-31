@@ -13,6 +13,6 @@ interface LittleNoteDao {
     fun select(noteDate: LocalDate): DailyNoteData?
 
     @Upsert
-    fun insert(dailyNoteData: DailyNoteData): Long
+    fun upsert(dailyNoteData: DailyNoteData): Long
 
 }

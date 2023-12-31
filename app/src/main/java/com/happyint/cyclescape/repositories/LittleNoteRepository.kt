@@ -6,12 +6,29 @@ import javax.inject.Inject
 
 class LittleNoteRepository @Inject constructor(private val littleNoteDao: LittleNoteDao) {
 
-    fun insert(dailyNoteData: DailyNoteData): Long {
-        return littleNoteDao.insert(dailyNoteData = dailyNoteData)
+    fun upsert(dailyNoteData: DailyNoteData): Long {
+        return littleNoteDao.upsert(dailyNoteData = dailyNoteData)
     }
 
-    fun getByDayDataId(noteDate: LocalDate): DailyNoteData? {
+    fun getByDate(noteDate: LocalDate): DailyNoteData? {
         return littleNoteDao.select(noteDate)
+    }
+
+    fun bulkUpdateDayDataId(dayDataId: Int?, startDate: LocalDate, endDate: LocalDate?) {
+
+        val lastCondition = endDate ?: startDate
+        var loopDate = startDate
+
+        while (loopDate <= lastCondition) {
+            val dailyNoteData = littleNoteDao.select(loopDate)
+
+            if (dailyNoteData != null) {
+                upsert(dailyNoteData.copy(dayDataId = dayDataId))
+            }
+
+            loopDate = loopDate.plusDays(1)
+        }
+
     }
 
 }

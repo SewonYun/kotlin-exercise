@@ -32,8 +32,8 @@ class DayDataRepository @Inject constructor(private val dayDataDao: DayDataDao) 
         return dayDataDao.getDayDataListByMonth(month.atDay(1), month.atEndOfMonth())
     }
 
-    fun upsert(dayData: DayData) {
-        dayDataDao.upsert(dayData)
+    fun upsert(dayData: DayData): Long {
+        return dayDataDao.upsert(dayData)
     }
 
     fun delete(dayData: DayData) {

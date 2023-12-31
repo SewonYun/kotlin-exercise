@@ -25,7 +25,7 @@ class LittleNoteViewModel @Inject constructor(private val littleNoteRepository: 
 
     fun fetchData(noteDate: LocalDate) = viewModelScope.launch(Dispatchers.IO) {
         _dailyNoteData.value =
-            littleNoteRepository.getByDayDataId(noteDate)
+            littleNoteRepository.getByDate(noteDate)
                 ?: DailyNoteDataBuilder.getEmptyDailyNoteData(noteDate = noteDate)
     }
 
@@ -35,7 +35,7 @@ class LittleNoteViewModel @Inject constructor(private val littleNoteRepository: 
     }
 
     fun insert(dailyNoteData: DailyNoteData) = viewModelScope.launch(Dispatchers.IO) {
-        littleNoteRepository.insert(dailyNoteData)
+        littleNoteRepository.upsert(dailyNoteData)
         fetchData(dailyNoteData.noteDate)
     }
 

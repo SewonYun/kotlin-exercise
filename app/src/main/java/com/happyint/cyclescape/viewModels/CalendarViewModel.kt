@@ -7,6 +7,7 @@ import com.happyint.cyclescape.entities.calendar.data.DayData
 import com.happyint.cyclescape.entities.calendar.vo.UIState
 import com.happyint.cyclescape.exception.NotFoundDataException
 import com.happyint.cyclescape.repositories.DayDataRepository
+import com.happyint.cyclescape.repositories.LittleNoteRepository
 import com.happyint.cyclescape.service.calendar.CalendarDialogPage
 import com.happyint.cyclescape.service.calendar.EventPeriodChecker
 import com.happyint.cyclescape.service.calendar.UnclosedEventChecker
@@ -23,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
     private val dayDataRepository: DayDataRepository,
+    private val littleNoteRepository: LittleNoteRepository,
     private val unclosedEventChecker: UnclosedEventChecker,
     private val eventPeriodChecker: EventPeriodChecker
 ) : ViewModel() {
@@ -84,6 +86,29 @@ class CalendarViewModel @Inject constructor(
 
     fun upsertDayData(dayData: DayData) = viewModelScope.launch(Dispatchers.IO) {
         dayDataRepository.upsert(dayData)
+
+        littleNoteRepository.bulkUpdateDayDataId(
+            dayData.id,
+            dayData.startDate,
+            dayData.endDate
+        )
+
+        fetchMonthPeriodData().join()
+    }
+
+    fun resetOtherDays(dayData: DayData) = viewModelScope.launch(Dispatchers.IO) {
+        dayDataRepository.upsert(dayData.copy(endDate = null))
+
+        val dailyNoteData = littleNoteRepository.getByDate(dayData.startDate)!!
+
+        littleNoteRepository.bulkUpdateDayDataId(
+            null,
+            dayData.startDate,
+            dayData.endDate
+        )
+
+        littleNoteRepository.upsert(dailyNoteData)
+
         fetchMonthPeriodData().join()
     }
 
@@ -97,10 +122,16 @@ class CalendarViewModel @Inject constructor(
 
         val dayData = dayDataList.last()
 
-        dayDataRepository.upsert(
+        upsertDayData(
             dayData.copy(
                 endDate = date
             )
+        )
+
+        littleNoteRepository.bulkUpdateDayDataId(
+            dayData.id,
+            dayData.startDate,
+            date
         )
 
         fetchMonthPeriodData().join()
@@ -108,6 +139,11 @@ class CalendarViewModel @Inject constructor(
 
     fun removeData(dayData: DayData) = viewModelScope.launch(Dispatchers.IO) {
         dayDataRepository.delete(dayData)
+        littleNoteRepository.bulkUpdateDayDataId(
+            null,
+            dayData.startDate,
+            dayData.endDate
+        )
         fetchMonthPeriodData().join()
     }
 

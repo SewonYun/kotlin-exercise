@@ -7,7 +7,7 @@ class DailyNoteDataBuilder {
         fun getEmptyDailyNoteData(noteDate: LocalDate?): DailyNoteData {
             return DailyNoteData(
                 id = 0,
-                dayDataId = 0,
+                dayDataId = null,
                 noteDate = noteDate ?: LocalDate.now(),
                 content = ""
             )
