@@ -126,9 +126,9 @@ fun DayGrid(
     }
     val dayOfWeek = month.atDay(startDate).dayOfWeek
     val color = when (true) {
+        LocalDate.now().equals(localDate) -> Color.White
         (dayOfWeek == DayOfWeek.SUNDAY) -> Color.Red
         (dayOfWeek == DayOfWeek.SATURDAY) -> Color.Blue
-        LocalDate.now().equals(localDate) -> Color.White
         else -> Color.Black
     }
 
