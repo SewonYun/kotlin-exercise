@@ -7,6 +7,8 @@ import com.happyint.cyclescape.entities.calendar.data.DayData
 import com.happyint.cyclescape.repositories.DayDataDao
 import com.happyint.cyclescape.repositories.DayDataRepository
 import com.happyint.cyclescape.repositories.InformationDao
+import com.happyint.cyclescape.repositories.LittleNoteDao
+import com.happyint.cyclescape.repositories.LittleNoteRepository
 import com.happyint.cyclescape.service.calendar.CalendarDialogPage
 import com.happyint.cyclescape.service.calendar.EventPeriodChecker
 import com.happyint.cyclescape.service.calendar.UnclosedEventChecker
@@ -39,6 +41,7 @@ class PeriodStartInsertTest {
     private lateinit var mockDatabase: AppDatabase
     private lateinit var mockInformationDao: InformationDao
     private lateinit var mockDayDataDao: DayDataDao
+    private lateinit var littleNoteDao: LittleNoteDao
     private lateinit var calendarViewModel: CalendarViewModel
 
     @Before
@@ -49,12 +52,17 @@ class PeriodStartInsertTest {
         ).allowMainThreadQueries().build()
         mockInformationDao = mockDatabase.userDao()
         mockDayDataDao = mockDatabase.dayDataDao()
+        littleNoteDao = mockDatabase.littleNoteDao()
+
         val dayDataRepository = DayDataRepository(mockDayDataDao)
+
         calendarViewModel = CalendarViewModel(
             DayDataRepository(mockDayDataDao),
+            LittleNoteRepository(littleNoteDao),
             UnclosedEventChecker(dayDataRepository),
             EventPeriodChecker(dayDataRepository)
         )
+
     }
 
     @Test
@@ -67,9 +75,11 @@ class PeriodStartInsertTest {
 
 
         val getDayData: DayData? = calendarViewModel.monthPeriodData.value.let { it ->
-            it.lastOrNull {
+
+            it.values.lastOrNull {
                 it.startDate == localDate
             }
+
         }
 
         assert((selectedDate == getDayData?.startDate))
