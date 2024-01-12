@@ -4,7 +4,13 @@ import com.happyint.cyclescape.entities.littleNote.data.DailyNoteData
 import java.time.LocalDate
 import javax.inject.Inject
 
-class LittleNoteRepository @Inject constructor(private val littleNoteDao: LittleNoteDao) {
+class LittleNoteRepository @Inject constructor(
+    private val littleNoteDao: LittleNoteDao
+) {
+
+    fun getAll(): List<DailyNoteData> {
+        return littleNoteDao.all()
+    }
 
     fun upsert(dailyNoteData: DailyNoteData): Long {
         return littleNoteDao.upsert(dailyNoteData = dailyNoteData)

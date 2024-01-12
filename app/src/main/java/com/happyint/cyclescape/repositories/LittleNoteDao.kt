@@ -12,6 +12,9 @@ interface LittleNoteDao {
     @Query("SELECT * FROM dailynotedata WHERE note_date = :noteDate")
     fun select(noteDate: LocalDate): DailyNoteData?
 
+    @Query("SELECT * FROM dailynotedata ")
+    fun all(): List<DailyNoteData>
+
     @Upsert
     fun upsert(dailyNoteData: DailyNoteData): Long
 

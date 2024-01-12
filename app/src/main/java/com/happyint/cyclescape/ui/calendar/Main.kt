@@ -77,12 +77,12 @@ fun LoadCalendar() {
             pagerSnapDistance = PagerSnapDistance.atMost(1),
             lowVelocityAnimationSpec = tween(
                 easing = FastOutLinearInEasing,
-                durationMillis = 1500
+                durationMillis = 500
             ),
             highVelocityAnimationSpec = rememberSplineBasedDecay(),
             snapAnimationSpec = tween(
                 easing = FastOutLinearInEasing,
-                durationMillis = 1500
+                durationMillis = 500
             ),
         )
 
@@ -92,7 +92,6 @@ fun LoadCalendar() {
                 .border(2.dp, Color.Gray),
             state = pagerState.value,
             flingBehavior = flingBehavior,
-            beyondBoundsPageCount = 5,
             pageContent = {
                 val getMonth = { months.value[it] }
 

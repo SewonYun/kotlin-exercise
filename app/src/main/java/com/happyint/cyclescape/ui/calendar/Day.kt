@@ -28,6 +28,7 @@ import java.time.LocalDate
 @Composable
 fun Day(localDate: LocalDate, color: Color, dayComponentState: DayComponentState, cb: () -> Unit) {
     val calendarViewModel = viewModel<CalendarViewModel>()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -82,7 +83,6 @@ fun Day(localDate: LocalDate, color: Color, dayComponentState: DayComponentState
                         DayComponent(localDate)
                     }
                 }
-
 
             }
         }

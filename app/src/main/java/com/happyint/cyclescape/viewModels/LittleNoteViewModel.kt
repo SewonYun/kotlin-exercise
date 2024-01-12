@@ -18,10 +18,29 @@ import javax.inject.Inject
 class LittleNoteViewModel @Inject constructor(private val littleNoteRepository: LittleNoteRepository) :
     ViewModel() {
 
+    val littleNoteData: StateFlow<MutableMap<String, DailyNoteData>>
+        get() = _littleNoteData
+            .asStateFlow()
+
+    private var _littleNoteData: MutableStateFlow<MutableMap<String, DailyNoteData>> =
+        MutableStateFlow(mutableMapOf())
+
+    fun fetchLittleNote() = viewModelScope.launch(Dispatchers.IO) {
+        val tmpMap = mutableMapOf<String, DailyNoteData>()
+        val littleNoteList = littleNoteRepository.getAll()
+
+        for (littleNote in littleNoteList) {
+            tmpMap[littleNote.noteDate.toString()] = littleNote
+        }
+
+        _littleNoteData.value = tmpMap
+    }
+
     private var _dailyNoteData: MutableStateFlow<DailyNoteData> =
         MutableStateFlow(DailyNoteDataBuilder.getEmptyDailyNoteData(noteDate = null))
 
     val dailyNoteData: StateFlow<DailyNoteData> get() = _dailyNoteData.asStateFlow()
+
 
     fun fetchData(noteDate: LocalDate) = viewModelScope.launch(Dispatchers.IO) {
         _dailyNoteData.value =
@@ -31,12 +50,14 @@ class LittleNoteViewModel @Inject constructor(private val littleNoteRepository: 
 
     suspend fun getDailyNoteDataByDayDataId(noteDate: LocalDate): DailyNoteData {
         fetchData(noteDate).join()
+        fetchLittleNote().join()
         return dailyNoteData.value
     }
 
     fun insert(dailyNoteData: DailyNoteData) = viewModelScope.launch(Dispatchers.IO) {
         littleNoteRepository.upsert(dailyNoteData)
         fetchData(dailyNoteData.noteDate)
+        fetchLittleNote()
     }
 
 }
