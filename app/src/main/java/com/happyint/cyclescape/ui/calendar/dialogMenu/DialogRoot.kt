@@ -111,14 +111,14 @@ fun DialogRendering(closeCallback: () -> Unit, lastComponent: @Composable () -> 
             CalendarDialogPage.EndDialog -> EndDateButton(closeCallback)
             CalendarDialogPage.CancelDialog -> {
                 RemoveDateButton(closeCallback)
-                lastComponent()
             }
 
             CalendarDialogPage.UpdateDialog -> {
                 UpdateDateButton(dayData, closeCallback)
-                lastComponent()
             }
         }
+
+        lastComponent()
 
     }
 }

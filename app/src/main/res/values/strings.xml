@@ -2,33 +2,32 @@
 
     <string name="app_name">CycleScape</string>
     <string name="connection_error_title">Caution</string>
-    <string name="connection_error_message">Your network is not work</string>
-    <string name="retry_label">Retry to connection</string>
+    <string name="connection_error_message">Your network is not working</string>
+    <string name="retry_label">Retry connection</string>
 
 
-    <string name="user_name">name</string>
-    <string name="birth_date">birth date</string>
-    <string name="age">age</string>
+    <string name="user_name">Name</string>
+    <string name="birth_date">Birth date</string>
+    <string name="age">Age</string>
     <string name="avg_cycle">Average Period Cycle</string>
-    <string name="reminder">reminder</string>
-    <string name="ovulation_day">ovulation day</string>
-    <string name="contact_us">contact us</string>
+    <string name="reminder">Reminder</string>
+    <string name="ovulation_day">Ovulation day</string>
+    <string name="contact_us">Contact us</string>
 
-    <string name="setting">setting</string>
-    <string name="favorite">favorite</string>
-    <string name="help">help</string>
-    <string name="backup">backup</string>
-    <string name="notice_history">notice_history</string>
+    <string name="setting">Setting</string>
+    <string name="favorite">Favorite</string>
+    <string name="help">Help</string>
+    <string name="backup">Backup</string>
+    <string name="notice_history">Notice history</string>
     <string name="blank"> </string>
 
-    <string name="close">close</string>
+    <string name="close">Close</string>
 
     <string name="default_user_nickname">Default name</string>
 
-    <string name="did_not_save">Didn\'t save</string>
-    <string name="nick_max_length_alert">Name length is limited to %1$d characters.</string>
-    <string name="little_note_max_length_alert">Content length is limited to %1$d characters
-        .</string>
+    <string name="did_not_save">Did not save</string>
+    <string name="nick_max_length_alert">Please enter within %1$d characters.</string>
+    <string name="little_note_max_length_alert">Please enter within %1$d characters.</string>
 
     <string name="day">%1$d day</string>
     <string name="age_expression">Born in %1$d</string>
@@ -39,14 +38,14 @@
     <string name="app_exit_button_explain">If you press the confirm button, the app will exit.</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
-    <string name="logging">logging</string>
+    <string name="logging">Logging</string>
 
     <string name="menu_start_date">Period start date</string>
-    <string name="ask_menu_date_remove">Remove this date history?</string>
-    <string name="ask_menu_date_update">Update this date history?</string>
-    <string name="menu_end_date">Period End Date</string>
-    <string name="menu_note">Today’s Little Note</string>
-    <string name="menu_note_input_explain">Please fill in the details</string>
+    <string name="ask_menu_date_remove">Do you want to delete this date history?</string>
+    <string name="ask_menu_date_update">Do you want to update this date history?</string>
+    <string name="menu_end_date">Period end date</string>
+    <string name="menu_note">Note</string>
+    <string name="menu_note_input_explain">Please enter the details</string>
 
     <string name="sun">Sun</string>
     <string name="mon">Mon</string>
@@ -58,7 +57,6 @@
 
     <string name="month_header">(%1$d) %2$s</string>
     <string name="explain_today">Today</string>
-    <string name="incorrect_selection_alert">Between the selected dates, there is another record
-        .</string>
+    <string name="incorrect_selection_alert">There is another record between the selected dates.</string>
 
 </resources>
