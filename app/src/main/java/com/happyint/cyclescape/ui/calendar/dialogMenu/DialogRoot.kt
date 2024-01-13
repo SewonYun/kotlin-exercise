@@ -23,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.service.calendar.CalendarDialogPage
 import com.happyint.cyclescape.viewModels.CalendarViewModel
+import com.happyint.cyclescape.viewModels.LittleNoteViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,6 +62,9 @@ fun DynamicElementList(
     Unit
 ) {
 
+    val littleNoteViewModel = viewModel<LittleNoteViewModel>()
+    val calendarViewModel = viewModel<CalendarViewModel>()
+
     val lastComponent: @Composable () -> Unit = {
         TextButton(
             modifier = Modifier.fillMaxWidth(),
@@ -77,11 +81,47 @@ fun DynamicElementList(
                 Text(text = stringResource(id = R.string.menu_note))
             }
         }
+
+
+        littleNoteViewModel.fetchDailyData(
+            calendarViewModel.uiState.collectAsState().value.selectedDate!!
+        )
+
+        littleNoteViewModel.dailyNoteData.collectAsState().let {
+
+            if (it.value != null) {
+                DeleteNoteButton(closeCallback)
+            }
+
+        }
+
     }
 
     DialogRendering(closeCallback, lastComponent)
 
 
+}
+
+@Composable
+fun DeleteNoteButton(closeCallback: () -> Unit) {
+
+    val littleNoteViewModel = viewModel<LittleNoteViewModel>()
+
+    TextButton(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = {
+            littleNoteViewModel.dailyNoteData.value?.let { littleNoteViewModel.delete(it) }
+            closeCallback()
+        }
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = stringResource(id = R.string.delete_menu_note))
+        }
+    }
 }
 
 @Composable

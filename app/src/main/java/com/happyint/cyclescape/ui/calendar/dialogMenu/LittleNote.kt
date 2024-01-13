@@ -74,13 +74,22 @@ fun LittleInputNoteRoot(getOpenDialog: () -> MutableState<Boolean>) {
 
 
                         val dailyNoteData =
-                            littleNoteViewModel.getDailyNoteDataByDayDataId(selectedDate)
-                        littleNoteViewModel.insert(
-                            dailyNoteData.copy(
-                                dayDataId = dayData?.id,
-                                content = rememberedName.value
+                            littleNoteViewModel.getDailyNoteDataByNoteDate(selectedDate)
+
+                        dailyNoteData.let {
+
+                            if (it == null) {
+                                return@let
+                            }
+
+                            littleNoteViewModel.insert(
+                                it.copy(
+                                    dayDataId = dayData?.id,
+                                    content = rememberedName.value
+                                )
                             )
-                        )
+
+                        }
                         openDialog.value = false
                     }
 
@@ -101,8 +110,11 @@ fun LittleNoteInputDialog(rememberedName: MutableState<String>) {
 
     LaunchedEffect(true) {
         val dailyNoteData =
-            littleNoteViewModel.getDailyNoteDataByDayDataId(noteDate = date)
-        rememberedName.value = dailyNoteData.content
+            littleNoteViewModel.getDailyNoteDataByNoteDate(noteDate = date)
+
+        if (dailyNoteData != null) {
+            rememberedName.value = dailyNoteData.content
+        }
     }
 
     val isError = remember { mutableStateOf(false) }

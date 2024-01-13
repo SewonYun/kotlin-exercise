@@ -19,8 +19,7 @@ class LittleNoteViewModel @Inject constructor(private val littleNoteRepository: 
     ViewModel() {
 
     val littleNoteData: StateFlow<MutableMap<String, DailyNoteData>>
-        get() = _littleNoteData
-            .asStateFlow()
+        get() = _littleNoteData.asStateFlow()
 
     private var _littleNoteData: MutableStateFlow<MutableMap<String, DailyNoteData>> =
         MutableStateFlow(mutableMapOf())
@@ -36,28 +35,31 @@ class LittleNoteViewModel @Inject constructor(private val littleNoteRepository: 
         _littleNoteData.value = tmpMap
     }
 
-    private var _dailyNoteData: MutableStateFlow<DailyNoteData> =
+    private var _dailyNoteData: MutableStateFlow<DailyNoteData?> =
         MutableStateFlow(DailyNoteDataBuilder.getEmptyDailyNoteData(noteDate = null))
 
-    val dailyNoteData: StateFlow<DailyNoteData> get() = _dailyNoteData.asStateFlow()
+    val dailyNoteData: StateFlow<DailyNoteData?> get() = _dailyNoteData.asStateFlow()
 
-
-    fun fetchData(noteDate: LocalDate) = viewModelScope.launch(Dispatchers.IO) {
-        _dailyNoteData.value =
-            littleNoteRepository.getByDate(noteDate)
-                ?: DailyNoteDataBuilder.getEmptyDailyNoteData(noteDate = noteDate)
+    fun fetchDailyData(noteDate: LocalDate) = viewModelScope.launch(Dispatchers.IO) {
+        _dailyNoteData.value = littleNoteRepository.getByDate(noteDate)
     }
 
-    suspend fun getDailyNoteDataByDayDataId(noteDate: LocalDate): DailyNoteData {
-        fetchData(noteDate).join()
+    suspend fun getDailyNoteDataByNoteDate(noteDate: LocalDate): DailyNoteData? {
+        fetchDailyData(noteDate).join()
         fetchLittleNote().join()
         return dailyNoteData.value
     }
 
     fun insert(dailyNoteData: DailyNoteData) = viewModelScope.launch(Dispatchers.IO) {
         littleNoteRepository.upsert(dailyNoteData)
-        fetchData(dailyNoteData.noteDate)
-        fetchLittleNote()
+        fetchDailyData(dailyNoteData.noteDate).join()
+        fetchLittleNote().join()
+    }
+
+    fun delete(dailyNoteData: DailyNoteData) = viewModelScope.launch(Dispatchers.IO) {
+        littleNoteRepository.delete(dailyNoteData)
+        fetchDailyData(dailyNoteData.noteDate).join()
+        fetchLittleNote().join()
     }
 
 }

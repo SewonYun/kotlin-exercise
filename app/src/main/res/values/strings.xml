@@ -45,6 +45,7 @@
     <string name="ask_menu_date_update">Do you want to update this date history?</string>
     <string name="menu_end_date">Period end date</string>
     <string name="menu_note">Note</string>
+    <string name="delete_menu_note">Delete note</string>
     <string name="menu_note_input_explain">Please enter the details</string>
 
     <string name="sun">Sun</string>
