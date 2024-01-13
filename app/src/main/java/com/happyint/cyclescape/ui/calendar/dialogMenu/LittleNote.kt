@@ -25,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.CycleScapeApplication
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.constants.Numbers
+import com.happyint.cyclescape.entities.littleNote.data.DailyNoteDataBuilder
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import com.happyint.cyclescape.viewModels.LittleNoteViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -46,8 +47,6 @@ fun LittleInputNoteRoot(getOpenDialog: () -> MutableState<Boolean>) {
 
     val uiState = calendarViewModel.uiState.collectAsState()
     val selectedDate = uiState.value.selectedDate!!
-    val dayData = uiState.value.selectedDayData
-
 
     AlertDialog(
         onDismissRequest = { openDialog.value = false },
@@ -79,12 +78,19 @@ fun LittleInputNoteRoot(getOpenDialog: () -> MutableState<Boolean>) {
                         dailyNoteData.let {
 
                             if (it == null) {
+                                val freshDailyNote =
+                                    DailyNoteDataBuilder.getEmptyDailyNoteData(selectedDate)
+                                littleNoteViewModel.insert(
+                                    freshDailyNote.copy(
+                                        content =
+                                        rememberedName.value
+                                    )
+                                )
                                 return@let
                             }
 
                             littleNoteViewModel.insert(
                                 it.copy(
-                                    dayDataId = dayData?.id,
                                     content = rememberedName.value
                                 )
                             )
