@@ -18,6 +18,5 @@ import java.time.LocalDate
 data class DayData(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "start_date") val startDate: LocalDate,
-    @ColumnInfo(name = "end_date") val endDate: LocalDate?,
-    @ColumnInfo(name = "has_note") var hasLittleNote: Boolean = false
+    @ColumnInfo(name = "end_date") val endDate: LocalDate?
 )

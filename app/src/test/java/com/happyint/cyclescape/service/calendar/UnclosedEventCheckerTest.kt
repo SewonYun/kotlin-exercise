@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import arrow.core.getOrElse
 import com.happyint.cyclescape.AppDatabase
 import com.happyint.cyclescape.entities.calendar.data.DayData
+import com.happyint.cyclescape.entities.calendar.data.DayDataBuilder
 import com.happyint.cyclescape.repositories.DayDataDao
 import com.happyint.cyclescape.repositories.DayDataRepository
 import kotlinx.coroutines.Dispatchers
@@ -34,12 +35,7 @@ class UnclosedEventCheckerTest {
         mockDataRepository = DayDataRepository(mockDayDataDao)
 
         mockDataRepository.upsert(
-            DayData(
-                id = 0,
-                startDate = LocalDate.now().minusDays(1),
-                endDate = null,
-                hasLittleNote = false
-            )
+            DayDataBuilder.getEmptyDayData(LocalDate.now().minusDays(1))
         )
 
     }
@@ -54,8 +50,7 @@ class UnclosedEventCheckerTest {
             DayData(
                 id = 1,
                 startDate = LocalDate.now().minusDays(1),
-                endDate = null,
-                hasLittleNote = false
+                endDate = null
             ), result?.last()
         )
 
@@ -73,7 +68,6 @@ class UnclosedEventCheckerTest {
         optionResult.first().let {
             assertEquals(it.startDate, LocalDate.now().minusDays(1))
             assertEquals(it.endDate, null)
-            assertEquals(it.hasLittleNote, false)
         }
 
     }

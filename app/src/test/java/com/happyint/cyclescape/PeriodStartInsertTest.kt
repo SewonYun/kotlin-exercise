@@ -68,7 +68,7 @@ class PeriodStartInsertTest {
     @Test
     fun testStartDateInsertWithGet(): Unit = runBlocking {
         // 테스트 데이터 설정
-        val selectedDayData = DayData(0, localDate, endDate = localDate, false)
+        val selectedDayData = DayData(0, localDate, endDate = localDate)
         val selectedDate: LocalDate = localDate
 
         calendarViewModel.upsertDayData(selectedDayData).join()
@@ -93,7 +93,7 @@ class PeriodStartInsertTest {
 
     @Test
     fun `dialogDependOn should return update`() = runBlocking {
-        val selectedDayData = DayData(0, localDate, endDate = localDate.plusDays(30), false)
+        val selectedDayData = DayData(0, localDate, endDate = localDate.plusDays(30))
         val selectedDate: LocalDate = localDate.plusDays(10)
 
         calendarViewModel.upsertDayData(selectedDayData).join()
@@ -104,7 +104,7 @@ class PeriodStartInsertTest {
 
     @Test
     fun `dialogDependOn should return end`() = runBlocking {
-        val selectedDayData = DayData(0, localDate, endDate = null, false)
+        val selectedDayData = DayData(0, localDate, endDate = null)
         val selectedDate: LocalDate = localDate.plusDays(10)
 
         calendarViewModel.upsertDayData(selectedDayData).join()
@@ -115,7 +115,7 @@ class PeriodStartInsertTest {
 
     @Test
     fun `dialogDependOn should return cancelDialog`() = runBlocking {
-        val selectedDayData = DayData(0, localDate, endDate = null, false)
+        val selectedDayData = DayData(0, localDate, endDate = null)
         val selectedDate: LocalDate = localDate
 
         calendarViewModel.upsertDayData(selectedDayData).join()

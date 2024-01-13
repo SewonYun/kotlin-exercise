@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.getOrElse
 import com.happyint.cyclescape.entities.calendar.data.DayData
+import com.happyint.cyclescape.entities.calendar.data.DayDataBuilder
 import com.happyint.cyclescape.entities.calendar.vo.UIState
 import com.happyint.cyclescape.entities.littleNote.data.DailyNoteData
 import com.happyint.cyclescape.exception.NotFoundDataException
@@ -150,12 +151,7 @@ class CalendarViewModel @Inject constructor(
 
     fun insertStartDate(localData: LocalDate) {
         upsertDayData(
-            DayData(
-                id = 0,
-                startDate = localData,
-                endDate = null,
-                hasLittleNote = false
-            )
+            DayDataBuilder.getEmptyDayData(localData)
         )
 
     }

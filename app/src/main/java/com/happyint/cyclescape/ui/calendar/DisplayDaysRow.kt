@@ -121,9 +121,7 @@ fun DayGrid(
     month: YearMonth, startDate: Int, dayData: DayData?, openDialog:
     MutableState<Boolean>, localDate: LocalDate, isAlpha: Boolean
 ) {
-    if (dayData != null) {
-        dayData.hasLittleNote = false
-    }
+
     val dayOfWeek = month.atDay(startDate).dayOfWeek
     val color = when (true) {
         LocalDate.now().equals(localDate) -> Color.White

@@ -14,7 +14,7 @@ import com.happyint.cyclescape.repositories.LittleNoteDao
 import com.happyint.cyclescape.util.LocalDateConverter
 
 @Database(
-    version = 12,
+    version = 13,
     entities = [Information::class, DayData::class, DailyNoteData::class],
     exportSchema = false
 )
