@@ -79,15 +79,23 @@ object PushNotificationManager {
     fun permissionRequire(getOpenDialog: () -> MutableState<Boolean>) {
 
         with(NotificationManagerCompat.from(CycleScapeApplication.instance)) {
-            // notificationId is a unique int for each notification that you must define
-            val channel = getNotificationChannel(CHANNEL_ID)
-
-            if (channel!!.importance == NotificationManager.IMPORTANCE_NONE) {
-
+            if (ActivityCompat.checkSelfPermission(
+                    CycleScapeApplication.instance,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 val openDialog = getOpenDialog()
                 openDialog.value = true
 
-                return@with
+                return
+            }
+            val channel = getNotificationChannel(CHANNEL_ID)
+
+            if (channel!!.importance == NotificationManager.IMPORTANCE_NONE) {
+                val openDialog = getOpenDialog()
+                openDialog.value = true
+
+                return
             }
 
         }

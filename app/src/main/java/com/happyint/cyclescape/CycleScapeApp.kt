@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -47,10 +48,6 @@ fun CycleScapeAppOf() {
         Opening(LottieConstants.IterateForever)
     }
 
-    val isOpeningPermissionDialog = remember { mutableStateOf(false) }
-    PushNotificationManager.permissionRequire { isOpeningPermissionDialog }
-    PushNotificationManager.ShowPermissionRequest { isOpeningPermissionDialog }
-
     CoroutineScope(Dispatchers.IO).launch {
 
         calendarViewModel.fetchMonthPeriodData().join()
@@ -84,6 +81,13 @@ fun CycleScapeAppOf() {
 
         Box(modifier = Modifier.height(56.dp)) {
             BottomNavBar(currentPage)
+        }
+
+        val isOpeningPermissionDialog = remember { mutableStateOf(false) }
+        PushNotificationManager.ShowPermissionRequest { isOpeningPermissionDialog }
+
+        LaunchedEffect(Unit) {
+            PushNotificationManager.permissionRequire { isOpeningPermissionDialog }
         }
 
         val openDialog = remember { mutableStateOf(false) }
