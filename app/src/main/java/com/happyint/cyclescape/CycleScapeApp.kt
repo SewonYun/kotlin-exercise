@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.airbnb.lottie.compose.LottieConstants
 import com.happyint.cyclescape.constants.UserPage
+import com.happyint.cyclescape.service.push.PushNotificationManager
 import com.happyint.cyclescape.ui.calendar.LoadCalendar
 import com.happyint.cyclescape.ui.common.BottomNavBar
 import com.happyint.cyclescape.ui.common.TopBar
@@ -45,6 +46,10 @@ fun CycleScapeAppOf() {
     if (isOpening.value) {
         Opening(LottieConstants.IterateForever)
     }
+
+    val isOpeningPermissionDialog = remember { mutableStateOf(false) }
+    PushNotificationManager.permissionRequire { isOpeningPermissionDialog }
+    PushNotificationManager.ShowPermissionRequest { isOpeningPermissionDialog }
 
     CoroutineScope(Dispatchers.IO).launch {
 

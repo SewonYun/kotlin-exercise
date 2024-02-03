@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.happyint.cyclescape.service.push.PushNotificationManager
 import com.happyint.cyclescape.ui.graphics.AppTheme
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 import com.happyint.cyclescape.viewModels.ComposableCalendarViewModel
@@ -25,9 +26,12 @@ class MainActivity : ComponentActivity() {
                 val composableCalendarViewModel = viewModel<ComposableCalendarViewModel>()
                 val calendarViewModel = viewModel<CalendarViewModel>()
                 val littleNoteViewModel = viewModel<LittleNoteViewModel>()
+
                 calendarViewModel.fetchMonthPeriodData()
                 littleNoteViewModel.fetchLittleNote()
                 composableCalendarViewModel.BootStrap()
+                PushNotificationManager.createNotificationChannel()
+
                 CycleScapeAppOf()
             }
         }
