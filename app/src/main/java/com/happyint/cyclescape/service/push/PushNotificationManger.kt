@@ -48,7 +48,9 @@ object PushNotificationManager {
 
     @SuppressLint("ServiceCast", "ScheduleExactAlarm")
     fun scheduleNotification(context: Context, delayMillis: Long) {
-        val alarmIntent = Intent(context, AlarmReceiver::class.java)
+        val alarmIntent = Intent(context, AlarmReceiver::class.java).apply {
+            action = "laksdhalskjdi019u312321dlasdkjhasli8hukj"
+        }
         val pendingIntent = PendingIntent.getBroadcast(
             context, 0, alarmIntent, PendingIntent.FLAG_IMMUTABLE
         )
@@ -57,6 +59,7 @@ object PushNotificationManager {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
+            // todo: need predict notify day
 //            set(Calendar.HOUR_OF_DAY, 6)
 //            set(Calendar.MINUTE, 30)
             set(Calendar.SECOND, 3)

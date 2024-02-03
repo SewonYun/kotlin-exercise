@@ -1,5 +1,7 @@
 package com.happyint.cyclescape.ui.calendar.dialogMenu
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,9 +17,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.happyint.cyclescape.R
 import com.happyint.cyclescape.service.push.PushNotificationManager.ShowPermissionRequest
-import com.happyint.cyclescape.service.push.PushNotificationManager.notifyCycleReminder
+import com.happyint.cyclescape.service.push.PushNotificationManager.notifyCycleReminderWithPermissionCheck
 import com.happyint.cyclescape.viewModels.CalendarViewModel
 
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun EndDateButton(closeCallback: () -> Unit) {
 
@@ -29,7 +32,7 @@ fun EndDateButton(closeCallback: () -> Unit) {
         modifier = Modifier.fillMaxWidth(),
         onClick = {
 
-            notifyCycleReminder { isOpeningPermissionDialog }
+            notifyCycleReminderWithPermissionCheck { isOpeningPermissionDialog }
 
             if (isOpeningPermissionDialog.value) {
                 return@TextButton
