@@ -3,7 +3,7 @@
 ## Introduction
 
 Welcome to my portfolio repository! This project showcases my skills and projects in the field
-of [kotlin, android]. Feel free to explore and learn more about my work.
+of [kotlin, android, compose ui, hilt]. Feel free to explore and learn more about my work.
 
 ## Disclaimer
 
